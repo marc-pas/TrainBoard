@@ -699,6 +699,7 @@ async function searchStations(q) {
     const url = `https://ressources.data.sncf.com/api/explore/v2.1/catalog/datasets/liste-des-gares/records?q=${encodeURIComponent(q)}&where=voyageurs%3D%22O%22&limit=8&select=libelle,code_uic`;
     const res = await fetch(url);
     const data = await res.json();
+    console.log(data);
     const results = data.results || [];
 
     if (!results.length) {
