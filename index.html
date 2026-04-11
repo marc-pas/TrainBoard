@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="theme-color" content="#0a0e1a" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="TrainBoard" />
+  <title>TrainBoard — Départs SNCF</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" />
+  <style>
+    :root {
+      --bg:       #0a0e1a;
+      --surface:  #111827;
+      --card:     #161d2e;
+      --border:   #1e2d45;
+      --accent:   #e8c840;
+      --accent2:  #3b82f6;
+      --red:      #ef4444;
+      --green:    #22c55e;
+      --text:     #e2e8f0;
+      --muted:    #64748b;
+      --mono:     'Space Mono', monospace;
+      --sans:     'DM Sans', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      min-height: 100dvh;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      font-family: var(--mono);
+      font-size: 1.1rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+    .logo span { color: var(--muted); font-weight: 400; }
+    .header-actions { display: flex; gap: 8px; }
+    .btn-icon {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: grid; place-items: center;
+      font-size: 1rem;
+      transition: background .15s, border-color .15s;
+    }
+    .btn-icon:hover { background: var(--border); }
+
+    /* ── DATE BAR ── */
+    .date-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .date-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    #date-input {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+    #date-input::-webkit-calendar-picker-indicator { filter: invert(0.5); cursor: pointer; }
+    .btn-today {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: background .15s;
+    }
+    .btn-today:hover { background: var(--border); }
+
+    /* ── TABS (favoris) ── */
+    .tabs {
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      padding: 12px 16px 0;
+      scrollbar-width: none;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab {
+      padding: 8px 16px;
+      border-radius: 8px 8px 0 0;
+      border: 1px solid transparent;
+      border-bottom: none;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 500;
+      white-space: nowrap;
+      color: var(--muted);
+      background: transparent;
+      transition: color .15s, background .15s;
+      position: relative;
+    }
+    .tab.active {
+      background: var(--card);
+      border-color: var(--border);
+      color: var(--accent);
+    }
+    .tab .remove-tab {
+      margin-left: 6px;
+      font-size: 0.75rem;
+      opacity: 0;
+      transition: opacity .15s;
+    }
+    .tab:hover .remove-tab { opacity: 1; }
+    .tab-add {
+      padding: 8px 12px;
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 1.1rem;
+      background: transparent;
+      border: none;
+      transition: color .15s;
+    }
+    .tab-add:hover { color: var(--accent); }
+
+    /* ── STATION CARD ── */
+    .station-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-top: none;
+      margin: 0 16px;
+      border-radius: 0 8px 8px 8px;
+      padding: 16px;
+    }
+
+    .station-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .station-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+    .station-name {
+      font-family: var(--mono);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      flex: 1;
+    }
+    .station-name.placeholder { color: var(--muted); font-style: italic; }
+
+    /* Search autocomplete */
+    .search-wrap { position: relative; flex: 1; }
+    .station-search {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      outline: none;
+    }
+    .autocomplete-list {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0; right: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 200;
+      scrollbar-width: thin;
+    }
+    .autocomplete-item {
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      border-bottom: 1px solid var(--border);
+      transition: background .1s;
+    }
+    .autocomplete-item:last-child { border-bottom: none; }
+    .autocomplete-item:hover { background: var(--card); }
+    .autocomplete-item .item-code {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-left: 8px;
+    }
+
+    /* ── TABLEAU DES DÉPARTS ── */
+    .departures-header {
+      display: grid;
+      grid-template-columns: 70px 1fr 90px 80px;
+      gap: 8px;
+      padding: 6px 8px;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-bottom: 1px solid var(--border);
+    }
+    .departures-list { }
+    .departure-row {
+      display: grid;
+      grid-template-columns: 70px 1fr 90px 80px;
+      gap: 8px;
+      padding: 10px 8px;
+      border-bottom: 1px solid rgba(30,45,69,0.5);
+      align-items: center;
+      animation: fadeIn .3s ease both;
+      transition: background .15s;
+    }
+    .departure-row:hover { background: rgba(255,255,255,0.02); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; } }
+
+    .dep-time {
+      font-family: var(--mono);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .dep-time .realtime-badge {
+      display: block;
+      font-size: 0.6rem;
+      font-weight: 400;
+      margin-top: 2px;
+    }
+    .dep-time .rt-on-time { color: var(--green); }
+    .dep-time .rt-late { color: var(--red); }
+    .dep-time .rt-unknown { color: var(--muted); }
+
+    .dep-dest {
+      font-size: 0.9rem;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .dep-via {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dep-train {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-align: center;
+    }
+    .train-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .badge-TGV { background: #7c3aed; color: #fff; }
+    .badge-TER { background: #0369a1; color: #fff; }
+    .badge-IC  { background: #b45309; color: #fff; }
+    .badge-RER { background: #dc2626; color: #fff; }
+    .badge-INOUI { background: #be185d; color: #fff; }
+    .badge-OUI { background: #be185d; color: #fff; }
+    .badge-default { background: var(--border); color: var(--text); }
+
+    .dep-voie {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 700;
+      text-align: right;
+    }
+    .dep-voie.unknown { color: var(--muted); font-size: 0.7rem; }
+
+    /* ── ÉTATS ── */
+    .state-box {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--muted);
+    }
+    .state-box .icon { font-size: 2rem; margin-bottom: 8px; }
+    .state-box p { font-size: 0.85rem; line-height: 1.6; }
+    .state-box .hint {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      opacity: .7;
+    }
+
+    .spinner {
+      width: 28px; height: 28px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+      margin: 32px auto;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── BOTTOM BAR ── */
+    .bottom-bar {
+      padding: 16px;
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+    .refresh-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      font-family: var(--mono);
+      transition: color .15s, border-color .15s;
+    }
+    .refresh-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ── MODAL AJOUT GARE ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      place-items: center;
+      z-index: 300;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: grid; }
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      width: 100%;
+      max-width: 400px;
+    }
+    .modal h2 {
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      color: var(--accent);
+      margin-bottom: 14px;
+      letter-spacing: 0.05em;
+    }
+    .modal input {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-family: var(--sans);
+      outline: none;
+      margin-bottom: 10px;
+    }
+    .modal input:focus { border-color: var(--accent); }
+    .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 6px; }
+    .btn-cancel {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: var(--sans);
+    }
+    .btn-confirm {
+      background: var(--accent);
+      border: none;
+      color: #000;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: var(--sans);
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 20px; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      transition: transform .3s;
+      z-index: 400;
+      white-space: nowrap;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ── API KEY NOTICE ── */
+    .api-notice {
+      margin: 12px 16px;
+      padding: 14px;
+      background: rgba(59,130,246,0.08);
+      border: 1px solid rgba(59,130,246,0.3);
+      border-radius: 8px;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: var(--text);
+    }
+    .api-notice strong { color: var(--accent2); }
+    .api-notice a { color: var(--accent2); }
+    .api-notice input {
+      width: 100%;
+      margin-top: 10px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      outline: none;
+    }
+    .api-notice input:focus { border-color: var(--accent); }
+    .api-save-btn {
+      margin-top: 8px;
+      background: var(--accent2);
+      border: none;
+      color: #fff;
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      font-family: var(--sans);
+    }
+
+    .section-gap { height: 16px; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">TRAIN<span>BOARD</span></div>
+  <div class="header-actions">
+    <button class="btn-icon" id="btn-settings" title="Paramètres">⚙️</button>
+    <button class="btn-icon" id="btn-refresh" title="Actualiser">🔄</button>
+  </div>
+</header>
+
+<!-- DATE BAR -->
+<div class="date-bar">
+  <span class="date-label">Date</span>
+  <input type="date" id="date-input" />
+  <button class="btn-today" id="btn-today">Aujourd'hui</button>
+</div>
+
+<!-- API KEY NOTICE -->
+<div class="api-notice" id="api-notice">
+  <strong>🔑 Clé API SNCF requise</strong><br>
+  Inscris-toi gratuitement sur <a href="https://numerique.sncf.com/startup/api" target="_blank">numerique.sncf.com/startup/api</a>, 
+  crée une application et copie ta clé API ici :
+  <input type="password" id="api-key-input" placeholder="Colle ta clé API ici…" />
+  <button class="api-save-btn" id="api-save-btn">Enregistrer</button>
+</div>
+
+<!-- ONGLETS FAVORIS -->
+<div class="tabs" id="tabs-container"></div>
+
+<!-- CARTE GARE ACTIVE -->
+<div class="station-card" id="station-card">
+  <div class="state-box">
+    <div class="icon">🚉</div>
+    <p>Sélectionne ou ajoute une gare favorite<br>pour voir ses prochains départs.</p>
+  </div>
+</div>
+
+<div class="section-gap"></div>
+
+<!-- BOTTOM BAR -->
+<div class="bottom-bar">
+  <span id="last-refresh">—</span>
+  <button class="refresh-btn" id="btn-refresh2">↻ Actualiser</button>
+</div>
+
+<!-- MODAL AJOUT GARE -->
+<div class="modal-overlay" id="modal-add">
+  <div class="modal">
+    <h2>➕ AJOUTER UNE GARE</h2>
+    <input type="text" id="modal-search" placeholder="Nom de la gare (ex: Lyon Part-Dieu)…" autocomplete="off" />
+    <div class="autocomplete-list" id="modal-autocomplete" style="display:none"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="modal-cancel">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  CONFIG & STATE
+// ═══════════════════════════════════════════════════════
+const API_BASE = 'https://api.sncf.com/v1/coverage/sncf';
+
+const DEFAULT_FAVORITES = [
+  { name: 'Paris Montparnasse', id: 'stop_area:SNCF:87391003' },
+  { name: 'Versailles Chantiers', id: 'stop_area:SNCF:87393405' }
+];
+
+let state = {
+  apiKey: localStorage.getItem('sncf_api_key') || '',
+  favorites: JSON.parse(localStorage.getItem('sncf_favorites') || 'null') || DEFAULT_FAVORITES,
+  activeTab: 0,
+  date: todayStr(),
+  lastRefresh: null,
+};
+
+function save() {
+  localStorage.setItem('sncf_favorites', JSON.stringify(state.favorites));
+  if (state.apiKey) localStorage.setItem('sncf_api_key', state.apiKey);
+}
+
+function todayStr() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+// ═══════════════════════════════════════════════════════
+//  DOM REFS
+// ═══════════════════════════════════════════════════════
+const $tabs       = document.getElementById('tabs-container');
+const $card       = document.getElementById('station-card');
+const $dateInput  = document.getElementById('date-input');
+const $apiNotice  = document.getElementById('api-notice');
+const $apiKeyIn   = document.getElementById('api-key-input');
+const $apiSave    = document.getElementById('api-save-btn');
+const $modalAdd   = document.getElementById('modal-add');
+const $modalSrch  = document.getElementById('modal-search');
+const $modalAuto  = document.getElementById('modal-autocomplete');
+const $lastRef    = document.getElementById('last-refresh');
+const $toast      = document.getElementById('toast');
+
+// ═══════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════
+function init() {
+  $dateInput.value = state.date;
+  updateApiNotice();
+  renderTabs();
+  if (state.favorites.length > 0) loadDepartures(state.activeTab);
+}
+
+// ═══════════════════════════════════════════════════════
+//  API KEY
+// ═══════════════════════════════════════════════════════
+function updateApiNotice() {
+  $apiNotice.style.display = state.apiKey ? 'none' : 'block';
+}
+
+$apiSave.addEventListener('click', () => {
+  const k = $apiKeyIn.value.trim();
+  if (!k) return;
+  state.apiKey = k;
+  save();
+  updateApiNotice();
+  showToast('✅ Clé API enregistrée');
+  loadDepartures(state.activeTab);
+});
+
+// ═══════════════════════════════════════════════════════
+//  TABS / FAVORIS
+// ═══════════════════════════════════════════════════════
+function renderTabs() {
+  $tabs.innerHTML = '';
+  state.favorites.forEach((fav, i) => {
+    const tab = document.createElement('div');
+    tab.className = 'tab' + (i === state.activeTab ? ' active' : '');
+    tab.innerHTML = `${fav.name} <span class="remove-tab" data-idx="${i}" title="Supprimer">✕</span>`;
+    tab.addEventListener('click', (e) => {
+      if (e.target.classList.contains('remove-tab')) {
+        removeFavorite(parseInt(e.target.dataset.idx));
+      } else {
+        state.activeTab = i;
+        renderTabs();
+        loadDepartures(i);
+      }
+    });
+    $tabs.appendChild(tab);
+  });
+  // Bouton +
+  const addBtn = document.createElement('button');
+  addBtn.className = 'tab-add';
+  addBtn.textContent = '+';
+  addBtn.title = 'Ajouter une gare';
+  addBtn.addEventListener('click', openAddModal);
+  $tabs.appendChild(addBtn);
+}
+
+function removeFavorite(idx) {
+  state.favorites.splice(idx, 1);
+  if (state.activeTab >= state.favorites.length) state.activeTab = Math.max(0, state.favorites.length - 1);
+  save();
+  renderTabs();
+  if (state.favorites.length > 0) loadDepartures(state.activeTab);
+  else $card.innerHTML = emptyState('🚉', 'Aucune gare favorite.', 'Appuie sur + pour en ajouter une.');
+}
+
+// ═══════════════════════════════════════════════════════
+//  DATE
+// ═══════════════════════════════════════════════════════
+$dateInput.addEventListener('change', () => {
+  state.date = $dateInput.value;
+  loadDepartures(state.activeTab);
+});
+document.getElementById('btn-today').addEventListener('click', () => {
+  state.date = todayStr();
+  $dateInput.value = state.date;
+  loadDepartures(state.activeTab);
+});
+
+// ═══════════════════════════════════════════════════════
+//  MODAL AJOUT GARE
+// ═══════════════════════════════════════════════════════
+function openAddModal() {
+  $modalSrch.value = '';
+  $modalAuto.style.display = 'none';
+  $modalAdd.classList.add('open');
+  setTimeout(() => $modalSrch.focus(), 100);
+}
+
+document.getElementById('modal-cancel').addEventListener('click', () => {
+  $modalAdd.classList.remove('open');
+});
+$modalAdd.addEventListener('click', (e) => {
+  if (e.target === $modalAdd) $modalAdd.classList.remove('open');
+});
+
+let searchTimeout;
+$modalSrch.addEventListener('input', () => {
+  clearTimeout(searchTimeout);
+  const q = $modalSrch.value.trim();
+  if (q.length < 2) { $modalAuto.style.display = 'none'; return; }
+  searchTimeout = setTimeout(() => searchStations(q), 300);
+});
+
+async function searchStations(q) {
+  if (!state.apiKey) {
+    $modalAuto.innerHTML = '<div class="autocomplete-item" style="color:var(--red)">Clé API manquante</div>';
+    $modalAuto.style.display = 'block';
+    return;
+  }
+  try {
+    const url = `${API_BASE}/places?q=${encodeURIComponent(q)}&type[]=stop_area&count=8`;
+    const res = await apiFetch(url);
+    const places = res.places || [];
+    if (!places.length) {
+      $modalAuto.innerHTML = '<div class="autocomplete-item" style="color:var(--muted)">Aucun résultat</div>';
+      $modalAuto.style.display = 'block';
+      return;
+    }
+    $modalAuto.innerHTML = '';
+    places.forEach(p => {
+      const name = p.stop_area?.name || p.name;
+      const id   = p.stop_area?.id   || p.id;
+      const item = document.createElement('div');
+      item.className = 'autocomplete-item';
+      item.innerHTML = `${name} <span class="item-code">${id.split(':').pop()}</span>`;
+      item.addEventListener('click', () => {
+        addFavorite(name, id);
+        $modalAdd.classList.remove('open');
+      });
+      $modalAuto.appendChild(item);
+    });
+    $modalAuto.style.display = 'block';
+  } catch(e) {
+    $modalAuto.innerHTML = `<div class="autocomplete-item" style="color:var(--red)">Erreur: ${e.message}</div>`;
+    $modalAuto.style.display = 'block';
+  }
+}
+
+function addFavorite(name, id) {
+  if (state.favorites.find(f => f.id === id)) { showToast('Gare déjà en favoris'); return; }
+  state.favorites.push({ name, id });
+  state.activeTab = state.favorites.length - 1;
+  save();
+  renderTabs();
+  loadDepartures(state.activeTab);
+  showToast(`✅ ${name} ajoutée`);
+}
+
+// ═══════════════════════════════════════════════════════
+//  API SNCF
+// ═══════════════════════════════════════════════════════
+async function apiFetch(url) {
+  const res = await fetch(url, {
+    headers: { Authorization: 'Basic ' + btoa(state.apiKey + ':') }
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || `HTTP ${res.status}`);
+  }
+  return res.json();
+}
+
+async function loadDepartures(idx) {
+  if (!state.favorites[idx]) return;
+  const fav = state.favorites[idx];
+
+  $card.innerHTML = `
+    <div class="station-header">
+      <div class="station-dot"></div>
+      <div class="station-name">${fav.name}</div>
+    </div>
+    <div class="spinner"></div>
+  `;
+
+  if (!state.apiKey) {
+    $card.innerHTML = `
+      <div class="station-header"><div class="station-dot"></div><div class="station-name">${fav.name}</div></div>
+      ${emptyState('🔑', 'Clé API manquante', 'Renseigne ta clé API SNCF ci-dessus pour voir les départs.')}
+    `;
+    return;
+  }
+
+  try {
+    const dateFrom = state.date.replace(/-/g, '') + 'T000000';
+    const dateTo   = state.date.replace(/-/g, '') + 'T235959';
+    const url = `${API_BASE}/stop_areas/${fav.id}/departures?from_datetime=${dateFrom}&to_datetime=${dateTo}&count=50&depth=1`;
+    const data = await apiFetch(url);
+    const departures = data.departures || [];
+
+    state.lastRefresh = new Date();
+    $lastRef.textContent = 'Mis à jour ' + state.lastRefresh.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+
+    renderDepartures(fav, departures);
+  } catch(e) {
+    $card.innerHTML = `
+      <div class="station-header"><div class="station-dot"></div><div class="station-name">${fav.name}</div></div>
+      ${emptyState('⚠️', 'Erreur de chargement', e.message)}
+    `;
+  }
+}
+
+function renderDepartures(fav, departures) {
+  if (!departures.length) {
+    $card.innerHTML = `
+      <div class="station-header"><div class="station-dot"></div><div class="station-name">${fav.name}</div></div>
+      ${emptyState('🌙', 'Aucun départ trouvé', 'Essaie une autre date ou vérifie le nom de la gare.')}
+    `;
+    return;
+  }
+
+  let html = `
+    <div class="station-header">
+      <div class="station-dot"></div>
+      <div class="station-name">${fav.name}</div>
+    </div>
+    <div class="departures-header">
+      <div>Départ</div>
+      <div>Destination</div>
+      <div style="text-align:center">Train</div>
+      <div style="text-align:right">Voie</div>
+    </div>
+    <div class="departures-list">
+  `;
+
+  departures.forEach((dep, i) => {
+    const display = dep.stop_date_time;
+    const info    = dep.display_informations || {};
+    const links   = dep.links || [];
+
+    // Heure théorique
+    const dtBase  = display?.departure_date_time || '';
+    const timeStr = dtBase ? formatTime(dtBase) : '—';
+
+    // Temps réel
+    const dtRT    = display?.base_departure_date_time || '';
+    let rtBadge   = '';
+    if (dtRT && dtBase && dtRT !== dtBase) {
+      const diff = timeDiffMin(dtBase, dtRT);
+      if (diff > 0) rtBadge = `<span class="realtime-badge rt-late">+${diff} min</span>`;
+      else rtBadge = `<span class="realtime-badge rt-on-time">À l'heure</span>`;
+    } else if (dtBase) {
+      rtBadge = `<span class="realtime-badge rt-unknown">—</span>`;
+    }
+
+    // Destination
+    const dest = info.direction || info.headsign || '—';
+    const via  = info.description || '';
+
+    // Type de train
+    const commercial = info.commercial_mode || info.network || '';
+    const badgeClass = getBadgeClass(commercial);
+    const num  = info.headsign || '';
+
+    // Voie
+    const voie = display?.platform || '—';
+
+    html += `
+      <div class="departure-row" style="animation-delay:${i * 0.03}s">
+        <div class="dep-time">${timeStr}${rtBadge}</div>
+        <div>
+          <div class="dep-dest">${dest}</div>
+          ${via ? `<div class="dep-via">${via}</div>` : ''}
+        </div>
+        <div class="dep-train">
+          <span class="train-badge ${badgeClass}">${commercial}</span>
+          ${num ? `<div style="margin-top:3px;font-size:0.65rem">${num}</div>` : ''}
+        </div>
+        <div class="dep-voie ${voie === '—' ? 'unknown' : ''}">${voie}</div>
+      </div>
+    `;
+  });
+
+  html += `</div>`;
+  $card.innerHTML = html;
+}
+
+function formatTime(dt) {
+  // dt = "20240415T143000"
+  if (!dt || dt.length < 13) return '—';
+  return dt.slice(9,11) + ':' + dt.slice(11,13);
+}
+
+function timeDiffMin(dt1, dt2) {
+  const parse = s => {
+    const [date, time] = s.split('T');
+    return new Date(`${date.slice(0,4)}-${date.slice(4,6)}-${date.slice(6,8)}T${time.slice(0,2)}:${time.slice(2,4)}:00`);
+  };
+  return Math.round((parse(dt2) - parse(dt1)) / 60000);
+}
+
+function getBadgeClass(c) {
+  c = (c || '').toUpperCase();
+  if (c.includes('TGV'))   return 'badge-TGV';
+  if (c.includes('TER'))   return 'badge-TER';
+  if (c.includes('INOUI') || c.includes('INOUÏ')) return 'badge-INOUI';
+  if (c.includes('OUI'))   return 'badge-OUI';
+  if (c.includes('IC'))    return 'badge-IC';
+  if (c.includes('RER'))   return 'badge-RER';
+  return 'badge-default';
+}
+
+function emptyState(icon, title, hint) {
+  return `<div class="state-box"><div class="icon">${icon}</div><p><strong>${title}</strong></p><p class="hint">${hint}</p></div>`;
+}
+
+// ═══════════════════════════════════════════════════════
+//  REFRESH
+// ═══════════════════════════════════════════════════════
+function refresh() { loadDepartures(state.activeTab); }
+document.getElementById('btn-refresh').addEventListener('click', refresh);
+document.getElementById('btn-refresh2').addEventListener('click', refresh);
+document.getElementById('btn-settings').addEventListener('click', () => {
+  $apiNotice.style.display = $apiNotice.style.display === 'none' ? 'block' : 'none';
+});
+
+// ═══════════════════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════════════════
+let toastTimer;
+function showToast(msg) {
+  $toast.textContent = msg;
+  $toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => $toast.classList.remove('show'), 2800);
+}
+
+// ═══════════════════════════════════════════════════════
+//  GO
+// ═══════════════════════════════════════════════════════
+init();
+
+// Service Worker pour PWA
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+</script>
+</body>
+</html>
