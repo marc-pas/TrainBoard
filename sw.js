@@ -1,4 +1,4 @@
-const CACHE = 'trainboard-v1';
+const CACHE = 'trainboard-v2';
 const ASSETS = ['/', '/index.html', '/manifest.json'];
 
 self.addEventListener('install', e => {
