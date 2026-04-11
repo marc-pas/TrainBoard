@@ -27,283 +27,57 @@
       --mono:     'Space Mono', monospace;
       --sans:     'DM Sans', sans-serif;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100dvh; overflow-x: hidden; }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      min-height: 100dvh;
-      overflow-x: hidden;
-    }
-
-    /* ── HEADER ── */
-    header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .logo {
-      font-family: var(--mono);
-      font-size: 1.1rem;
-      color: var(--accent);
-      letter-spacing: 0.05em;
-    }
+    header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .logo { font-family: var(--mono); font-size: 1.1rem; color: var(--accent); letter-spacing: 0.05em; }
     .logo span { color: var(--muted); font-weight: 400; }
     .header-actions { display: flex; gap: 8px; }
-    .btn-icon {
-      background: var(--card);
-      border: 1px solid var(--border);
-      color: var(--text);
-      width: 36px; height: 36px;
-      border-radius: 8px;
-      cursor: pointer;
-      display: grid; place-items: center;
-      font-size: 1rem;
-      transition: background .15s, border-color .15s;
-    }
+    .btn-icon { background: var(--card); border: 1px solid var(--border); color: var(--text); width: 36px; height: 36px; border-radius: 8px; cursor: pointer; display: grid; place-items: center; font-size: 1rem; transition: background .15s; }
     .btn-icon:hover { background: var(--border); }
 
-    /* ── DATE BAR ── */
-    .date-bar {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 8px 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .date-label {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-    #date-input {
-      background: var(--card);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      cursor: pointer;
-    }
+    .date-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 8px 16px; display: flex; align-items: center; gap: 10px; }
+    .date-label { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+    #date-input { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 4px 10px; border-radius: 6px; font-family: var(--mono); font-size: 0.8rem; cursor: pointer; }
     #date-input::-webkit-calendar-picker-indicator { filter: invert(0.5); cursor: pointer; }
-    .btn-today {
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--accent);
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      padding: 4px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      letter-spacing: 0.05em;
-      transition: background .15s;
-    }
+    .btn-today { background: none; border: 1px solid var(--border); color: var(--accent); font-family: var(--mono); font-size: 0.7rem; padding: 4px 10px; border-radius: 6px; cursor: pointer; letter-spacing: 0.05em; transition: background .15s; }
     .btn-today:hover { background: var(--border); }
 
-    /* ── TABS (favoris) ── */
-    .tabs {
-      display: flex;
-      gap: 0;
-      overflow-x: auto;
-      padding: 12px 16px 0;
-      scrollbar-width: none;
-    }
+    .tabs { display: flex; overflow-x: auto; padding: 12px 16px 0; scrollbar-width: none; }
     .tabs::-webkit-scrollbar { display: none; }
-    .tab {
-      padding: 8px 16px;
-      border-radius: 8px 8px 0 0;
-      border: 1px solid transparent;
-      border-bottom: none;
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 500;
-      white-space: nowrap;
-      color: var(--muted);
-      background: transparent;
-      transition: color .15s, background .15s;
-      position: relative;
-    }
-    .tab.active {
-      background: var(--card);
-      border-color: var(--border);
-      color: var(--accent);
-    }
-    .tab .remove-tab {
-      margin-left: 6px;
-      font-size: 0.75rem;
-      opacity: 0;
-      transition: opacity .15s;
-    }
+    .tab { padding: 8px 16px; border-radius: 8px 8px 0 0; border: 1px solid transparent; border-bottom: none; cursor: pointer; font-size: 0.85rem; font-weight: 500; white-space: nowrap; color: var(--muted); background: transparent; transition: color .15s, background .15s; }
+    .tab.active { background: var(--card); border-color: var(--border); color: var(--accent); }
+    .tab .remove-tab { margin-left: 6px; font-size: 0.75rem; opacity: 0; transition: opacity .15s; }
     .tab:hover .remove-tab { opacity: 1; }
-    .tab-add {
-      padding: 8px 12px;
-      border-radius: 8px 8px 0 0;
-      cursor: pointer;
-      color: var(--muted);
-      font-size: 1.1rem;
-      background: transparent;
-      border: none;
-      transition: color .15s;
-    }
+    .tab-add { padding: 8px 12px; border-radius: 8px 8px 0 0; cursor: pointer; color: var(--muted); font-size: 1.1rem; background: transparent; border: none; transition: color .15s; }
     .tab-add:hover { color: var(--accent); }
 
-    /* ── STATION CARD ── */
-    .station-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-top: none;
-      margin: 0 16px;
-      border-radius: 0 8px 8px 8px;
-      padding: 16px;
-    }
+    .station-card { background: var(--card); border: 1px solid var(--border); border-top: none; margin: 0 16px; border-radius: 0 8px 8px 8px; padding: 16px; }
+    .station-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .station-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+    .station-name { font-family: var(--mono); font-size: 1rem; font-weight: 700; color: var(--text); flex: 1; }
 
-    .station-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    .station-dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: var(--accent);
-      flex-shrink: 0;
-    }
-    .station-name {
-      font-family: var(--mono);
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text);
-      flex: 1;
-    }
-    .station-name.placeholder { color: var(--muted); font-style: italic; }
-
-    /* Search autocomplete */
-    .search-wrap { position: relative; flex: 1; }
-    .station-search {
-      width: 100%;
-      background: var(--surface);
-      border: 1px solid var(--accent);
-      color: var(--text);
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-family: var(--mono);
-      font-size: 0.85rem;
-      outline: none;
-    }
-    .autocomplete-list {
-      position: absolute;
-      top: calc(100% + 4px);
-      left: 0; right: 0;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      max-height: 200px;
-      overflow-y: auto;
-      z-index: 200;
-      scrollbar-width: thin;
-    }
-    .autocomplete-item {
-      padding: 10px 14px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      border-bottom: 1px solid var(--border);
-      transition: background .1s;
-    }
+    .autocomplete-list { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; max-height: 220px; overflow-y: auto; z-index: 200; scrollbar-width: thin; }
+    .autocomplete-item { padding: 10px 14px; cursor: pointer; font-size: 0.85rem; border-bottom: 1px solid var(--border); transition: background .1s; }
     .autocomplete-item:last-child { border-bottom: none; }
     .autocomplete-item:hover { background: var(--card); }
-    .autocomplete-item .item-code {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--muted);
-      margin-left: 8px;
-    }
+    .autocomplete-item .item-code { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); margin-left: 8px; }
 
-    /* ── TABLEAU DES DÉPARTS ── */
-    .departures-header {
-      display: grid;
-      grid-template-columns: 70px 1fr 90px 80px;
-      gap: 8px;
-      padding: 6px 8px;
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      border-bottom: 1px solid var(--border);
-    }
-    .departures-list { }
-    .departure-row {
-      display: grid;
-      grid-template-columns: 70px 1fr 90px 80px;
-      gap: 8px;
-      padding: 10px 8px;
-      border-bottom: 1px solid rgba(30,45,69,0.5);
-      align-items: center;
-      animation: fadeIn .3s ease both;
-      transition: background .15s;
-    }
+    .departures-header { display: grid; grid-template-columns: 70px 1fr 90px 80px; gap: 8px; padding: 6px 8px; font-family: var(--mono); font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid var(--border); }
+    .departure-row { display: grid; grid-template-columns: 70px 1fr 90px 80px; gap: 8px; padding: 10px 8px; border-bottom: 1px solid rgba(30,45,69,0.5); align-items: center; animation: fadeIn .3s ease both; transition: background .15s; }
     .departure-row:hover { background: rgba(255,255,255,0.02); }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; } }
 
-    .dep-time {
-      font-family: var(--mono);
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-    .dep-time .realtime-badge {
-      display: block;
-      font-size: 0.6rem;
-      font-weight: 400;
-      margin-top: 2px;
-    }
+    .dep-time { font-family: var(--mono); font-size: 1rem; font-weight: 700; color: var(--text); }
+    .dep-time .realtime-badge { display: block; font-size: 0.6rem; font-weight: 400; margin-top: 2px; }
     .dep-time .rt-on-time { color: var(--green); }
     .dep-time .rt-late { color: var(--red); }
     .dep-time .rt-unknown { color: var(--muted); }
-
-    .dep-dest {
-      font-size: 0.9rem;
-      font-weight: 500;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .dep-via {
-      font-size: 0.72rem;
-      color: var(--muted);
-      margin-top: 2px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .dep-train {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--muted);
-      text-align: center;
-    }
-    .train-badge {
-      display: inline-block;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-    }
+    .dep-dest { font-size: 0.9rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dep-via { font-size: 0.72rem; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dep-train { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); text-align: center; }
+    .train-badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.05em; }
     .badge-TGV { background: #7c3aed; color: #fff; }
     .badge-TER { background: #0369a1; color: #fff; }
     .badge-IC  { background: #b45309; color: #fff; }
@@ -311,185 +85,44 @@
     .badge-INOUI { background: #be185d; color: #fff; }
     .badge-OUI { background: #be185d; color: #fff; }
     .badge-default { background: var(--border); color: var(--text); }
-
-    .dep-voie {
-      font-family: var(--mono);
-      font-size: 0.85rem;
-      color: var(--accent);
-      font-weight: 700;
-      text-align: right;
-    }
+    .dep-voie { font-family: var(--mono); font-size: 0.85rem; color: var(--accent); font-weight: 700; text-align: right; }
     .dep-voie.unknown { color: var(--muted); font-size: 0.7rem; }
 
-    /* ── ÉTATS ── */
-    .state-box {
-      text-align: center;
-      padding: 32px 16px;
-      color: var(--muted);
-    }
+    .state-box { text-align: center; padding: 32px 16px; color: var(--muted); }
     .state-box .icon { font-size: 2rem; margin-bottom: 8px; }
     .state-box p { font-size: 0.85rem; line-height: 1.6; }
-    .state-box .hint {
-      margin-top: 10px;
-      font-size: 0.78rem;
-      color: var(--muted);
-      opacity: .7;
-    }
-
-    .spinner {
-      width: 28px; height: 28px;
-      border: 3px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin .8s linear infinite;
-      margin: 32px auto;
-    }
+    .state-box .hint { margin-top: 10px; font-size: 0.78rem; color: var(--muted); opacity: .7; }
+    .spinner { width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; margin: 32px auto; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── BOTTOM BAR ── */
-    .bottom-bar {
-      padding: 16px;
-      margin-top: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.72rem;
-      color: var(--muted);
-      font-family: var(--mono);
-    }
-    .refresh-btn {
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      padding: 5px 10px;
-      border-radius: 6px;
-      font-size: 0.72rem;
-      cursor: pointer;
-      font-family: var(--mono);
-      transition: color .15s, border-color .15s;
-    }
+    .bottom-bar { padding: 16px; margin-top: 12px; display: flex; align-items: center; justify-content: space-between; font-size: 0.72rem; color: var(--muted); font-family: var(--mono); }
+    .refresh-btn { background: none; border: 1px solid var(--border); color: var(--muted); padding: 5px 10px; border-radius: 6px; font-size: 0.72rem; cursor: pointer; font-family: var(--mono); transition: color .15s, border-color .15s; }
     .refresh-btn:hover { color: var(--accent); border-color: var(--accent); }
 
-    /* ── MODAL AJOUT GARE ── */
-    .modal-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.7);
-      display: none;
-      place-items: center;
-      z-index: 300;
-      padding: 20px;
-    }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; place-items: center; z-index: 300; padding: 20px; }
     .modal-overlay.open { display: grid; }
-    .modal {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
-      width: 100%;
-      max-width: 400px;
-    }
-    .modal h2 {
-      font-family: var(--mono);
-      font-size: 0.9rem;
-      color: var(--accent);
-      margin-bottom: 14px;
-      letter-spacing: 0.05em;
-    }
-    .modal input {
-      width: 100%;
-      background: var(--card);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-family: var(--sans);
-      outline: none;
-      margin-bottom: 10px;
-    }
-    .modal input:focus { border-color: var(--accent); }
-    .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 6px; }
-    .btn-cancel {
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: var(--sans);
-    }
-    .btn-confirm {
-      background: var(--accent);
-      border: none;
-      color: #000;
-      font-weight: 600;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: var(--sans);
-    }
+    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; width: 100%; max-width: 400px; }
+    .modal h2 { font-family: var(--mono); font-size: 0.9rem; color: var(--accent); margin-bottom: 14px; letter-spacing: 0.05em; }
+    .modal-search-wrap { position: relative; }
+    .modal input[type=text] { width: 100%; background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 14px; border-radius: 8px; font-size: 0.9rem; font-family: var(--sans); outline: none; margin-bottom: 4px; }
+    .modal input[type=text]:focus { border-color: var(--accent); }
+    .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; }
+    .btn-cancel { background: none; border: 1px solid var(--border); color: var(--muted); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-family: var(--sans); }
 
-    /* ── TOAST ── */
-    .toast {
-      position: fixed;
-      bottom: 20px; left: 50%;
-      transform: translateX(-50%) translateY(80px);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      transition: transform .3s;
-      z-index: 400;
-      white-space: nowrap;
-    }
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 10px 20px; border-radius: 8px; font-size: 0.85rem; transition: transform .3s; z-index: 400; white-space: nowrap; }
     .toast.show { transform: translateX(-50%) translateY(0); }
 
-    /* ── API KEY NOTICE ── */
-    .api-notice {
-      margin: 12px 16px;
-      padding: 14px;
-      background: rgba(59,130,246,0.08);
-      border: 1px solid rgba(59,130,246,0.3);
-      border-radius: 8px;
-      font-size: 0.8rem;
-      line-height: 1.6;
-      color: var(--text);
-    }
+    .api-notice { margin: 12px 16px; padding: 14px; background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.3); border-radius: 8px; font-size: 0.8rem; line-height: 1.6; color: var(--text); }
     .api-notice strong { color: var(--accent2); }
     .api-notice a { color: var(--accent2); }
-    .api-notice input {
-      width: 100%;
-      margin-top: 10px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      outline: none;
-    }
+    .api-notice input { width: 100%; margin-top: 10px; background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 6px; font-family: var(--mono); font-size: 0.75rem; outline: none; }
     .api-notice input:focus { border-color: var(--accent); }
-    .api-save-btn {
-      margin-top: 8px;
-      background: var(--accent2);
-      border: none;
-      color: #fff;
-      padding: 7px 14px;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      cursor: pointer;
-      font-family: var(--sans);
-    }
-
+    .api-save-btn { margin-top: 8px; background: var(--accent2); border: none; color: #fff; padding: 7px 14px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; font-family: var(--sans); }
     .section-gap { height: 16px; }
   </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
   <div class="logo">TRAIN<span>BOARD</span></div>
   <div class="header-actions">
@@ -498,26 +131,22 @@
   </div>
 </header>
 
-<!-- DATE BAR -->
 <div class="date-bar">
   <span class="date-label">Date</span>
   <input type="date" id="date-input" />
   <button class="btn-today" id="btn-today">Aujourd'hui</button>
 </div>
 
-<!-- API KEY NOTICE -->
 <div class="api-notice" id="api-notice">
   <strong>🔑 Clé API SNCF requise</strong><br>
-  Inscris-toi gratuitement sur <a href="https://numerique.sncf.com/startup/api" target="_blank">numerique.sncf.com/startup/api</a>, 
+  Inscris-toi gratuitement sur <a href="https://numerique.sncf.com/startup/api" target="_blank">numerique.sncf.com/startup/api</a>,
   crée une application et copie ta clé API ici :
   <input type="password" id="api-key-input" placeholder="Colle ta clé API ici…" />
   <button class="api-save-btn" id="api-save-btn">Enregistrer</button>
 </div>
 
-<!-- ONGLETS FAVORIS -->
 <div class="tabs" id="tabs-container"></div>
 
-<!-- CARTE GARE ACTIVE -->
 <div class="station-card" id="station-card">
   <div class="state-box">
     <div class="icon">🚉</div>
@@ -527,48 +156,64 @@
 
 <div class="section-gap"></div>
 
-<!-- BOTTOM BAR -->
 <div class="bottom-bar">
   <span id="last-refresh">—</span>
   <button class="refresh-btn" id="btn-refresh2">↻ Actualiser</button>
 </div>
 
-<!-- MODAL AJOUT GARE -->
 <div class="modal-overlay" id="modal-add">
   <div class="modal">
     <h2>➕ AJOUTER UNE GARE</h2>
-    <input type="text" id="modal-search" placeholder="Nom de la gare (ex: Lyon Part-Dieu)…" autocomplete="off" />
-    <div class="autocomplete-list" id="modal-autocomplete" style="display:none"></div>
+    <div class="modal-search-wrap">
+      <input type="text" id="modal-search" placeholder="Nom de la gare (ex: Melun)…" autocomplete="off" />
+      <div class="autocomplete-list" id="modal-autocomplete" style="display:none"></div>
+    </div>
     <div class="modal-actions">
       <button class="btn-cancel" id="modal-cancel">Annuler</button>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
 // ═══════════════════════════════════════════════════════
-//  CONFIG & STATE
+//  LISTE DES GARES (2962 gares, source SNCF open data)
 // ═══════════════════════════════════════════════════════
-const API_BASE = 'https://api.sncf.com/v1/coverage/sncf';
+const GARES = [["Abancourt", "87313759"], ["Abbaretz", "87481614"], ["Abbeville", "87317362"], ["Ablon (Ablon-Sur-Seine)", "87545269"], ["Acheux-Franleu (Chepy)", "87316745"], ["Achiet (Achiet-Le-Grand)", "87342048"], ["Achères-Grand-Cormier (Saint-Germain-En-Laye)", "87386052"], ["Achères-Ville (Acheres)", "87381657"], ["Agay (Saint-Raphael)", "87757559"], ["Agde", "87781278"], ["Agen", "87586008"], ["Agonac", "87595157"], ["Aguilcourt-Variscourt (Aguilcourt)", "87171702"], ["Aigrefeuille-Le Thou (Le Thou)", "87485193"], ["Aiguebelette-le-Lac", "87741421"], ["Aiguebelle (Val-D'Arc)", "87741256"], ["Aigueperse", "87734129"], ["Aigues-Mortes", "87775858"], ["Aiguillon", "87586693"], ["Aillevillers (Corbenay)", "87185629"], ["Ailly-sur-Noye", "87313221"], ["Ailly-sur-Somme", "87313098"], ["Aimargues", "87775833"], ["Aime-La Plagne (Aime-La-Plagne)", "87741769"], ["Aiserey", "87713636"], ["Aix-en-Provence", "87751404"], ["Aix-en-Provence-TGV (Aix-En-Provence)", "87319012"], ["Aix-les-Bains-Le Revard (Aix-Les-Bains)", "87741132"], ["Aixe-sur-Vienne", "87592667"], ["Alaï (Tassin-La-Demi-Lune)", "87722744"], ["Albens (Entrelacs)", "87746115"], ["Albert", "87313072"], ["Albertville", "87741645"], ["Albi", "87615005"], ["Albi-Madeleine (Albi)", "87615195"], ["Albias", "87613398"], ["Albigny-Neuville (Albigny-Sur-Saone)", "87721266"], ["Alençon (Alencon)", "87444711"], ["Alet-les-Bains", "87615187"], ["Allassac", "87594234"], ["Allenc", "87783654"], ["Alleyras", "87731885"], ["Allée Royale (Saint-Cyr-L'Ecole)", "87710913"], ["Altkirch", "87182238"], ["Alès (Ales)", "87775288"], ["Amagne-Lucquy (Lucquy)", "87172262"], ["Ambazac", "87592311"], ["Amboise", "87574343"], ["Ambronay-Priay (Ambronay)", "87743146"], ["Ambérieu (Amberieu-En-Bugey)", "87743716"], ["Amiens", "87313874"], ["Amifontaine", "87171744"], ["Amilly-Ouerray (Amilly)", "87394205"], ["Amplepuis", "87721035"], ["Ancenis (Ancenis-Saint-Gereon)", "87481192"], ["Anchamps", "87172858"], ["Anché-Voulon (Anche)", "87575332"], ["Ancy-sur-Moselle (Ancy-Dornot)", "87192419"], ["Andelot (Andelot-En-Montagne)", "87715102"], ["Andrésy (Andresy)", "87381491"], ["Andrézieux (Andrezieux-Boutheon)", "87726406"], ["Angers-Maître-École (Angers)", "87484048"], ["Angers-St-Laud (Angers)", "87484006"], ["Angerville", "87543090"], ["Angoulins-sur-Mer (Angoulins)", "87485102"], ["Angoulême (Angouleme)", "87583005"], ["Anizy-Pinon (Pinon)", "87296566"], ["Annappes (Villeneuve-D'Ascq)", "87286856"], ["Annecy", "87746008"], ["Annemasse", "87745497"], ["Anor", "87295055"], ["Anse", "87721324"], ["Anstaing", "87287219"], ["Anthéor-Cap-Roux (Saint-Raphael)", "87757567"], ["Antibes", "87757674"], ["Anvin", "87317255"], ["Anzeling", "87191387"], ["Appilly", "87296459"], ["Arbanats", "87582726"], ["Arbois", "87718155"], ["Arc-et-Senans", "87718841"], ["Arches", "87144410"], ["Arenc-Euroméditerranée (Marseille)", "87580340"], ["Arengosse", "87671479"], ["Argelès-sur-Mer (Argeles-Sur-Mer)", "87784231"], ["Argentan", "87444539"], ["Argenteuil", "87381848"], ["Argentière (Chamonix-Mont-Blanc)", "87746859"], ["Argenton-sur-Creuse", "87597120"], ["Arles", "87753657"], ["Arleux", "87345421"], ["Armentières (Armentieres)", "87286146"], ["Arnage", "87396549"], ["Arnèke (Arneke)", "87281121"], ["Arpajon", "87545467"], ["Arras", "87342014"], ["Arrou (Commune Nouvelle D'Arrou)", "87394486"], ["Ars-sur-Moselle", "87192401"], ["Artenay", "87543058"], ["Artix", "87672212"], ["Arvant (Bournoncle-Saint-Pierre)", "87734251"], ["Ascq (Villeneuve-D'Ascq)", "87286864"], ["Asnières-sur-Seine (Asnieres-Sur-Seine)", "87381137"], ["Aspres-sur-Buëch (Aspres-Sur-Buech)", "87763250"], ["Assat", "87672162"], ["Assier", "87613075"], ["Athis-Mons", "87545251"], ["Aubagne", "87751750"], ["Aubazine-St-Hilaire (Saint-Hilaire-Peyroux)", "87594465"], ["Aubergenville-Élisabethville (Aubergenville)", "87386730"], ["Aubiat", "87734111"], ["Aubie-St-Antoine (Val De Virvee)", "87491233"], ["Aubiet", "87611764"], ["Aubigny-au-Bac", "87345447"], ["Aubigny-en-Artois", "87342246"], ["Aubigné-Racan (Aubigne-Racan)", "87396572"], ["Aubin", "87613224"], ["Aubin-St-Vaast (Aubin-Saint-Vaast)", "87316604"], ["Auboué (Auboue)", "87191684"], ["Aubrives", "87172122"], ["Aubusson", "87597823"], ["Auch", "87611749"], ["Auchy-lès-Hesdin (Auchy-Les-Hesdin)", "87317230"], ["Audrieu", "87444059"], ["Audruicq", "87281428"], ["Audun-le-Roman", "87194357"], ["Audun-le-Tiche", "87194555"], ["Auffay (Val-De-Scie)", "87415158"], ["Aulnat-Aéroport (Aulnat)", "87562421"], ["Aulnay-sous-Bois", "87271411"], ["Aulnoye-Aymeries", "87295600"], ["Aumale", "87313767"], ["Aumont-Aubrac (Peyre En Aubrac)", "87783266"], ["Auneau (Roinville)", "87545657"], ["Auray", "87476200"], ["Aurec (Aurec-Sur-Loire)", "87726760"], ["Aurillac", "87645002"], ["Auterive", "87611384"], ["Autun", "87694570"], ["Auvers-sur-Oise", "87276543"], ["Auxerre-St-Gervais (Auxerre)", "87683573"], ["Auxonne (Tillenay)", "87713347"], ["Avallon", "87683789"], ["Avenay (Avenay-Val-D'Or)", "87171579"], ["Avenue-Foch (Paris)", "87381038"], ["Avenue-Henri-Martin (Paris)", "87381046"], ["Avenue-du-Président-Kennedy-Radio-France (Paris)", "87543207"], ["Avesnelles", "87295725"], ["Avesnes (Avesnes-Sur-Helpe)", "87295733"], ["Avignon-Centre (Avignon)", "87765008"], ["Avignon-TGV (Avignon)", "87318964"], ["Avignonet (Avignonet-Lauragais)", "87616011"], ["Avion", "87342584"], ["Avord", "87576439"], ["Avoudrey", "87718551"], ["Avranches", "87448514"], ["Avrechy", "87313296"], ["Ax-les-Thermes", "87611533"], ["Ay (Aÿ-Champagne)", "87171561"], ["Aytré-Plage (Aytre)", "87437806"], ["Azay-le-Rideau", "87571638"], ["Azay-sur-Cher (Montlouis-Sur-Loire)", "87574442"], ["Azerailles", "87141408"], ["Babinière (La Chapelle-Sur-Erdre)", "87590349"], ["Baccarat", "87141416"], ["Bagnac (Bagnac-Sur-Cele)", "87613604"], ["Bagneaux-sur-Loing", "87684191"], ["Bagnols (Bagnols-Sur-Ceze)", "87764571"], ["Bagnols-Chadenet (Chadenet)", "87783647"], ["Baillargues", "87773457"], ["Bailleau-le-Pin", "87394411"], ["Bailleul", "87286179"], ["Bailleul-Sir-Berthoult", "87342592"], ["Bailly", "87710780"], ["Bains-les-Bains (Le Clerjus)", "87144147"], ["Bainville-sur-Madon", "87141531"], ["Baisieux", "87286872"], ["Balagny-St-Épin (Balagny-Sur-Therain)", "87313569"], ["Balbigny", "87726869"], ["Ballan (Ballan-Mire)", "87571604"], ["Ballancourt (Ballancourt-Sur-Essonne)", "87681437"], ["Balsièges-Bourg (Balsieges)", "87111864"], ["Banassac-La Canourgue (Banassac-Canilhac)", "87783324"], ["Bandol", "87755223"], ["Bannalec", "87474189"], ["Bantzenheim", "87182840"], ["Banyuls-sur-Mer", "87784298"], ["Bar-le-Duc", "87175042"], ["Bar-sur-Aube", "87118299"], ["Baraqueville-Carcenac-Peyralès (Baraqueville)", "87615757"], ["Barentin-Embranchement (Barentin)", "87411264"], ["Barenton-Bugny", "87297291"], ["Barjac", "87783563"], ["Baroncourt (Dommary-Baroncourt)", "87192658"], ["Barr", "87214247"], ["Barsac", "87582759"], ["Bartenheim", "87182113"], ["Bas-Monistrol (Bas-En-Basset)", "87726778"], ["Bas-Évette (Evette-Salbert)", "87184200"], ["Base Aérienne (Gievres)", "87699223"], ["Bassens", "87581850"], ["Batz-sur-Mer", "87481770"], ["Baule", "87574152"], ["Baume-les-Dames", "87718460"], ["Bauvin-Provin (Bauvin)", "87345280"], ["Bayeux", "87444067"], ["Bayon (Virecourt)", "87141218"], ["Bayonne", "87673004"], ["Bazancourt", "87171462"], ["Baziège (Baziege)", "87611723"], ["Bazoches (Bazoches-Et-Saint-Thibaut)", "87171348"], ["Beau-Marais (Calais)", "87317610"], ["Beaucaire", "87775023"], ["Beaugency", "87574160"], ["Beaulieu-sur-Mer", "87756379"], ["Beaumont-le-Roger", "87387183"], ["Beaune", "87713545"], ["Beaurainville", "87317198"], ["Beautiran", "87582700"], ["Beauvais", "87313510"], ["Beauvoir-sur-Niort", "87485342"], ["Beauvoisin", "87775809"], ["Bedous", "87672774"], ["Beillant (Saint-Sever-De-Saintonge)", "87491076"], ["Belfort", "87184002"], ["Belfort-Montbéliard-TGV (Meroux-Moval)", "87300822"], ["Bellac", "87592485"], ["Belle-Isle-Bégard (Louargat)", "87473165"], ["Bellegarde (Valserhone)", "87745000"], ["Bellenaves", "87641068"], ["Bellevigny", "87486142"], ["Belleville", "87141804"], ["Belleville-sur-Saône (Belleville-En-Beaujolais)", "87721357"], ["Bellevue (Meudon)", "87393116"], ["Bellignat", "87743526"], ["Belloy-St-Martin (Belloy-En-France)", "87276550"], ["Belvezet (Mont Lozere Et Goulet)", "87783670"], ["Belvès (Pays De Belves)", "87595876"], ["Belz-Ploemel (Ploemel)", "87476408"], ["Benfeld", "87214122"], ["Bengy (Bengy-Sur-Craon)", "87576447"], ["Bergerac", "87584268"], ["Bergues", "87281105"], ["Berlaimont", "87295808"], ["Bernay", "87444299"], ["Bersac (Bersac-Sur-Rivalier)", "87592352"], ["Berthelming", "87215335"], ["Bertrichamps", "87141424"], ["Bertry", "87345553"], ["Besançon-Franche-Comté-TGV (Les Auxons)", "87300863"], ["Besançon-Mouillère (Besancon)", "87718015"], ["Besançon-Viotte (Besancon)", "87718007"], ["Beslé (Guemene-Penfao)", "87471219"], ["Bessancourt", "87276642"], ["Bessay (Bessay-Sur-Allier)", "87696336"], ["Betton", "87471045"], ["Beuvrages", "87343160"], ["Beuvry (Pas-de-Calais) (Beuvry)", "87342402"], ["Beynes", "87393363"], ["Beynost", "87723544"], ["Biache-St-Vaast (Biache-Saint-Vaast)", "87342097"], ["Biarritz", "87673400"], ["Bibliothèque-François-Mitterrand (Paris)", "87328328"], ["Bidarray-Pont-Noblia (Bidarray)", "87673699"], ["Bidos", "87517912"], ["Biffontaine", "87144188"], ["Bigny (Vallenay)", "87576306"], ["Billy-Montigny", "87345140"], ["Biot (Antibes)", "87757690"], ["Bischheim (Schiltigheim)", "87212308"], ["Bischoffsheim", "87214296"], ["Bischwiller", "87213611"], ["Bitschwiller (Haut-Rhin) (Bitschwiller-Les-Thann)", "87182576"], ["Bièvres (Bievres)", "87393546"], ["Blainville-Damelevières (Damelevieres)", "87141135"], ["Blaisy-Bas", "87713073"], ["Blangy-sur-Bresle", "87313809"], ["Blangy-sur-Ternoise", "87317248"], ["Blanquefort", "87581728"], ["Blanzy", "87694612"], ["Blois-Chambord (Blois)", "87574004"], ["Blonville-sur-Mer-Benerville (Blonville-Sur-Mer)", "87444380"], ["Bléré-la-Croix (La Croix-En-Touraine)", "87574475"], ["Bogny-sur-Meuse", "87172049"], ["Bohain (Bohain-En-Vermandois)", "87296269"], ["Boigneville", "87684407"], ["Bois-Colombes", "87381079"], ["Bois-d'Oingt-Légny (Legny)", "87721787"], ["Bois-le-Roi", "87682203"], ["Boisleux (Boisleux-Au-Mont)", "87342071"], ["Boisseaux", "87543082"], ["Boisset", "87645184"], ["Boissise-le-Roi", "87682518"], ["Boissy-l'Aillerie", "87381152"], ["Bolbec-Nointot (Bolbec)", "87413351"], ["Bollwiller", "87182709"], ["Bollène-la-Croisière (Bollene)", "87764357"], ["Bologne", "87142224"], ["Bolquère-Eyne (Bolquere)", "87784801"], ["Bondy", "87113407"], ["Bonnemain", "87478065"], ["Bonneval", "87545731"], ["Bonneville", "87746339"], ["Bonnières (Bonnieres-Sur-Seine)", "87415893"], ["Bons-en-Chablais", "87745596"], ["Bonson", "87726414"], ["Boran-sur-Oise", "87276444"], ["Bordeaux-St-Jean (Bordeaux)", "87581009"], ["Bords", "87491019"], ["Bornel-Belle-Église (Bornel)", "87276717"], ["Bouaye", "87481200"], ["Bouchain (Neuville-Sur-Escaut)", "87345389"], ["Boucoiran (Boucoiran-Et-Nozieres)", "87775346"], ["Bouffémont-Moisselles (Bouffemont)", "87276485"], ["Bougival (La Celle-Saint-Cloud)", "87382440"], ["Boulainvilliers (Paris)", "87543181"], ["Boulazac (Boulazac Isle Manoire)", "87725473"], ["Boulogne-Tintelleries (Boulogne-Sur-Mer)", "87317016"], ["Boulogne-Ville (Boulogne-Sur-Mer)", "87317586"], ["Boulouris-sur-Mer (Saint-Raphael)", "87757534"], ["Bouray (Lardy)", "87545178"], ["Bourbourg", "87281279"], ["Bourg-Bruche", "87214775"], ["Bourg-Madame", "87784876"], ["Bourg-St-Maurice (Bourg-Saint-Maurice)", "87741793"], ["Bourg-en-Bresse", "87743005"], ["Bourges", "87576207"], ["Bourgneuf-en-Retz (Villeneuve-En-Retz)", "87481242"], ["Bourgoin-Jallieu", "87723429"], ["Bourgtheroulde-Thuit-Hébert (Grand Bourgtheroulde)", "87415323"], ["Bournezeau", "87486324"], ["Bourron-Marlotte-Grez (Bourron-Marlotte)", "87684118"], ["Bourth", "87393603"], ["Boussay-La Bruffière (Boussay)", "87481176"], ["Boussens", "87611095"], ["Boussy-St-Antoine (Boussy-Saint-Antoine)", "87682138"], ["Bouthéon (Andrezieux-Boutheon)", "87726216"], ["Boutigny (Boutigny-Sur-Essonne)", "87681478"], ["Bouvines (Cysoing)", "87287235"], ["Bouzonville", "87193177"], ["Boves", "87313213"], ["Boën (Boen-Sur-Lignon)", "87726471"], ["Bram", "87615054"], ["Brandérion (Branderion)", "87476242"], ["Brassac-les-Mines-Ste-Florine (Brassac-Les-Mines)", "87734244"], ["Brax-Léguevin (Brax)", "87611822"], ["Brazey-en-Plaine", "87713644"], ["Brebières-Sud (Brebieres)", "87345108"], ["Breil-sur-Roya", "87756833"], ["Breitenbach (Breitenbach-Haut-Rhin)", "87182659"], ["Bressuire", "87487249"], ["Brest", "87474007"], ["Breteil (Saint-Gilles)", "87471102"], ["Bretenoux-Biars (Biars-Sur-Cere)", "87594762"], ["Breteuil-Embranchement (Bacouel)", "87313247"], ["Bretigny-Norges (Bretigny)", "87712265"], ["Bretoncelles", "87394270"], ["Bretteville-Norrey (Saint-Manvieu-Norrey)", "87444042"], ["Breuil-Romain (Breuil-Sur-Vesle)", "87171322"], ["Breuillet-Bruyères-le-Châtel (Breuillet)", "87545483"], ["Breuillet-Village (Breuillet)", "87545491"], ["Briançon (Briancon)", "87763607"], ["Briare", "87696088"], ["Brignac (Royeres)", "87592063"], ["Brignais", "87722728"], ["Brignoud (Villard-Bonnot)", "87747451"], ["Brimeux", "87317180"], ["Brion-Laizy (Laizy)", "87694596"], ["Brion-Montral-la-Cluse (Brion)", "87131961"], ["Brionne", "87415364"], ["Brioude", "87734269"], ["Briouze", "87448084"], ["Brive-la-Gaillarde", "87594002"], ["Broons", "87473074"], ["Brou", "87394452"], ["Broye (Saint-Symphorien-De-Marmagne)", "87694166"], ["Bruges", "87581736"], ["Brumath", "87212134"], ["Brunoy", "87682120"], ["Brunémont (Brunemont)", "87345439"], ["Bruyères (Bruyeres)", "87144154"], ["Bruyères-sur-Oise (Bruyeres-Sur-Oise)", "87276451"], ["Bruz", "87471037"], ["Bréauté-Beuzeville (Breaute)", "87413344"], ["Brélidy-Plouëc (Plouec-Du-Trieux)", "87473827"], ["Brétigny (Bretigny-Sur-Orge)", "87545194"], ["Bréval (Breval)", "87381624"], ["Bueil", "87387092"], ["Bugeat", "87592162"], ["Buire-sur-l'Ancre", "87316067"], ["Bully-Grenay (Grenay)", "87342105"], ["Buno-Gironville (Buno-Bonnevaux)", "87681510"], ["Busigny", "87296244"], ["Bussac (Bussac-Foret)", "87491191"], ["Busseau-sur-Creuse (Ahun)", "87597708"], ["Bussière-Galant (Bussiere-Galant)", "87592741"], ["Buzy-en-Béarn (Buzy)", "87672634"], ["Byans (Byans-Sur-Doubs)", "87718122"], ["Bègles (Begles)", "87581801"], ["Béard (Beard)", "87696468"], ["Bécon-les-Bruyères (Courbevoie)", "87382002"], ["Bédarieux (Bedarieux)", "87781609"], ["Bédarrides (Bedarrides)", "87765198"], ["Béna-Fanes (Enveitg)", "87784892"], ["Bénesse-Maremne (Benesse-Maremne)", "87673285"], ["Bénestroff (Benestroff)", "87192302"], ["Béning (Bening-Les-Saint-Avold)", "87193250"], ["Bétaille (Betaille)", "87594747"], ["Béthune (Bethune)", "87342006"], ["Béziers (Beziers)", "87781005"], ["Cadaujac", "87582684"], ["Caen", "87444000"], ["Caffiers", "87317321"], ["Cagnes-sur-Mer", "87756320"], ["Cahors", "87613000"], ["Calais-Fréthun (Frethun)", "87281071"], ["Calais-Ville (Calais)", "87317263"], ["Callac", "87473546"], ["Calonne-Ricouart", "87342543"], ["Cambo-les-Bains", "87673657"], ["Cambrai", "87345520"], ["Campagnac-St-Geniez (Saint-Saturnin-De-Lenne)", "87783340"], ["Campagne (Campagne-Sur-Aude)", "87615229"], ["Cannes", "87757625"], ["Cannes-la-Bocca (Cannes)", "87757617"], ["Cantin", "87345413"], ["Cap-Martin-Roquebrune (Roquebrune-Cap-Martin)", "87756460"], ["Cap-d'Ail", "87756395"], ["Capdenac (Capdenac-Gare)", "87613109"], ["Capvern", "87671156"], ["Carbonne", "87611061"], ["Carcassonne", "87615286"], ["Carentan (Carentan-Les-Marais)", "87447243"], ["Carhaix (Carhaix-Plouguer)", "87473504"], ["Carignan", "87172353"], ["Carmaux", "87615625"], ["Carnolès (Roquebrune-Cap-Martin)", "87756478"], ["Carnoules", "87755371"], ["Carnoët-Locarn (Locarn)", "87473561"], ["Carpentras", "87765735"], ["Carry-le-Rouet", "87753566"], ["Casino-Lacroix-Laval (La Tour-De-Salvagny)", "87208553"], ["Cassel (Oxelaere)", "87281139"], ["Cassis", "87751776"], ["Castelnau-d'Estrétefonds (Castelnau-D'Estretefonds)", "87611665"], ["Castelnaudary", "87615039"], ["Castelsarrasin", "87611897"], ["Castillon (Castillon-La-Bataille)", "87584136"], ["Castres", "87615468"], ["Cattenières (Cattenieres)", "87345587"], ["Caudrot", "87582841"], ["Caudry", "87345561"], ["Caudéran-Mérignac (Bordeaux)", "87581538"], ["Caulnes", "87473066"], ["Caussade", "87613356"], ["Cavaillon", "87765503"], ["Cavignac", "87491217"], ["Cazères-sur-Garonne (Cazeres)", "87611079"], ["Ceilhes-Roqueredonde (Roqueredonde)", "87781542"], ["Ceintrey", "87141572"], ["Cenon", "87581595"], ["Cerbère (Cerbere)", "87785006"], ["Cercottes", "87543033"], ["Cercy-la-Tour", "87696492"], ["Cergy-Préfecture (Cergy)", "87381905"], ["Cergy-St-Christophe (Cergy)", "87382499"], ["Cergy-le-Haut (Cergy)", "87382655"], ["Cerizay", "87487280"], ["Cernay", "87182410"], ["Cernay (Ermont)", "87276063"], ["Cessieu", "87723452"], ["Cesson", "87682161"], ["Cesson-Sévigné (Cesson-Sevigne)", "87334490"], ["Ceyzériat (Ceyzeriat)", "87743302"], ["Chabanais", "87592873"], ["Chabenet (Le Pont-Chretien-Chabenet)", "87597112"], ["Chabris", "87576223"], ["Chagny", "87713578"], ["Chaingy-Fourneaux-Plage (Chaingy)", "87574111"], ["Chalais", "87583690"], ["Challans", "87481390"], ["Chalon-sur-Saône (Chalon-Sur-Saone)", "87725002"], ["Chalonnes (Chalonnes-Sur-Loire)", "87484204"], ["Chamalières-sur-Loire (Chamalieres-Sur-Loire)", "87734731"], ["Chamarande", "87545152"], ["Chambly", "87276725"], ["Chamborigaud", "87775221"], ["Chambourg (Chambourg-Sur-Indre)", "87571463"], ["Chambéry-Challes-les-Eaux (Chambery)", "87741009"], ["Chamelet", "87721829"], ["Chamonix-Aiguille du Midi (Chamonix-Mont-Blanc)", "87462085"], ["Chamonix-Mont-Blanc", "87746784"], ["Chamousset", "87741231"], ["Champ-de-Courses-d'Enghien (Soisy-Sous-Montmorency)", "87276030"], ["Champ-de-Mars-Tour-Eiffel (Paris)", "87393058"], ["Champagne-Ardenne-TGV (Bezannes)", "87171926"], ["Champagne-sur-Oise", "87276519"], ["Champagne-sur-Seine", "87682450"], ["Champagney", "87185348"], ["Champagnole", "87715326"], ["Champagné (Champagne)", "87396275"], ["Champbenoist-Poigny (Poigny)", "87115873"], ["Champigneulles", "87141085"], ["Champigny-sur-Yonne (Champigny)", "87683128"], ["Champlan", "87725457"], ["Champs-St-Bris (Champs-Sur-Yonne)", "87683615"], ["Champtocé-sur-Loire (Champtoce-Sur-Loire)", "87484352"], ["Chanac (Esclanedes)", "87783530"], ["Changis-St-Jean (Changis-Sur-Marne)", "87116509"], ["Chanteloup-les-Vignes", "87381475"], ["Chantenay (Nantes)", "87481051"], ["Chantenay-St-Imbert (Chantenay-Saint-Imbert)", "87696302"], ["Chantilly-Gouvieux (Chantilly)", "87276113"], ["Chantonnay", "87486332"], ["Chapeauroux (Saint Bonnet-Laval)", "87734343"], ["Chaponost", "87722710"], ["Chaponval (Auvers-Sur-Oise)", "87276162"], ["Charbonnières-les-Bains (Charbonnieres-Les-Bains)", "87721530"], ["Charleville-Mézières (Charleville-Mezieres)", "87172007"], ["Charmes", "87144055"], ["Chars", "87381194"], ["Chartres", "87394007"], ["Chartrettes", "87682419"], ["Chasse-sur-Rhône (Chasse-Sur-Rhone)", "87722561"], ["Chasseneuil (Vienne) (Chasseneuil-Du-Poitou)", "87575225"], ["Chasseneuil-sur-Bonnieure", "87583443"], ["Chasseradès (Mont Lozere Et Goulet)", "87775148"], ["Chauffailles", "87694778"], ["Chaugey (Losne)", "87712679"], ["Chaulnes", "87313478"], ["Chaumont", "87142000"], ["Chaumont-en-Vexin", "87381228"], ["Chauny", "87296616"], ["Chauny (Sinceny)", "87296616"], ["Chaville-Rive-Droite (Chaville)", "87382333"], ["Chaville-Rive-Gauche (Chaville)", "87393207"], ["Chaville-Vélizy (Viroflay)", "87393173"], ["Chazay-Marcilly (Marcilly-D'Azergues)", "87721415"], ["Chedde (Passy)", "87746701"], ["Cheilly-lès-Maranges (Cheilly-Les-Maranges)", "87694398"], ["Chelles-Gournay (Chelles)", "87116111"], ["Chemilly-Appoigny (Chemilly-Sur-Yonne)", "87683532"], ["Chemillé (Chemille-En-Anjou)", "87484246"], ["Chemin-d'Antony (Antony)", "87546317"], ["Chenevières (Chenevieres)", "87141382"], ["Chenonceaux-Chisseaux (Chenonceaux)", "87574491"], ["Chepy-Valines (Chepy)", "87317495"], ["Cherbourg-en-Cotentin", "87444877"], ["Chessy", "87721761"], ["Chevaigné (Chevaigne)", "87471458"], ["Chevillon", "87175117"], ["Chevilly", "87543041"], ["Chevrières (Chevrieres)", "87276311"], ["Chilly-Mazarin", "87393637"], ["Chindrieux", "87741116"], ["Chinon", "87571687"], ["Chirac (Bourgs Sur Colagne)", "87783290"], ["Chissay-en-Touraine", "87574848"], ["Chocques", "87342220"], ["Choisy-le-Roi", "87545285"], ["Cholet", "87484303"], ["Chorges", "87763425"], ["Chouzy (Valloire-Sur-Cisse)", "87574301"], ["Châbons (Chabons)", "87747212"], ["Châlons-en-Champagne (Chalons-En-Champagne)", "87174003"], ["Château-Arnoux-St-Auban (Chateau-Arnoux-Saint-Auban)", "87751230"], ["Château-Gaillard (Santilly)", "87543066"], ["Château-Renault (Chateau-Renault)", "87574665"], ["Château-Thierry (Chateau-Thierry)", "87116582"], ["Château-du-Loir (Montval-Sur-Loir)", "87396606"], ["Château-l'Évêque (Chateau-L'Eveque)", "87595165"], ["Châteaubourg (Chateaubourg)", "87471524"], ["Châteaubriant (Chateaubriant)", "87481648"], ["Châteaubriant Tram-Train (Chateaubriant)", "87590372"], ["Châteaudun (Chateaudun)", "87545756"], ["Châteaulin (Chateaulin)", "87474791"], ["Châteauneuf-Bujaleuf (Neuvic-Entier)", "87592105"], ["Châteauneuf-sur-Charente (Chateauneuf-Sur-Charente)", "87491506"], ["Châteauneuf-sur-Cher (Chateauneuf-Sur-Cher)", "87576298"], ["Châteauroux (Chateauroux)", "87597005"], ["Châtel-Censoir (Chatel-Censoir)", "87696856"], ["Châtel-Nomexy (Nomexy)", "87144071"], ["Châtelaillon (Chatelaillon-Plage)", "87485110"], ["Châtelaudren-Plouagat (Chatelaudren-Plouagat)", "87473140"], ["Châtellerault (Chatellerault)", "87575142"], ["Châtillon-d'Azergues (Chatillon)", "87721753"], ["Chèvremont (Chevremont)", "87184259"], ["Chézy-sur-Marne (Chezy-Sur-Marne)", "87116574"], ["Cinq-Mars-la-Pile", "87571836"], ["Cintegabelle", "87611376"], ["Cires-lès-Mello (Cires-Les-Mello)", "87313551"], ["Ciry-le-Noble", "87694646"], ["Civrieux-d'Azergues", "87721746"], ["Cize-Bolozon (Bolozon)", "87743344"], ["Clacy-Mons (Clacy-Et-Thierret)", "87296178"], ["Clamart", "87391565"], ["Clamecy", "87696807"], ["Clelles-Mens (Clelles)", "87747626"], ["Clermont-Ferrand", "87734004"], ["Clermont-La Pardieu (Clermont-Ferrand)", "87782607"], ["Clermont-La Rotonde (Clermont-Ferrand)", "87396895"], ["Clermont-de-l'Oise (Clermont)", "87313304"], ["Clerval (Pays-De-Clerval)", "87184622"], ["Clichy-Levallois (Clichy)", "87381129"], ["Clichy-Levallois (Levallois-Perret)", "87381129"], ["Clion-sur-Seugne (Clion)", "87491134"], ["Clisson", "87481440"], ["Cloyes (Cloyes-Les-Trois-Rivieres)", "87574509"], ["Cluses", "87746370"], ["Clères (Cleres)", "87411819"], ["Coarraze-Nay (Coarraze)", "87672139"], ["Coat-Guégan (Pont-Melvez)", "87473579"], ["Cobrieux (Genech)", "87287243"], ["Cognac", "87491449"], ["Coignières (Coignieres)", "87393272"], ["Collioure", "87784256"], ["Collonges (Collonges-Et-Premieres)", "87713321"], ["Collonges-Fontaines (Collonges-Au-Mont-D'Or)", "87721225"], ["Colmar", "87182014"], ["Colmar-Mésanges (Colmar)", "87402297"], ["Colmar-St-Joseph (Colmar)", "87181222"], ["Colombes", "87381087"], ["Colombier-Fontaine", "87184556"], ["Colomiers", "87611467"], ["Colomiers-Lycée-International (Colomiers)", "87611921"], ["Colroy-Lubine (Provencheres-Et-Colroy)", "87144386"], ["Combourg", "87478057"], ["Combs-la-Ville-Quincy (Combs-La-Ville)", "87682146"], ["Comines", "87286260"], ["Commentry", "87641415"], ["Commercy", "87175257"], ["Compans", "87272047"], ["Compiègne (Margny-Les-Compiegne)", "87276691"], ["Conches (Conches-En-Ouche)", "87387159"], ["Condat-le-Lardin (Le Lardin-Saint-Lazare)", "87594382"], ["Condé-sur-Huisne (Sablons Sur Huisne)", "87394288"], ["Conflans-Fin-d'Oise (Conflans-Sainte-Honorine)", "87381459"], ["Conflans-Jarny (Jarny)", "87192666"], ["Conflans-Ste-Honorine (Conflans-Sainte-Honorine)", "87381897"], ["Conlie", "87396218"], ["Connerré-Beillé (Beille)", "87396309"], ["Contrexéville (Contrexeville)", "87144287"], ["Corbehem", "87345116"], ["Corbeil-Essonnes", "87681007"], ["Corbie", "87313056"], ["Corbigny", "87696617"], ["Corcieux-Vanémont (La Houssiere)", "87144196"], ["Corcy", "87272286"], ["Cordemais", "87481820"], ["Cordes-Vindrac (Vindrac-Alayrac)", "87613802"], ["Corgoloin", "87713537"], ["Cormeilles-en-Parisis", "87381863"], ["Cormery", "87571430"], ["Cornil", "87594481"], ["Coron-de-Méricourt (Mericourt)", "87345132"], ["Corps-Nuds", "87471326"], ["Corrèze (Saint-Priest-De-Gimel)", "87594119"], ["Corseul-Languenan (Languenan)", "87478180"], ["Cosne-sur-Loire (Cosne-Cours-Sur-Loire)", "87696146"], ["Coucy-lès-Eppes (Coucy-Les-Eppes)", "87171769"], ["Coudekerque-Branche", "87281402"], ["Coudray-Montceaux (Le Coudray-Montceaux)", "87681635"], ["Couffoulens-Leuc (Couffoulens)", "87615120"], ["Couilly-St-Germain (Saint-Germain-Sur-Morin)", "87116731"], ["Couiza-Montazels (Montazels)", "87615203"], ["Coulanges-sur-Yonne (Crain)", "87696831"], ["Couliboeuf (Morteaux-Coulibœuf)", "87444232"], ["Coulommiers", "87116301"], ["Courbevoie", "87382200"], ["Courcay-Tauxigny (Courcay)", "87571448"], ["Courcelles-le-Comte", "87342063"], ["Courcelles-sur-Nied", "87192211"], ["Courcy-Brimont (Courcy)", "87171710"], ["Coursan", "87781161"], ["Courtalain-St-Pellerin (Commune Nouvelle D'Arrou)", "87394494"], ["Courthézon (Courthezon)", "87765180"], ["Courville-sur-Eure", "87394221"], ["Cousance", "87718270"], ["Coussac-Bonneval", "87592840"], ["Coutances", "87447110"], ["Coutras", "87584516"], ["Couze (Lalinde)", "87584425"], ["Couzon-au-Mont-d'Or", "87721241"], ["Couëron (Coueron)", "87481804"], ["Cramoisy", "87313544"], ["Cransac", "87613232"], ["Cravant-Bazarnes (Bazarnes)", "87683649"], ["Creil", "87276006"], ["Crest", "87761783"], ["Crissé (Crisse)", "87396226"], ["Croix-Sainte (Martigues)", "87753491"], ["Croix-Wasquehal (Wasquehal)", "87286716"], ["Croix-l'Allumette (Croix)", "87281055"], ["Cros-de-Cagnes (Cagnes-Sur-Mer)", "87756338"], ["Crouy", "87271874"], ["Crouy-sur-Ourcq", "87116640"], ["Crécy-La Chapelle (Crecy-La-Chapelle)", "87116772"], ["Crépieux-la-Pape (Rillieux-La-Pape)", "87723502"], ["Crépy-Couvron (Crepy)", "87296152"], ["Crépy-en-Valois (Crepy-En-Valois)", "87271593"], ["Créteil-Pompadour (Creteil)", "87608802"], ["Crêches-sur-Saône (Creches-Sur-Saone)", "87725713"], ["Cubzac-les-Ponts", "87491266"], ["Cuers-Pierrefeu (Cuers)", "87755355"], ["Cugand", "87481457"], ["Cuinchy", "87342410"], ["Culmont-Chalindrey (Culmont)", "87142125"], ["Culoz", "87741074"], ["Cysoing", "87286781"], ["Cérons (Cerons)", "87582742"], ["Dachstein (Molsheim)", "87214551"], ["Dambach-la-Ville", "87214213"], ["Damblain", "87142497"], ["Damiatte-St-Paul (Damiatte)", "87615484"], ["Dammartin-Juilly-St-Mard (Saint-Mard)", "87271536"], ["Dangé (Dange-Saint-Romain)", "87575126"], ["Danjoutin", "87700146"], ["Dannemarie", "87182253"], ["Dannemarie-Velesmes (Dannemarie-Sur-Crete)", "87718312"], ["Dannes-Camiers (Camiers)", "87317081"], ["Daours (Aubigny)", "87315044"], ["Dardilly-le-Jubin (Dardilly)", "87721449"], ["Dardilly-les-Mouilles (Ecully)", "87721480"], ["Darsac (Vernassal)", "87734673"], ["Dax", "87673202"], ["Decize", "87696484"], ["Delle", "87184440"], ["Deluz", "87718429"], ["Denain", "87343459"], ["Dercy-Froidmont (Dercy)", "87297143"], ["Dettwiller", "87212183"], ["Deuil-Montmagny (Deuil-La-Barre)", "87276345"], ["Deville", "87172064"], ["Deûlémont (Quesnoy-Sur-Deule)", "87287185"], ["Diarville (Housseville)", "87141648"], ["Die", "87761841"], ["Diemeringen", "87215665"], ["Dieppe", "87415018"], ["Dieulouard", "87141812"], ["Dieupentale", "87611681"], ["Digoin", "87694695"], ["Dijon-Porte-Neuve (Dijon)", "87713008"], ["Dijon-Ville (Dijon)", "87713040"], ["Dinan", "87478164"], ["Dingé (Dinge)", "87478040"], ["Dirinon Loperhet (Loperhet)", "87474015"], ["Dissay", "87575191"], ["Distroff", "87191320"], ["Dives-Cabourg (Dives-Sur-Mer)", "87444414"], ["Dives-sur-Mer-Port-Guillaume (Dives-Sur-Mer)", "87337378"], ["Docelles-Cheniménil (Chenimenil)", "87144030"], ["Dol-de-Bretagne", "87478073"], ["Dole", "87713412"], ["Dombasle-sur-Meurthe", "87141119"], ["Domblans-Voiteur (Domblans)", "87718213"], ["Domfront (Domfront-En-Champagne)", "87396200"], ["Dommartin-Lissieu (Dommartin)", "87721738"], ["Dommartin-Remiencourt (Dommartin)", "87316109"], ["Domont", "87276436"], ["Dompierre (Dompierre-Sur-Helpe)", "87295774"], ["Dompierre-Sept-Fons (Dompierre-Sur-Besbre)", "87696427"], ["Don-Sainghin (Sainghin-En-Weppes)", "87286435"], ["Donchery", "87172239"], ["Donges-Bonne Nouvelle (Donges)", "87481721"], ["Donjeux", "87142273"], ["Donzère (Donzere)", "87764290"], ["Dordives", "87684233"], ["Dorlisheim", "87214338"], ["Dormans", "87171512"], ["Douai", "87345009"], ["Dourdan", "87545525"], ["Dourdan-la-Forêt (Dourdan)", "87540179"], ["Dourges", "87345165"], ["Douzillac", "87595280"], ["Drancy", "87271403"], ["Drap-Cantaron (Cantaron)", "87756775"], ["Drefféac (Dreffeac)", "87476770"], ["Dreuil-lès-Amiens (Dreuil-Les-Amiens)", "87316075"], ["Dreux", "87393488"], ["Drusenheim", "87212357"], ["Druye", "87571612"], ["Dugny-La Courneuve TT (La Courneuve)", "87697342"], ["Dunkerque", "87281006"], ["Duppigheim", "87214536"], ["Durtol-Nohanent (Durtol)", "87641449"], ["Duttlenheim (Dachstein)", "87214544"], ["Dégagnac (Degagnac)", "87613174"], ["Ebblinghem", "87281469"], ["Ebersheim", "87214106"], ["Eichhoffen", "87214239"], ["Einvaux", "87141200"], ["Elbeuf-St-Aubin (Saint-Aubin-Les-Elbeuf)", "87411173"], ["Elne", "87784207"], ["Embrun", "87763466"], ["Enghien-les-Bains", "87276022"], ["Ennevelin (Templeuve-En-Pevele)", "87287276"], ["Entraigues-sur-la-Sorgue", "87765826"], ["Entzheim", "87214528"], ["Epernay", "87171553"], ["Epfig", "87214221"], ["Erdre-Active (La Chapelle-Sur-Erdre)", "87590356"], ["Ermont-Eaubonne (Ermont)", "87276055"], ["Ermont-Halte (Ermont)", "87276584"], ["Err", "87784843"], ["Erstein", "87214148"], ["Esbly", "87116327"], ["Escalquens", "87611707"], ["Escaudoeuvres (Escaudœuvres)", "87345496"], ["Esches", "87272096"], ["Espéraza (Esperaza)", "87615211"], ["Esquelbecq", "87281113"], ["Essonnes-Robinson (Corbeil-Essonnes)", "87681601"], ["Estavar", "87784827"], ["Estressin (Vienne)", "87722579"], ["Estrées-St-Denis (Estrees-Saint-Denis)", "87313387"], ["Esvres", "87571422"], ["Eu", "87317537"], ["Evry-Val de Seine (Evry-Courcouronnes)", "87681361"], ["Exideuil-sur-Vienne", "87592881"], ["Eymoutiers-Vassivière (Eymoutiers)", "87592121"], ["Facture-Biganos (Biganos)", "87582478"], ["Farbus", "87342527"], ["Faremoutiers-Pommeuse (Pommeuse)", "87116277"], ["Farschviller", "87193524"], ["Farébersviller (Farebersviller)", "87193516"], ["Faubourg-d'Orléans (Romorantin-Lanthenay)", "87576173"], ["Fauga (Le Fauga)", "87611046"], ["Faulquemont", "87193359"], ["Fegersheim-Lipsheim (Lipsheim)", "87212266"], ["Fellering", "87182626"], ["Felletin", "87597849"], ["Fenouillet-St-Alban (Fenouillet)", "87611962"], ["Ferrières-Fontenay (Fontenay-Sur-Loing)", "87684241"], ["Feuquerolles (Feuquieres-En-Vimeu)", "87316752"], ["Feuquières-Broquiers (Feuquieres)", "87313742"], ["Feuquières-Fressenneville (Feuquieres-En-Vimeu)", "87317503"], ["Feurs", "87726877"], ["Feyzin", "87722538"], ["Figeac", "87613091"], ["Firminy", "87726729"], ["Fismes", "87171330"], ["Flavy-le-Martel", "87296871"], ["Flaxlanden (Zillisheim)", "87181040"], ["Flers", "87448001"], ["Fleurieux-sur-l'Arbresle", "87721563"], ["Fleurville-Pont-de-Vaux (Fleurville)", "87725663"], ["Flez-Cuzy-Tannay (Tannay)", "87696633"], ["Foix", "87611616"], ["Folligny", "87447649"], ["Fons-St-Mamert (Fons)", "87775379"], ["Font-Romeu-Odeillo-Via", "87784819"], ["Fontaine-le-Port", "87682427"], ["Fontainebleau-Avon (Avon)", "87682211"], ["Fontaines-Mercurey (Fontaines)", "87713586"], ["Fontaines-d'Ozillac", "87491159"], ["Fontan-Saorge (Fontan)", "87756858"], ["Fontenay-le-Fleury", "87393405"], ["Fontenoy-sur-Moselle", "87141051"], ["Fontpédrouse-St-Thomas-les-Bains (Fontpedrouse)", "87784769"], ["Forbach", "87193003"], ["Formerie", "87313833"], ["Fors", "87485326"], ["Fos-sur-Mer (Port-De-Bouc)", "87753442"], ["Foucart-Alvimare (Foucart)", "87413377"], ["Fouday", "87214734"], ["Foug", "87141036"], ["Fougeray-Langon (Langon)", "87471201"], ["Fougeré (Fougere)", "87486316"], ["Fouilloy", "87313841"], ["Fouquereuil", "87342204"], ["Fourchambault", "87696229"], ["Fourmies", "87295048"], ["Fourqueux-Bel Air (Saint-Germain-En-Laye)", "87733675"], ["Foëcy (Foecy)", "87576108"], ["Fraisses-Unieux (Fraisses)", "87726737"], ["Franchet-d'Esperey (Reims)", "87417444"], ["Francheville", "87722702"], ["Franconville-Plessis-Bouchard (Franconville)", "87276071"], ["Franois", "87718304"], ["Frasne", "87715136"], ["Freistroff", "87191395"], ["Fresnoy-le-Grand", "87296293"], ["Fretin", "87286641"], ["Fromental", "87592360"], ["Froncles", "87142240"], ["Frontenex", "87741629"], ["Frontignan", "87773556"], ["Frouard", "87141077"], ["Frynaudour (Plourivo)", "87473876"], ["Fréjus (Frejus)", "87757500"], ["Frénouville-Cagny (Frenouville)", "87444182"], ["Frépillon (Frepillon)", "87276659"], ["Fréteval-Morée (Freteval)", "87574533"], ["Frévin-Capelle (Frevin-Capelle)", "87342212"], ["Fumay", "87172098"], ["Futuroscope (Chasseneuil-Du-Poitou)", "87324095"], ["Fère-en-Tardenois (Fere-En-Tardenois)", "87171371"], ["Fécamp (Fecamp)", "87413542"], ["Fépin (Fepin)", "87172874"], ["Gadagne (Chateauneuf-De-Gadagne)", "87765446"], ["Gagny", "87113514"], ["Gaillac", "87615252"], ["Gaillon-Aubevoye (Le Val D'Hazey)", "87415620"], ["Gallargues (Gallargues-Le-Montueux)", "87775130"], ["Galliéni-Cancéropole (Toulouse)", "87497461"], ["Galuzot (Saint-Vallier)", "87694638"], ["Gambsheim", "87212332"], ["Gan", "87672618"], ["Gandrange-Amnéville (Amneville)", "87191742"], ["Gannat", "87732404"], ["Gannes", "87313262"], ["Gap", "87763003"], ["Garancières-la-Queue (Garancieres)", "87393439"], ["Garches-Marnes-la-Coquette (Garches)", "87382259"], ["Garchizy", "87691436"], ["Gardanne", "87751420"], ["Gardonne", "87584235"], ["Gargenville", "87381566"], ["Garges-Sarcelles (Garges-Les-Gonesse)", "87276196"], ["Gauriaguet", "87491225"], ["Gazeran", "87393348"], ["Gazinet-Cestas (Cestas)", "87582403"], ["Geispolsheim", "87212258"], ["Gemeaux", "87713842"], ["Genech", "87286807"], ["Genlis", "87713313"], ["Gennevilliers", "87271205"], ["Germaine", "87171587"], ["Gertwiller", "87214254"], ["Gerzat", "87734046"], ["Gestel", "87476309"], ["Gevrey-Chambertin", "87713503"], ["Gien", "87684290"], ["Gignac-Cressensac (Gignac)", "87594325"], ["Gilley", "87718577"], ["Gilly-sur-Loire", "87694869"], ["Gimont-Cahuzac (Gimont)", "87611772"], ["Gironde (Gironde-Sur-Dropt)", "87582858"], ["Gisors", "87381244"], ["Givet", "87172130"], ["Givors", "87722405"], ["Givors-Canal (Givors)", "87722439"], ["Gièvres (Gievres)", "87576876"], ["Glos-Montfort (Glos-Sur-Risle)", "87415349"], ["Golfe-Juan-Vallauris (Vallauris)", "87757641"], ["Golfech", "87618082"], ["Goncelin", "87747477"], ["Gonfaron", "87755397"], ["Gorges", "87481432"], ["Gourdon", "87613141"], ["Gourland (Graces)", "87473801"], ["Gournay-Ferrières (Ferrieres-En-Bray)", "87381293"], ["Goussainville", "87276246"], ["Goxwiller", "87214270"], ["Graffenstaden (Geispolsheim)", "87212241"], ["Graffenwald (Wittelsheim)", "87181131"], ["Gragnague", "87615377"], ["Gramat", "87613059"], ["Grand'Combe-La Pise (La Grand-Combe)", "87775254"], ["Grand-Bourg (Evry-Courcouronnes)", "87681353"], ["Grande-Synthe", "87281311"], ["Grandvillars", "87184432"], ["Grandvilliers", "87313734"], ["Granville", "87447680"], ["Grasse (Marseille)", "87757724"], ["Gravelines", "87281246"], ["Gravigny-Balizy (Longjumeau)", "87393645"], ["Grenoble", "87747006"], ["Grenoble Universités-Gières (Gieres)", "87747402"], ["Gresswiller", "87214593"], ["Gretz-Armainvilliers", "87116012"], ["Grigny-Centre (Grigny)", "87681379"], ["Grisolles", "87611673"], ["Groisy-Thorens-la-Caille (Groisy)", "87746248"], ["Gros-Noyer-St-Prix (Ermont)", "87276592"], ["Groslay", "87276360"], ["Grésy-sur-Aix (Gresy-Sur-Aix)", "87746107"], ["Grésy-sur-Isère (Gresy-Sur-Isere)", "87741611"], ["Guichen-Bourg-des-Comptes (Guichen)", "87471151"], ["Guignicourt (Villeneuve-Sur-Aisne)", "87171736"], ["Guillerval", "87545129"], ["Guimiliau", "87474296"], ["Guingamp", "87473207"], ["Gundershoffen", "87213223"], ["Gunsbach-Griesbach (Griesbach-Au-Val)", "87182386"], ["Guérard-La Celle-sur-Morin (Guerard)", "87116269"], ["Guéret (Gueret)", "87597609"], ["Guéthary (Guethary)", "87673459"], ["Génelard (Genelard)", "87694653"], ["Génolhac (Genolhac)", "87775213"], ["Générac (Generac)", "87775791"], ["Habsheim", "87182089"], ["Hachette (Locquignol)", "87297523"], ["Hagondange", "87191114"], ["Haguenau", "87213058"], ["Halsou-Larressore (Halsou)", "87673640"], ["Halte d'Ostricourt (Ostricourt)", "87345249"], ["Halte de Fontanil-Lycée de Drap (Drap)", "87561143"], ["Haluchère-Batignolles (Nantes)", "87590331"], ["Ham (Muille-Villette)", "87313494"], ["Ham-en-Artois", "87342261"], ["Hangest (Hangest-Sur-Somme)", "87313114"], ["Harfleur", "87413302"], ["Harfleur-Halte (Harfleur)", "87413708"], ["Hargicourt-Pierrepont (Trois-Rivieres)", "87313338"], ["Hasenrain (Mulhouse)", "87181024"], ["Hatrize", "87192724"], ["Haubourdin", "87286096"], ["Haussmann-St-Lazare (Paris)", "87281899"], ["Hautmont", "87295568"], ["Hayange", "87191239"], ["Haybes", "87172106"], ["Hazebrouck", "87286302"], ["Heiligenberg-Mollkirch (Mollkirch)", "87214627"], ["Heilles-Mouchy (Heilles)", "87316398"], ["Heilly", "87316059"], ["Hellemmes (Lille)", "87286062"], ["Hendaye", "87677005"], ["Hennebont", "87476259"], ["Herbitzheim", "87193672"], ["Herblay (Herblay-Sur-Seine)", "87381889"], ["Herchies", "87313692"], ["Hermes-Berthecourt (Berthecourt)", "87313585"], ["Herny", "87193383"], ["Herrlisheim", "87212340"], ["Herrlisheim-près-Colmar (Herrlisheim-Pres-Colmar)", "87182329"], ["Hesdigneul (Hesdigneul-Les-Boulogne)", "87317107"], ["Hesdin", "87317222"], ["Hettange-Grande", "87191163"], ["Hirson", "87295063"], ["Hirson-Écoles (Hirson)", "87324335"], ["Hochfelden", "87212167"], ["Hoelschloch (Surbourg)", "87213413"], ["Hoenheim-Tram (Hœnheim)", "87338517"], ["Hoerdt (Hœrdt)", "87213686"], ["Hoffen", "87213447"], ["Hombourg-Budange", "87191353"], ["Hombourg-Haut", "87193276"], ["Homécourt (Homecourt)", "87191692"], ["Houdan", "87393462"], ["Houdemont", "87141473"], ["Houilles-Carrières-sur-Seine (Houilles)", "87386409"], ["Houlgate", "87444406"], ["Hundling", "87193540"], ["Huriel", "87641217"], ["Hymont-Mattaincourt (Hymont)", "87144220"], ["Hyères (Hyeres)", "87755629"], ["Hénin-Beaumont (Henin-Beaumont)", "87345157"], ["Héricourt (Hericourt)", "87184507"], ["Héricy (Hericy)", "87682435"], ["Igney", "87144089"], ["Igney-Avricourt (Avricourt)", "87215103"], ["Igny", "87393561"], ["Ille-sur-Têt (Ille-Sur-Tet)", "87784561"], ["Illfurth", "87182204"], ["Illiers-Combray", "87394437"], ["Imphy", "87696450"], ["Ingersheim-Cité-Scolaire (Turckheim)", "87303875"], ["Ingrandes-sur-Loire (Ingrandes-Le Fresne Sur Loire)", "87484360"], ["Ingrandes-sur-Vienne (Ingrandes)", "87575134"], ["Ingwiller", "87213785"], ["Invalides (Paris)", "87393033"], ["Irigny-Yvours (Irigny)", "87722249"], ["Is-sur-Tille (Marcilly-Sur-Tille)", "87713859"], ["Isbergues", "87342279"], ["Isles-Armentières (Isles-Les-Meldeuses)", "87116616"], ["Issoire", "87734202"], ["Issou-Porcheville (Issou)", "87381574"], ["Issoudun", "87597062"], ["Issy (Issy-Les-Moulineaux)", "87393074"], ["Issy-Val-de-Seine (Issy-Les-Moulineaux)", "87393306"], ["Issé (Isse)", "87481622"], ["Istres", "87753418"], ["Iteuil", "87577403"], ["Itxassou", "87673665"], ["Ivry-sur-Seine", "87545301"], ["Iwuy", "87345397"], ["Jacques-Monod-La Demi-Lieue (Montivilliers)", "87413716"], ["Janzé (Janze)", "87471334"], ["Jarnac (Mainxe-Gondeville)", "87491472"], ["Jarrie-Vizille (Jarrie)", "87747535"], ["Jarville-la-Malgrange", "87141010"], ["Jassonneix (Meymac)", "87594085"], ["Jaunay-Clan (Jaunay-Marigny)", "87575217"], ["Jaux", "87272013"], ["Javel (Paris)", "87393066"], ["Jeumont", "87295014"], ["Joeuf (Jœuf)", "87191700"], ["Joigny", "87683243"], ["Joigny-sur-Meuse", "87172031"], ["Joinville", "87175091"], ["Joncet (Serdinya)", "87784710"], ["Joncherey", "87700153"], ["Jonchery-sur-Vesle", "87171314"], ["Jonzac", "87491142"], ["Jouy", "87394155"], ["Jouy-en-Josas", "87393512"], ["Joué-lès-Tours (Joue-Les-Tours)", "87571885"], ["Juan-les-Pins (Antibes)", "87757666"], ["Juvisy (Juvisy-Sur-Orge)", "87545244"], ["Juziers", "87381558"], ["Kalhausen", "87193664"], ["Ker-Lann (Bruz)", "87159947"], ["Kerhostin (Saint-Pierre-Quiberon)", "87476432"], ["Kerhuon (Le Relecq-Kerhuon)", "87474213"], ["Keskastel", "87215491"], ["Kilstett", "87212324"], ["Kogenheim", "87214114"], ["Krimmeri-Meinau (Strasbourg)", "87338525"], ["Kruth", "87182642"], ["Kuntzig", "87191312"], ["Kurtzenhouse", "87213660"], ["Kédange (Kedange-Sur-Canner)", "87191346"], ["L'Aigle", "87444638"], ["L'Aiguille (Bosmie-L'Aiguille)", "87592634"], ["L'Arbresle (Eveux)", "87721431"], ["L'Argentière-les-Écrins (L'Argentiere-La-Bessee)", "87763557"], ["L'Ariane (La Trinite)", "87751529"], ["L'Escarène (L'Escarene)", "87756809"], ["L'Estaque (Marseille)", "87751602"], ["L'Herbergement-Les Brouzils (L'Herbergement)", "87486126"], ["L'Hermitage-Mordelles (L'Hermitage)", "87471060"], ["L'Hospitalet-près-l'Andorre (L'Hospitalet-Pres-L'Andorre)", "87611517"], ["L'Hôpital-du-Grosbois (L'Hopital-Du-Grosbois)", "87718528"], ["L'Isle-Adam-Parmain (Parmain)", "87276527"], ["L'Isle-Fontaine-de-Vaucluse (L'Isle-Sur-La-Sorgue)", "87765479"], ["L'Isle-Jourdain", "87611806"], ["L'Isle-d'Abeau", "87761239"], ["L'Isle-sur-le-Doubs", "87184572"], ["L'Isthme (Saint-Pierre-Quiberon)", "87476275"], ["L'Étang-la-Ville (L'Etang-La-Ville)", "87382473"], ["L'Étang-les Sablons (L'Etang-La-Ville)", "87726109"], ["La Bachellerie (Saint-Rabier)", "87595595"], ["La Barasse (Marseille)", "87635581"], ["La Barre-Ormesson (Deuil-La-Barre)", "87271171"], ["La Basse-Indre-St-Herblain (Saint-Herblain)", "87481069"], ["La Bassée (La Bassee)", "87342436"], ["La Bastide-St-Laurent-les-Bains (La Bastide-Puylaurent)", "87775171"], ["La Baule-Escoublac", "87481754"], ["La Baule-les-Pins (La Baule-Escoublac)", "87481697"], ["La Bernerie-en-Retz", "87481267"], ["La Bohalle (Loire-Authion)", "87487843"], ["La Bonneville-sur-Iton", "87387142"], ["La Borne-Blanche (Orry-La-Ville)", "87276287"], ["La Bouteille", "87297085"], ["La Brigue", "87756874"], ["La Brillanne-Oraison (La Brillanne)", "87751271"], ["La Brohinière (Montauban-De-Bretagne)", "87471094"], ["La Cave (Marsac-Sur-L'Isle)", "87595215"], ["La Celle-Corrèze (Lacelle)", "87592147"], ["La Celle-St-Cloud (La Celle-Saint-Cloud)", "87382432"], ["La Chaize-le-Vicomte", "87486308"], ["La Chapelle-Aulnay (La Chapelle-Sur-Erdre)", "87590364"], ["La Chapelle-Centre (La Chapelle-Sur-Erdre)", "87481564"], ["La Chapelle-St-Mesmin (La Chapelle-Saint-Mesmin)", "87543371"], ["La Chapelle-sur-Loire", "87571802"], ["La Charité-sur-Loire (La Charite-Sur-Loire)", "87696195"], ["La Chaussée-St-Victor (La Chaussee-Saint-Victor)", "87574251"], ["La Chaux-des-Crotenay (Chaux-Des-Crotenay)", "87715383"], ["La Ciotat", "87751784"], ["La Clayette-Baudemont (Baudemont)", "87694737"], ["La Coquille", "87592501"], ["La Courneuve-Aubervilliers (La Courneuve)", "87271304"], ["La Couronne-Carro (Martigues)", "87753541"], ["La Crau", "87755611"], ["La Croix-de-Méan (Saint-Nazaire)", "87481689"], ["La Croix-du-Prince (Pau)", "87672600"], ["La Crèche (La Creche)", "87485474"], ["La Douzillère (Joue-Les-Tours)", "87009696"], ["La Défense (Puteaux)", "87382218"], ["La Défense CNIT (Puteaux)", "87731430"], ["La Faloise", "87313239"], ["La Ferté-Alais (La Ferte-Alais)", "87681452"], ["La Ferté-Bernard (La Ferte-Bernard)", "87396325"], ["La Ferté-Imbault (La Ferte-Imbault)", "87576082"], ["La Ferté-Milon (La Ferte-Milon)", "87116673"], ["La Ferté-St-Aubin (La Ferte-Saint-Aubin)", "87543124"], ["La Ferté-sous-Jouarre (La Ferte-Sous-Jouarre)", "87116517"], ["La Fontaine (Wavrin)", "87286427"], ["La Forest (La Forest-Landerneau)", "87474221"], ["La Fouillouse", "87726232"], ["La Fresnais", "87478081"], ["La Frette-Montigny (La Frette-Sur-Seine)", "87381871"], ["La Fère (La Fere)", "87296632"], ["La Garde", "87755306"], ["La Garenne-Colombes (Colombes)", "87386003"], ["La Gorp (Ambares-Et-Lagrave)", "87584755"], ["La Gouesnière-Cancale (Saint-Meloir-Des-Ondes)", "87478099"], ["La Grande-Paroisse", "87682476"], ["La Grave-d'Ambarès-Gare-Inférieure (Ambares-Et-Lagrave)", "87491274"], ["La Guerche-sur-l'Aubois", "87576470"], ["La Guierche", "87396036"], ["La Haie-Fouassière (La Haie-Fouassiere)", "87481416"], ["La Hisse (Saint-Samson-Sur-Rance)", "87478156"], ["La Hutte-Coulombiers (Fresnay-Sur-Sarthe)", "87396093"], ["La Jarrie", "87485185"], ["La Jonchère (La Jonchere-Saint-Maurice)", "87592337"], ["La Joux (Chamonix-Mont-Blanc)", "87746842"], ["La Levade (La Grand-Combe)", "87775247"], ["La Loupe", "87394254"], ["La Madeleine", "87286187"], ["La Marche", "87691394"], ["La Membrolle-sur-Choisille (Saint-Cyr-Sur-Loire)", "87571513"], ["La Meyze", "87592808"], ["La Mothe-Achard (Les Achards)", "87486423"], ["La Mothe-St-Héray (Sainte-Eanne)", "87485508"], ["La Méaugon (La Meaugon)", "87473124"], ["La Ménitré (La Menitre)", "87487884"], ["La Norville-St-Germain-lès-Arpajon (La Norville)", "87545459"], ["La Pauline-Hyères (La Garde)", "87755314"], ["La Penne-sur-Huveaune", "87751743"], ["La Plaine-Stade-de-France (Saint-Denis)", "87164798"], ["La Pomme (Marseille)", "87751719"], ["La Porcherie", "87592295"], ["La Possonnière (La Possonniere)", "87484337"], ["La Poterie (Rennes)", "87334508"], ["La Redonne-Ensuès (Ensues-La-Redonne)", "87753574"], ["La Ricamarie", "87726703"], ["La Rivière (La Riviere-Drugeon)", "87715144"], ["La Rivière-de-Mansac (Mansac)", "87594416"], ["La Roche-Maurice", "87474262"], ["La Roche-sur-Foron", "87746305"], ["La Roche-sur-Yon", "87486019"], ["La Rochefoucauld (La Rochefoucauld-En-Angoumois)", "87583427"], ["La Rochelle-Porte-Dauphine (La Rochelle)", "87437798"], ["La Rochelle-Ville (La Rochelle)", "87485003"], ["La Réole (La Reole)", "87582866"], ["La Seyne-Six-Fours (La Seyne-Sur-Mer)", "87755264"], ["La Souterraine", "87592378"], ["La Suze (La Suze-Sur-Sarthe)", "87396366"], ["La Taye (Saint-Georges-Sur-Eure)", "87394403"], ["La Tour-de-Salvagny", "87721548"], ["La Tour-du-Pin", "87723478"], ["La Tricherie (Beaumont Saint-Cyr)", "87575183"], ["La Trinité-Victor (La Trinite)", "87756767"], ["La Valbonne (Beligneux)", "87723577"], ["La Verpillière (La Verpilliere)", "87723395"], ["La Verrière (La Verriere)", "87393256"], ["La Ville-Gozet (Montlucon)", "87641191"], ["La Villette-St-Prest (Saint-Prest)", "87394171"], ["La Wantzenau", "87212316"], ["Labarthe-Inard", "87611129"], ["Labenne", "87673293"], ["Labergement-Ste-Marie (Labergement-Sainte-Marie)", "87715219"], ["Laboissière-le-Déluge (Laboissiere-En-Thelle)", "87313676"], ["Labouheyre", "87582551"], ["Labruguière (Labruguiere)", "87615526"], ["Labège-Innopole (Labege)", "87612002"], ["Labège-Village (Labege)", "87612028"], ["Lacapelle-Viescamp", "87645150"], ["Lachaud-Curmilhac (Vissac-Auteyrac)", "87731828"], ["Lacourtensourt (Fenouillet)", "87611434"], ["Lafarge (Saint-Hilaire-Les-Places)", "87592733"], ["Lagny-Thorigny (Thorigny-Sur-Marne)", "87116319"], ["Laguépie (Laguepie)", "87613471"], ["Laifour", "87172072"], ["Laigneville", "87276204"], ["Laigné-St-Gervais (Saint-Gervais-En-Belin)", "87396556"], ["Laillé (Guichen)", "87471144"], ["Laissac (Laissac-Severac L'Eglise)", "87783761"], ["Laissey", "87718437"], ["Lalbenque-Fontanes (Fontanes)", "87613323"], ["Lalinde", "87584441"], ["Lamagistère (Lamagistere)", "87611855"], ["Lamanon", "87753731"], ["Lamarche", "87144303"], ["Lamballe (Lamballe-Armor)", "87473108"], ["Lamonzie-St-Martin (Lamonzie-Saint-Martin)", "87584243"], ["Lamothe-Landerron", "87582882"], ["Lamothe-Montravel", "87584151"], ["Lamotte-Beuvron", "87543140"], ["Lamure-sur-Azergues", "87721860"], ["Lancerf (Plourivo)", "87473850"], ["Lancey (Villard-Bonnot)", "87417501"], ["Landas", "87286575"], ["Landaul-Mendon (Landaul)", "87476226"], ["Landerneau", "87474239"], ["Landivisiau", "87474270"], ["Landrecies", "87295642"], ["Landry", "87741777"], ["Landébia (Landebia)", "87473264"], ["Landévant (Landevant)", "87476234"], ["Laneuveville-devant-Nancy", "87141093"], ["Langeac", "87734319"], ["Langeais", "87571828"], ["Langogne", "87734350"], ["Langon", "87582775"], ["Langres", "87142091"], ["Lannemezan", "87671123"], ["Lannion", "87473223"], ["Lantenay", "87712323"], ["Laon", "87296012"], ["Lapeyrouse", "87641043"], ["Laragne (Laragne-Monteglin)", "87763755"], ["Larche (Saint-Pantaleon-De-Larche)", "87594424"], ["Lardenne (Toulouse)", "87611939"], ["Lardy", "87545160"], ["Laroche-Migennes (Migennes)", "87683268"], ["Laroque (Laroque-Timbaut)", "87586412"], ["Laroquebrou", "87645135"], ["Lathus (Lathus-Saint-Remy)", "87575498"], ["Latour-de-Carol-Enveitg (Enveitg)", "87611483"], ["Lauterbourg", "87212464"], ["Laval", "87478404"], ["Laval-de-Cère (Laval-De-Cere)", "87594796"], ["Lavaufranche", "87597740"], ["Lavaur", "87615476"], ["Lavaveix-les-Mines", "87597781"], ["Laveline-devant-Bruyères (Laveline-Devant-Bruyeres)", "87144162"], ["Lavilledieu (La Ville-Dieu-Du-Temple)", "87611459"], ["Lavilletertre", "87381202"], ["Lavoûte-sur-Loire (Lavoute-Sur-Loire)", "87734707"], ["Le Blanc-Mesnil", "87271478"], ["Le Boucau (Boucau)", "87673095"], ["Le Bourget", "87271395"], ["Le Bouscat-Ste-Germaine (Le Bouscat)", "87738096"], ["Le Bousquet-d'Orb (La Tour-Sur-Orb)", "87781583"], ["Le Bras-de-fer (Evry-Courcouronnes)", "87681395"], ["Le Breuil-sur-Couze", "87734228"], ["Le Bruel (Esclanedes)", "87783548"], ["Le Buet (Vallorcine)", "87746883"], ["Le Bugue", "87595744"], ["Le Buisson (Le Buisson-De-Cadouin)", "87595751"], ["Le Burg (Varetz)", "87594614"], ["Le Cailar", "87775825"], ["Le Cateau (Le Cateau-Cambresis)", "87295220"], ["Le Cellier", "87481168"], ["Le Cendre-Orcet (Le Cendre)", "87734160"], ["Le Chambon-Feugerolles", "87726711"], ["Le Chénay-Gagny (Gagny)", "87113522"], ["Le Coteau", "87726828"], ["Le Creusot", "87694000"], ["Le Creusot-Montceau-Montchanin (Ecuisses)", "87694109"], ["Le Croisic", "87481788"], ["Le Dorat", "87592543"], ["Le Dramont (Saint-Raphael)", "87757542"], ["Le Genest (Le Genest-Saint-Isle)", "87478743"], ["Le Grand-Jardin (Lisieux)", "87444323"], ["Le Grand-Lemps", "87747220"], ["Le Grau-du-Roi", "87775866"], ["Le Haut-Banc (Rety)", "87316687"], ["Le Havre", "87413013"], ["Le Havre-Graville (Le Havre)", "87413203"], ["Le Lioran (Laveissiere)", "87645473"], ["Le Luc-et-Le Cannet (Le Cannet-Des-Maures)", "87755405"], ["Le Mans", "87396002"], ["Le Mans Hôpital Université (Le Mans)", "87743872"], ["Le Merlerault", "87444588"], ["Le Meux-la-Croix-St-Ouen (Le Meux)", "87276733"], ["Le Molay-Littry (Le Breuil-En-Bessin)", "87444083"], ["Le Monastier (Bourgs Sur Colagne)", "87783308"], ["Le Mée (Le Mee-Sur-Seine)", "87682179"], ["Le Méridien (Charbonnieres-Les-Bains)", "87721522"], ["Le Pallet", "87481424"], ["Le Perray (Le Perray-En-Yvelines)", "87393298"], ["Le Plessis-Belleville", "87271551"], ["Le Plessis-Chenet (Le Coudray-Montceaux)", "87681627"], ["Le Poirier-Université (Trith-Saint-Leger)", "87343210"], ["Le Pouliguen", "87481762"], ["Le Puy-en-Velay", "87734699"], ["Le Péage-de-Roussillon (Le Peage-De-Roussillon)", "87722678"], ["Le Pénity (Duault)", "87473553"], ["Le Quesnoy", "87295857"], ["Le Raincy-Villemomble-Montfermeil (Le Raincy)", "87113472"], ["Le Rouget (Le Rouget-Pers)", "87645192"], ["Le Sablon (Grigny)", "87722298"], ["Le Soler", "87784512"], ["Le Stade (Colombes)", "87381095"], ["Le Teil", "87764472"], ["Le Theil-La Rouge (Val-Au-Perche)", "87396333"], ["Le Theil-de-Bretagne", "87471342"], ["Le Thor", "87765453"], ["Le Toec (Toulouse)", "87353573"], ["Le Trayas (Saint-Raphael)", "87757575"], ["Le Tréport-Mers (Le Treport)", "87317529"], ["Le Val-d'Or (Saint-Cloud)", "87382366"], ["Le Valdahon (Valdahon)", "87718544"], ["Le Valdahon Camp Militaire (Valdahon)", "87718601"], ["Le Vauriat (Saint-Ours)", "87641399"], ["Le Verdon (Le Verdon-Sur-Mer)", "87581389"], ["Le Vert-de-Maisons (Maisons-Alfort)", "87681247"], ["Le Vieux-Briollay (Briollay)", "87484139"], ["Leforest", "87345223"], ["Lens", "87345025"], ["Lentilly", "87721555"], ["Lentilly-Charpenay (Lentilly)", "87566919"], ["Les Abrets-Fitilieu (Les Abrets En Dauphine)", "87741496"], ["Les Arcs-Draguignan (Les Arcs)", "87755447"], ["Les Ardoines (Vitry-Sur-Seine)", "87492108"], ["Les Aubrais-Orléans (Fleury-Les-Aubrais)", "87543017"], ["Les Bardys (Saint-Priest-Taurion)", "87592048"], ["Les Bons-Pères (Rousies)", "87297515"], ["Les Bossons (Chamonix-Mont-Blanc)", "87746768"], ["Les Boullereaux-Champigny (Champigny-Sur-Marne)", "87113779"], ["Les Cabannes", "87611574"], ["Les Cabrils (Joncels)", "87781559"], ["Les Cauquillous (Lavaur)", "87328021"], ["Les Clairières-de-Verneuil (Verneuil-Sur-Seine)", "87386664"], ["Les Deux Jumeaux (Hendaye)", "87677104"], ["Les Essarts-le-Roi", "87393280"], ["Les Eyzies", "87595736"], ["Les Flachères (Charbonnieres-Les-Bains)", "87721704"], ["Les Fontinettes (Calais)", "87317305"], ["Les Grésillons (Gennevilliers)", "87272146"], ["Les Houches", "87746743"], ["Les Lacs (Saint-Aubin-Des-Landes)", "87471516"], ["Les Laumes-Alésia (Venarey-Les-Laumes)", "87713115"], ["Les Longevilles-Rochejean (Longevilles-Mont-D'Or)", "87715227"], ["Les Mais (Callac)", "87473587"], ["Les Martres-de-Veyre", "87734178"], ["Les Moussoux (Chamonix-Mont-Blanc)", "87746818"], ["Les Moutiers-en-Retz", "87481259"], ["Les Mureaux", "87386680"], ["Les Noues (Goussainville)", "87276238"], ["Les Ormes-sur-Vienne (Les Ormes)", "87575118"], ["Les Perrières (Varennes-Vauzelles)", "87691600"], ["Les Portes de St-Cyr (Versailles)", "87710921"], ["Les Praz-de-Chamonix (Chamonix-Mont-Blanc)", "87746826"], ["Les Pélerins (Chamonix-Mont-Blanc)", "87746776"], ["Les Quatre-Roues (Pruniers-En-Sologne)", "87576181"], ["Les Quatre-Routes (Le Vignon-En-Quercy)", "87594564"], ["Les Ramassiers (Toulouse)", "87353581"], ["Les Rosiers-sur-Loire (Gennes-Val-De-Loire)", "87487876"], ["Les Sables-Blancs (Plouharnel)", "87476267"], ["Les Sables-d'Olonne", "87486449"], ["Les Salelles", "87783514"], ["Les Saules (Orly)", "87546226"], ["Les Tines (Chamonix-Mont-Blanc)", "87746834"], ["Les Trillers (Vaux)", "87641373"], ["Les Vallées (Bois-Colombes)", "87386300"], ["Les Vallées (Colombes)", "87386300"], ["Les Versannes (La Douze)", "87595702"], ["Les Yvris-Noisy-le-Grand (Noisy-Le-Grand)", "87113803"], ["Les Échets (Miribel)", "87723718"], ["Les Églisottes (Les Eglisottes-Et-Chalaures)", "87584532"], ["Lesparre (Lesparre-Medoc)", "87581314"], ["Lesquin", "87286849"], ["Lesseux-Frapelle (Lusse)", "87144329"], ["Lestelle (Lestelle-De-Saint-Martory)", "87611111"], ["Leucate-la-Franqui (Leucate)", "87781088"], ["Leval", "87295790"], ["Lexos (Varen)", "87613489"], ["Lezennes (Lille)", "87287102"], ["Lezoux", "87734442"], ["Liancourt-Rantigny (Rantigny)", "87276212"], ["Liancourt-St-Pierre (Liancourt-Saint-Pierre)", "87381210"], ["Liart", "87172544"], ["Libercourt", "87345256"], ["Libourne", "87584052"], ["Liesle", "87718130"], ["Lieusaint-Moissy (Lieusaint)", "87682153"], ["Ligugé (Liguge)", "87575274"], ["Lille CHR (Lille)", "87109306"], ["Lille-Europe (Lille)", "87223263"], ["Lille-Flandres (Lille)", "87286005"], ["Lille-Porte-de-Douai (Lille)", "87287250"], ["Lillers", "87342238"], ["Limay", "87381582"], ["Limeray", "87574335"], ["Limersheim (Hipsheim)", "87212274"], ["Limeyrat", "87595553"], ["Limoges-Bénédictins (Limoges)", "87592006"], ["Limoges-Montjovis (Limoges)", "87592022"], ["Limoux", "87615161"], ["Limoux-Flassian (Limoux)", "87598755"], ["Lingolsheim", "87214502"], ["Lisieux", "87444265"], ["Lisière Pereire (Saint-Germain-En-Laye)", "87733683"], ["Lisle-sur-Tarn", "87615310"], ["Lison", "87447219"], ["Liverdun", "87141069"], ["Livron (Livron-Sur-Drome)", "87761247"], ["Livry-sur-Seine", "87682401"], ["Lizy-sur-Ourcq", "87116632"], ["Liévin (Lievin)", "87345041"], ["Loches", "87571471"], ["Logelbach (Wintzenheim)", "87182345"], ["Loison-sous-Lens", "87345231"], ["Loivre", "87171728"], ["Longages-Noé (Longages)", "87611053"], ["Longecourt (Longecourt-En-Plaine)", "87712620"], ["Longjumeau", "87393611"], ["Longpont", "87271775"], ["Longpré-les-Corps-Saints (Longpre-Les-Corps-Saints)", "87313122"], ["Longroy-Gamaches (Longroy)", "87313817"], ["Longueau", "87313049"], ["Longueau (Boves)", "87313049"], ["Longueil-Annel", "87272195"], ["Longueil-Ste-Marie (Longueil-Sainte-Marie)", "87276303"], ["Longuerue-Vieux-Manoir (Vieux-Manoir)", "87411447"], ["Longueville", "87116137"], ["Longueville-sur-Scie", "87415141"], ["Longuyon", "87194274"], ["Longwy", "87194001"], ["Lons-le-Saunier", "87718239"], ["Loos-en-Gohelle (Lens)", "87345033"], ["Loos-lez-Lille (Loos)", "87286112"], ["Loreux", "87576157"], ["Lorient", "87476002"], ["Loriol (Loriol-Sur-Drome)", "87761262"], ["Lorraine-Louvigny-TGV (Louvigny)", "87142109"], ["Lothiers (Tendu)", "87597104"], ["Louhans", "87713735"], ["Louhossoa", "87673673"], ["Loulay", "87491290"], ["Lourches (Rœulx)", "87343475"], ["Lourdes", "87671339"], ["Loures-Barbazan (Loures-Barousse)", "87611178"], ["Louroux-de-Bouble", "87641050"], ["Louveciennes", "87382457"], ["Louverné (Louverne)", "87478511"], ["Louvres", "87276253"], ["Louvroil", "87295535"], ["Lozanne", "87721423"], ["Luant", "87597096"], ["Lubersac", "87594671"], ["Luc", "87734368"], ["Luc-Primaube (Luc-La-Primaube)", "87615773"], ["Luc-en-Diois", "87761874"], ["Luchon (Bagneres-De-Luchon)", "87611236"], ["Lucé (Luce)", "87394015"], ["Ludon (Ludon-Medoc)", "87581181"], ["Ludres", "87141481"], ["Lumes", "87172189"], ["Lunas", "87781575"], ["Lunel", "87773408"], ["Lunel-Viel", "87773424"], ["Lunery", "87576280"], ["Lunéville (Luneville)", "87141150"], ["Lurbe-St-Christau (Lurbe-Saint-Christau)", "87672741"], ["Lure", "87185249"], ["Lus-la-Croix-Haute", "87747667"], ["Lusignan", "87485540"], ["Lussac-les-Châteaux (Lussac-Les-Chateaux)", "87575845"], ["Luttenbach-près-Munster (Luttenbach-Pres-Munster)", "87182543"], ["Lutterbach (Haut-Rhin) (Lutterbach)", "87182667"], ["Lutterbach-Tram-Train (Lutterbach)", "87534347"], ["Lutzelbourg", "87215160"], ["Lutzelhouse (Muhlbach-Sur-Bruche)", "87214650"], ["Luxeuil-les-Bains", "87185595"], ["Luxé (Luxe)", "87583823"], ["Luzarches", "87276576"], ["Luzenac-Garanou (Garanou)", "87611558"], ["Luzy", "87696534"], ["Luçay-le-Mâle (Lucay-Le-Male)", "87576363"], ["Luçon (Lucon)", "87486258"], ["Lyon-Gorge-de-Loup (Lyon)", "87721175"], ["Lyon-Jean-Macé (Lyon)", "87282624"], ["Lyon-Part-Dieu (Lyon)", "87723197"], ["Lyon-Perrache (Lyon)", "87722025"], ["Lyon-St-Exupéry-TGV (Colombier-Saugnieu)", "87762906"], ["Lyon-St-Paul (Lyon)", "87721159"], ["Lyon-Vaise (Lyon)", "87721001"], ["Lépanges (Lepanges-Sur-Vologne)", "87144048"], ["Lépin-le-Lac-La Bauche (Lepin-Le-Lac)", "87741439"], ["Lérouville (Lerouville)", "87175240"], ["Lézignan (Aude) (Lezignan-Corbieres)", "87615112"], ["Macau", "87581199"], ["Machecoul (Machecoul-Saint-Meme)", "87481366"], ["Machilly", "87745588"], ["Magalas", "87781666"], ["Magenta (Paris)", "87281873"], ["Magland", "87746412"], ["Magnac-Vicq (Vicq-Sur-Breuilh)", "87592279"], ["Magnette (Audes)", "87641365"], ["Magneux-Courlandon (Magneux)", "87400986"], ["Magny-Blandainville (Magny)", "87394429"], ["Mailly-la-Ville", "87683847"], ["Maillé (Maille)", "87575068"], ["Maintenon", "87394130"], ["Maisons-Alfort-Alfortville (Maisons-Alfort)", "87681155"], ["Maisons-Laffitte", "87386425"], ["Maisse", "87681486"], ["Maizières-lès-Metz (Maizieres-Les-Metz)", "87191106"], ["Malansac", "87476689"], ["Malaunay-Le Houlme (Le Houlme)", "87411256"], ["Malause", "87611871"], ["Malesherbes (Le Malesherbois)", "87684415"], ["Mamirolle", "87718510"], ["Mandelieu-la-Napoule", "87757591"], ["Manduel-Redessan (Manduel)", "87775064"], ["Manosque-Gréoux-les-Bains (Manosque)", "87751321"], ["Mantes-Station (Mantes-La-Jolie)", "87381590"], ["Mantes-Station (Mantes-La-Ville)", "87381590"], ["Mantes-la-Jolie", "87381509"], ["Mantes-la-Jolie (Mantes-La-Ville)", "87381509"], ["Marbache", "87141796"], ["Marcelcave", "87313445"], ["Marcheprime", "87582445"], ["Marchezais-Broué (Broue)", "87393470"], ["Mareil-Marly TT (Mareil-Marly)", "87733667"], ["Mareil-sur-Mauldre", "87381715"], ["Maresquel (Maresquel-Ecquemicourt)", "87317206"], ["Mareuil-sur-Ourcq", "87116665"], ["Margaux (Margaux-Cantenac)", "87581215"], ["Margival", "87271882"], ["Marienthal (Haguenau)", "87213603"], ["Marignac-St-Béat (Marignac)", "87611194"], ["Marignier", "87746347"], ["Marigny", "87485334"], ["Marle-sur-Serre (Marle)", "87296095"], ["Marles-en-Brie (La Houssaye-En-Brie)", "87116228"], ["Marlieux-Châtillon (Marlieux)", "87723767"], ["Marly-le-Roi", "87382465"], ["Marmagne", "87576132"], ["Marmagne-sous-Creusot (Marmagne)", "87694182"], ["Marmande", "87586545"], ["Maroeuil (Marœuil)", "87342188"], ["Marolles-en-Hurepoix", "87545186"], ["Maromme (Notre-Dame-De-Bondeville)", "87411249"], ["Marquette (Marquette-Lez-Lille)", "87287169"], ["Marquillies", "87342469"], ["Marquise-Rinxent (Rinxent)", "87317339"], ["Marquixanes", "87784629"], ["Marsac", "87597625"], ["Marsac (Dordogne) (Marsac-Sur-L'Isle)", "87595207"], ["Marseillan-Plage (Marseillan)", "87781294"], ["Marseille-Blancarde (Marseille)", "87751081"], ["Marseille-St-Charles (Marseille)", "87751008"], ["Marseille-en-Beauvaisis", "87313726"], ["Marssac-sur-Tarn", "87615419"], ["Martigny-les-Bains", "87144295"], ["Martigné-Ferchaud (Martigne-Ferchaud)", "87471367"], ["Martigues", "87753509"], ["Martres-Tolosane", "87611087"], ["Marvejols (Bourgs Sur Colagne)", "87783282"], ["Masseret", "87594820"], ["Massiac", "87734871"], ["Massy Europe (Massy)", "87725465"], ["Massy-Palaiseau (Massy)", "87393579"], ["Massy-TGV (Palaiseau)", "87393702"], ["Massy-Verrières (Massy)", "87383281"], ["Massérac (Masserac)", "87471227"], ["Matzenheim", "87214130"], ["Maubeuge", "87295006"], ["Maule", "87381723"], ["Maurecourt (Andresy)", "87381483"], ["Maurois (Honnechy)", "87345546"], ["Maurs", "87645168"], ["Mauves-sur-Loire", "87481150"], ["Mauzac (Mauzac-Et-Grand-Castang)", "87584466"], ["Mauzens-Miremont (Mauzens-Et-Miremont)", "87595728"], ["Mauzé (Mauze-Sur-Le-Mignon)", "87485250"], ["Mayet", "87396580"], ["Mazamet", "87615542"], ["Mazingarbe (Bully-Les-Mines)", "87342121"], ["Meaux", "87116103"], ["Mehun-sur-Yèvre (Mehun-Sur-Yevre)", "87576116"], ["Melun", "87682005"], ["Menars", "87574244"], ["Mende", "87783605"], ["Mennecy", "87681411"], ["Mennessis", "87296434"], ["Mennetou-sur-Cher", "87576728"], ["Menton", "87756486"], ["Menton-Garavan (Menton)", "87756494"], ["Mer", "87574194"], ["Meroux (Meroux-Moval)", "87184408"], ["Merrey", "87142406"], ["Mertzwiller", "87213207"], ["Mervans", "87713701"], ["Merxheim", "87182725"], ["Messac-Guipry (Guipry-Messac)", "87471185"], ["Messein", "87141499"], ["Mesves-Bulcy (Mesves-Sur-Loire)", "87696187"], ["Mesvres", "87694158"], ["Metz-Nord (Metz)", "87192070"], ["Metz-Ville (Metz)", "87192039"], ["Metzeral", "87182816"], ["Metzervisse", "87191338"], ["Meudon", "87393108"], ["Meudon-Val-Fleury (Meudon)", "87393082"], ["Meulan-Hardricourt (Hardricourt)", "87381830"], ["Meung-sur-Loire", "87574137"], ["Meurchin", "87345272"], ["Meursault", "87713560"], ["Meuse-TGV (Les Trois-Domaines)", "87147322"], ["Meximieux-Pérouges (Meximieux)", "87723585"], ["Meymac", "87594275"], ["Meyrargues", "87751370"], ["Mignaloux-Nouaillé (Mignaloux-Beauvoir)", "87575704"], ["Milhac-d'Auberoche (Bassillac Et Auberoche)", "87595538"], ["Milhaud", "87775098"], ["Millas", "87784546"], ["Millau", "87783001"], ["Milly-sur-Thérain (Milly-Sur-Therain)", "87313700"], ["Miniac (Miniac-Morvan)", "87478131"], ["Mionnay", "87723726"], ["Miramas", "87753004"], ["Miraumont", "87342030"], ["Mirecourt", "87144212"], ["Miribel", "87723528"], ["Mitry-Claye (Mitry-Mory)", "87271528"], ["Modane", "87742007"], ["Mohon (Charleville-Mezieres)", "87172155"], ["Moirans", "87747329"], ["Moirans-la-Galifette (Moirans)", "87747691"], ["Moissac", "87611889"], ["Molinges (Chassal-Molinges)", "87743591"], ["Molsheim", "87214577"], ["Mommenheim", "87212142"], ["Monestier-de-Clermont", "87747592"], ["Monistrol-d'Allier", "87734335"], ["Monnaie", "87574681"], ["Monnerville", "87545111"], ["Monsempron-Libos", "87586453"], ["Mont-Louis-La Cabanasse (La Cabanasse)", "87784793"], ["Mont-Notre-Dame", "87171355"], ["Mont-de-Marsan", "87671016"], ["Mont-de-Terre (Lille)", "87287128"], ["Mont-sur-Meurthe", "87141143"], ["Montaignac-St-Hippolyte (Montaignac-Sur-Doustre)", "87594135"], ["Montaigu-Vendée (Montaigu-Vendee)", "87481465"], ["Montaigut (Montaigut-Le-Blanc)", "87597674"], ["Montargis", "87684001"], ["Montastruc-la-Conseillère (Montastruc-La-Conseillere)", "87615369"], ["Montataire", "87276618"], ["Montauban-Ville-Bourbon (Montauban)", "87611244"], ["Montauban-de-Bretagne", "87471086"], ["Montaudran (Toulouse)", "87612010"], ["Montaut-Bétharram (Montaut)", "87672113"], ["Montbard", "87713131"], ["Montbarrey", "87718866"], ["Montbartier", "87611699"], ["Montbazon", "87571406"], ["Montbizot", "87396044"], ["Montbrison", "87726448"], ["Montbéliard (Montbeliard)", "87184523"], ["Montceau-les-Mines", "87694620"], ["Montchanin", "87694307"], ["Montdauphin-Guillestre (Eygliers)", "87763508"], ["Montdidier", "87313346"], ["Monte-Carlo-Country-Club (Roquebrune-Cap-Martin)", "87338590"], ["Montendre", "87491183"], ["Montereau (Montereau-Fault-Yonne)", "87682302"], ["Montescourt (Montescourt-Lizerolles)", "87296418"], ["Monteux", "87765818"], ["Montfavet (Avignon)", "87765412"], ["Montferrand-Thoraise (Montferrand-Le-Chateau)", "87718106"], ["Montfort-l'Amaury-Mère (Mere)", "87393892"], ["Montfort-le-Gesnois", "87396291"], ["Montfort-sur-Meu", "87471078"], ["Montgeron-Crosne (Montgeron)", "87682104"], ["Montgeroult-Courcelles (Montgeroult)", "87381160"], ["Monthermé (Bogny-Sur-Meuse)", "87172056"], ["Montigny-Beauchamp (Montigny-Les-Cormeilles)", "87276089"], ["Montigny-sur-Loing", "87684100"], ["Montivilliers", "87413724"], ["Montlaur", "87618207"], ["Montlouis (Montlouis-Sur-Loire)", "87571273"], ["Montluel", "87723569"], ["Montluçon-Rimard (Montlucon)", "87323675"], ["Montluçon-Ville (Montlucon)", "87641001"], ["Montmoreau", "87583674"], ["Montmorillon", "87575480"], ["Montmédy (Montmedy)", "87194209"], ["Montmélian (Montmelian)", "87741181"], ["Montoir-de-Bretagne", "87481713"], ["Montpaon (Fondamente)", "87781534"], ["Montpellier Sud-de-France (Lattes)", "87688887"], ["Montpellier-St-Roch (Montpellier)", "87773002"], ["Montpon-Ménestérol (Montpon-Menesterol)", "87595322"], ["Montrabé (Montrabe)", "87611848"], ["Montreuil (Versailles)", "87382879"], ["Montreuil-Bellay", "87487637"], ["Montreuil-sur-Ille", "87478032"], ["Montreuil-sur-Mer (Montreuil)", "87317164"], ["Montreuil-sur-Thérain (Montreuil-Sur-Therain)", "87316406"], ["Montreux-Vieux", "87184275"], ["Montrichard (Montrichard Val De Cher)", "87574855"], ["Montroc-le-Planet (Chamonix-Mont-Blanc)", "87746867"], ["Montrond-les-Bains", "87726885"], ["Montrond-les-Bains (Saint-Andre-Le-Puy)", "87726885"], ["Montry-Condé (Montry)", "87116400"], ["Montréjeau-Gourdan-Polignan (Gourdan-Polignan)", "87611152"], ["Monts", "87575035"], ["Montsoult-Maffliers (Montsoult)", "87276493"], ["Montsûrs (Bree)", "87478537"], ["Montville (Eslettes)", "87411801"], ["Montélimar (Montelimar)", "87764001"], ["Montérolier-Buchy (Buchy)", "87411454"], ["Monéteau-Gurgy (Moneteau)", "87683557"], ["Moosch", "87182592"], ["Morannes (Morannes Sur Sarthe-Daumeray)", "87484170"], ["Morbier", "87715433"], ["Morcenx (Morcenx-La-Nouvelle)", "87673103"], ["Moret-Veneux-les-Sablons (Moret-Loing-Et-Orvanne)", "87682278"], ["Moreuil", "87313320"], ["Morez (Hauts De Bienne)", "87715441"], ["Morgny (Morgny-La-Pommeraye)", "87411439"], ["Morhange", "87192286"], ["Morières-lès-Avignon (Morieres-Les-Avignon)", "87765420"], ["Morlaix", "87474338"], ["Mormant", "87116087"], ["Morre", "87391300"], ["Mortcerf", "87116244"], ["Morteau", "87718619"], ["Morvillars", "87184424"], ["Mothern", "87212456"], ["Motteville", "87411280"], ["Mouchard", "87718833"], ["Moulin-Galant (Corbeil-Essonnes)", "87681403"], ["Moulins-sur-Allier (Moulins)", "87696328"], ["Moulis-Listrac (Moulis-En-Medoc)", "87581231"], ["Moult-Argences (Moult-Chicheboville)", "87444190"], ["Mourmelon-le-Petit", "87174409"], ["Mouroux", "87116285"], ["Moustéru (Bourbriac)", "87473512"], ["Mouy-Bury (Bury)", "87313577"], ["Moyeuvre-Grande", "87191718"], ["Moûtiers-Salins-Brides-les-Bains (Moutiers)", "87741728"], ["Muhlbach-sur-Munster", "87182733"], ["Muizon", "87171298"], ["Mulhouse-Dornach (Mulhouse)", "87182055"], ["Mulhouse-Dornach (Tram/Train) (Mulhouse)", "87534321"], ["Mulhouse-Musées (Tram/Train) (Mulhouse)", "87534339"], ["Mulhouse-Ville (Mulhouse)", "87182063"], ["Mullerhof (Urmatt)", "87214643"], ["Munchhausen", "87212449"], ["Mundolsheim", "87212100"], ["Munster", "87182394"], ["Munster-Badischhof (Munster)", "87386540"], ["Murat", "87645481"], ["Muret", "87611038"], ["Mussidan (Saint-Medard-De-Mussidan)", "87595298"], ["Musée-d'Orsay (Paris)", "87547307"], ["Mutzig", "87214585"], ["Mâcon-Loché-TGV (Macon)", "87725705"], ["Mâcon-Ville (Macon)", "87725689"], ["Mâlain (Malain)", "87713065"], ["Ménil-Flin (Flin)", "87141390"], ["Mérens-les-Vals (Merens-Les-Vals)", "87611525"], ["Mérenvielle (Merenvielle)", "87611814"], ["Méricourt-Ribemont (Mericourt-L'Abbe)", "87313064"], ["Mériel (Meriel)", "87276675"], ["Mérignac-Arlac (Merignac)", "87278259"], ["Méru (Meru)", "87313668"], ["Méry (Val-d'Oise) (Mery-Sur-Oise)", "87276667"], ["Mézidon (Mezidon Vallee D'Auge)", "87444208"], ["Mézériat (Mezeriat)", "87725838"], ["Naintré-les-Barres (Naintre)", "87575175"], ["Najac", "87613463"], ["Namps-Quevauvillers (Namps-Maisnil)", "87313379"], ["Nancy-Ville (Nancy)", "87141002"], ["Nangis", "87116095"], ["Nanterre La Folie (Nanterre)", "87386011"], ["Nanterre-Université (Nanterre)", "87386318"], ["Nantes", "87481002"], ["Nanteuil-Saâcy (Saacy-Sur-Marne)", "87116558"], ["Nanteuil-le-Haudouin", "87271577"], ["Nantiat", "87592444"], ["Nançois-Tronville (Nancois-Sur-Ornain)", "87175067"], ["Narbonne", "87781104"], ["Naucelle", "87615732"], ["Neau", "87478545"], ["Nemours-St-Pierre (Saint-Pierre-Les-Nemours)", "87684126"], ["Nerpuy (Naintre)", "87575167"], ["Nesle", "87313486"], ["Neufchâteau (Neufchateau)", "87141291"], ["Neufchâtel-Hardelot (Neufchatel-Hardelot)", "87317099"], ["Neuilly-Porte-Maillot (Paris)", "87381020"], ["Neuilly-St-Front (Vichel-Nanteuil)", "87116681"], ["Neuilly-lès-Dijon (Neuilly-Crimolois)", "87712182"], ["Neuillé-Pont-Pierre (Neuille-Pont-Pierre)", "87571547"], ["Neussargues (Neussargues En Pinatelle)", "87645507"], ["Neuves-Maisons", "87141507"], ["Neuvic", "87595272"], ["Neuville-Université (Neuville-Sur-Oise)", "87334482"], ["Neuville-sur-Sarthe", "87396028"], ["Neuvy-Pailloux", "87597070"], ["Nevers", "87696005"], ["Nevers-Le Banlay (Nevers)", "87559070"], ["Nexon", "87592725"], ["Nice-Pont-Michel (Nice)", "87520299"], ["Nice-Riquier (Nice)", "87756353"], ["Nice-St-Augustin (Nice)", "87756254"], ["Nice-St-Roch (Nice)", "87756007"], ["Nice-Ville (Nice)", "87756056"], ["Niederbronn-les-Bains", "87213256"], ["Nieppe", "87287151"], ["Nieul", "87592410"], ["Niolon (Le Rove)", "87753582"], ["Niort", "87485300"], ["Niversac (Boulazac Isle Manoire)", "87595512"], ["Noeux-les-Mines (Nœux-Les-Mines)", "87342139"], ["Nogent-Le Perreux (Nogent-Sur-Marne)", "87113746"], ["Nogent-l'Artaud", "87116566"], ["Nogent-le-Rotrou", "87394296"], ["Nogent-sur-Seine", "87118190"], ["Nogent-sur-Vernisson", "87684274"], ["Nointel-Mours (Nointel)", "87276758"], ["Noirétable (Noiretable)", "87734509"], ["Noisy-le-Roi TT (Noisy-Le-Roi)", "87733659"], ["Noisy-le-Sec", "87113217"], ["Noizay", "87574368"], ["Nomain", "87286609"], ["Nomain-Ouvignies (Nomain)", "87286815"], ["Nonancourt", "87393553"], ["Nonant-le-Pin", "87444570"], ["Nort-sur-Erdre", "87481598"], ["Nortkerque", "87287292"], ["Notre-Dame-d'Oé (Notre-Dame-D'Oe)", "87574699"], ["Notre-Dame-de-Briançon (La Lechere)", "87741694"], ["Nouan-le-Fuzelier", "87543157"], ["Nouvion-sur-Meuse", "87172213"], ["Nouzonville", "87172023"], ["Novillars", "87718411"], ["Novéant (Noveant-Sur-Moselle)", "87192427"], ["Noyal-Acigné (Noyal-Sur-Vilaine)", "87471540"], ["Noyelles-sur-Mer", "87317396"], ["Noyen (Noyen-Sur-Sarthe)", "87396374"], ["Noyon", "87276782"], ["Nozières-Brignon (Boucoiran-Et-Nozieres)", "87775353"], ["Nuits-St-Georges (Nuits-Saint-Georges)", "87713529"], ["Nuits-sous-Ravières (Nuits)", "87713156"], ["Nurieux (Nurieux-Volognat)", "87743351"], ["Nyers (Nyer)", "87784736"], ["Négrondes (Negrondes)", "87595132"], ["Nérondes (Nerondes)", "87576454"], ["Nézel-Aulnay (Nezel)", "87381731"], ["Nîmes (Nimes)", "87775007"], ["Nîmes-Pont du Gard (Manduel)", "87703975"], ["Obermodern (Obermodern-Zutzendorf)", "87213165"], ["Obernai", "87214288"], ["Objat", "87594630"], ["Oderen", "87182634"], ["Oermingen", "87215632"], ["Ogeu-les-Bains", "87672709"], ["Oissel", "87411207"], ["Olette-Canaveilles-les-Bains (Olette)", "87784728"], ["Ollioules-Sanary-sur-Mer (Ollioules)", "87755231"], ["Olonne-sur-Mer (Les Sables-D'Olonne)", "87486431"], ["Oloron-Ste-Marie (Oloron-Sainte-Marie)", "87672725"], ["Ondres", "87673319"], ["Onville", "87192435"], ["Onzain-Chaumont-sur-Loire (Veuzain-Sur-Loire)", "87574319"], ["Orange", "87765107"], ["Orangis-Bois-de-l'Épine (Ris-Orangis)", "87681346"], ["Orchamps", "87718361"], ["Orchies", "87286583"], ["Orgon", "87753707"], ["Orgérus-Béhoust (Orgerus)", "87393447"], ["Origny-en-Thiérache (Origny-En-Thierache)", "87296145"], ["Orly-Ville (Orly)", "87546200"], ["Orléans (Orleans)", "87543009"], ["Ormoy-Villers", "87271585"], ["Orry-la-Ville-Coye (Orry-La-Ville)", "87276279"], ["Ors", "87295667"], ["Orthez", "87672253"], ["Osny", "87381145"], ["Ossun", "87671313"], ["Ossès-St-Martin-d'Arrossa (Saint-Martin-D'Arrossa)", "87673707"], ["Osséja (Osseja)", "87784868"], ["Oudon", "87481184"], ["Ouges", "87712604"], ["Oulchy-Breny (Breny)", "87116699"], ["Oullins", "87722207"], ["Ourscamps (Pimprez)", "87276774"], ["Oyonnax", "87743534"], ["Ozoir-la-Ferrière (Ozoir-La-Ferriere)", "87116020"], ["Pagny (Pagny-Le-Chateau)", "87713669"], ["Pagny-sur-Meuse", "87175828"], ["Pagny-sur-Moselle", "87192468"], ["Paimpol", "87473868"], ["Pamiers", "87611343"], ["Pamproux", "87485524"], ["Pantin", "87113209"], ["Paray-le-Monial", "87694687"], ["Parc-des-Expositions (Villepinte)", "87271486"], ["Parempuyre", "87581710"], ["Parent-Coudes-Champeix (Parent)", "87734194"], ["Paris-Austerlitz (Paris)", "87547000"], ["Paris-Austerlitz-Souterrain (Paris)", "87547026"], ["Paris-Bercy (Paris)", "87686667"], ["Paris-Est (Paris)", "87113001"], ["Paris-Gare-de-Lyon (Paris)", "87686006"], ["Paris-Gare-de-Lyon-Souterrain (Paris)", "87686030"], ["Paris-Nord (Paris)", "87271007"], ["Paris-Nord-Souterraine (Paris)", "87271023"], ["Paris-Nord-Surface (Paris)", "87271031"], ["Paris-St-Lazare (Paris)", "87384008"], ["Paris-Vaugirard (Paris)", "87391102"], ["Parsac-Gouzon (Parsac-Rimondeix)", "87597724"], ["Pas-des-Lanciers (Marignane)", "87753285"], ["Pas-des-Lanciers (Saint-Victoret)", "87753285"], ["Pau", "87672006"], ["Pauillac", "87581256"], ["Paul-Émile-Victor (Champagnole)", "87352047"], ["Paulhaguet (Salzuit)", "87734293"], ["Pavilly", "87411272"], ["Peille", "87756791"], ["Peillon-Ste-Thècle (Peillon)", "87756783"], ["Peltre", "87192203"], ["Penhoët (Saint-Nazaire)", "87321745"], ["Penne (Penne-D'Agenais)", "87586438"], ["Penthièvre (Saint-Pierre-Quiberon)", "87476424"], ["Pernes-Camblain (Camblain-Chatelain)", "87342550"], ["Perpignan", "87784009"], ["Perrignier", "87745620"], ["Pers (Le Rouget-Pers)", "87645176"], ["Persan-Beaumont (Persan)", "87276469"], ["Pertuis", "87751362"], ["Pessac", "87581751"], ["Pessac-Alouette (Pessac)", "87581793"], ["Petit-Croix (Montreux-Chateau)", "87184267"], ["Petit-Jouy-Les Loges (Les Loges-En-Josas)", "87393504"], ["Petit-Vaux (Epinay-Sur-Orge)", "87393652"], ["Peyrehorade", "87672337"], ["Peyrilhac-St-Jouvent (Peyrilhac)", "87592428"], ["Pezou", "87574541"], ["Phalempin", "87286500"], ["Pibrac", "87611830"], ["Picon-Busserine (Marseille)", "87759290"], ["Picquigny", "87313106"], ["Pierre-Buffière (Pierre-Buffiere)", "87592253"], ["Pierre-Bénite (Pierre-Benite)", "87722231"], ["Pierrefite-Stains TT (Pierrefitte-Sur-Seine)", "87697326"], ["Pierrefitte-Stains (Pierrefitte-Sur-Seine)", "87271163"], ["Pierrelatte", "87764308"], ["Pierrelaye", "87276097"], ["Pierreville", "87141556"], ["Pignans", "87755389"], ["Pihen (Pihen-Les-Guines)", "87316679"], ["Pins-Justaret", "87618116"], ["Plaisir-Grignon (Plaisir)", "87393421"], ["Plaisir-Les Clayes (Plaisir)", "87393629"], ["Plancoët (Plancoet)", "87473272"], ["Planès (Planes)", "87784785"], ["Plerguer", "87478123"], ["Plestan", "87473090"], ["Pleudihen (Pleudihen-Sur-Rance)", "87478149"], ["Pleyber-Christ", "87474320"], ["Plouaret-Trégor (Le Vieux-Marche)", "87473181"], ["Plougonver", "87473538"], ["Plouharnel-Carnac (Plouharnel)", "87476416"], ["Plouigneau", "87474411"], ["Plounérin (Plounerin)", "87473199"], ["Plouvara-Plerneuf (Plouvara)", "87473132"], ["Pléchâtel (Plechatel)", "87471177"], ["Plénée-Jugon (Plenee-Jugon)", "87473082"], ["Podensac", "87582734"], ["Pointe-de-Grave (Le Verdon-Sur-Mer)", "87581397"], ["Poissy", "87386573"], ["Poitiers", "87575001"], ["Poix-Terron", "87172171"], ["Poix-de-Picardie", "87313395"], ["Poligny", "87718189"], ["Poliénas (Polienas)", "87761742"], ["Polliat", "87725846"], ["Pomas", "87615146"], ["Pommevic", "87618058"], ["Pompadour (Arnac-Pompadour)", "87594663"], ["Pompey", "87141788"], ["Pons", "87491100"], ["Pont-Cardinet (Paris)", "87381111"], ["Pont-Melvez", "87473520"], ["Pont-Petit (Saint-Ouen-L'Aumone)", "87276154"], ["Pont-Remy", "87313130"], ["Pont-St-Esprit (Pont-Saint-Esprit)", "87764555"], ["Pont-St-Vincent (Pont-Saint-Vincent)", "87141523"], ["Pont-Ste-Maxence (Pont-Sainte-Maxence)", "87276329"], ["Pont-d'Ain", "87743120"], ["Pont-d'Ardres (Ardres)", "87281410"], ["Pont-de-Beauvoisin (Le Pont-De-Beauvoisin)", "87741470"], ["Pont-de-Bois (Villeneuve-D'Ascq)", "87286831"], ["Pont-de-Briques (Saint-Etienne-Au-Mont)", "87317115"], ["Pont-de-Buis Lès Quimerc'h (Pont-De-Buis-Les-Quimerch)", "87474056"], ["Pont-de-Claix (Le Pont-De-Claix)", "87747519"], ["Pont-de-Claix - L'Etoile (Le Pont-De-Claix)", "87752899"], ["Pont-de-Dore (Peschadoires)", "87734459"], ["Pont-de-Lignon (Beauzac)", "87726786"], ["Pont-de-Rungis-Aéroport-d'Orly (Thiais)", "87546192"], ["Pont-de-Sallaumines (Sallaumines)", "87345124"], ["Pont-de-Veyle (Crottet)", "87725804"], ["Pont-de-l'Alma (Paris)", "87393041"], ["Pont-de-l'Arche (Alizay)", "87415661"], ["Pont-de-la-Deûle (Flers-En-Escrebieux)", "87345207"], ["Pont-du-Casse", "87586404"], ["Pont-du-Château (Pont-Du-Chateau)", "87734087"], ["Pont-du-Garigliano-Hôpital-Georges-Pompidou (Paris)", "87393322"], ["Pont-l'Évêque (Pont-L'Eveque)", "87444349"], ["Pont-sur-Yonne", "87683136"], ["Pont-à-Mousson (Pont-A-Mousson)", "87141820"], ["Pont-à-Vendin (Vendin-Le-Vieil)", "87345264"], ["Pontanevaux (La Chapelle-De-Guinchay)", "87725721"], ["Pontarlier", "87715003"], ["Pontchaillou (Rennes)", "87471391"], ["Pontcharra-St-Forgeux (Vindry-Sur-Turdine)", "87721464"], ["Pontcharra-sur-Breda-Allevard (Pontcharra)", "87747493"], ["Pontchâteau (Pontchateau)", "87481846"], ["Pontgibaud", "87641316"], ["Pontgouin", "87394247"], ["Ponthierry-Pringy (Saint-Fargeau-Ponthierry)", "87682526"], ["Pontmort (Chambaron Sur Morge)", "87734103"], ["Pontoise", "87276139"], ["Pontorson-Mont-St-Michel (Pontorson)", "87478263"], ["Pontrieux", "87473843"], ["Pontrieux-Halte (Pontrieux)", "87473835"], ["Porchefontaine (Versailles)", "87393165"], ["Pornichet", "87481747"], ["Port-Boulet (Chouze-Sur-Loire)", "87571794"], ["Port-Brillet", "87478750"], ["Port-St-Père-St-Mars (Port-Saint-Pere)", "87481218"], ["Port-Ste-Marie (Port-Sainte-Marie)", "87586107"], ["Port-Vendres", "87784264"], ["Port-de-Bouc", "87753459"], ["Port-de-Piles (La Celle-Saint-Avant)", "87575076"], ["Port-la-Nouvelle", "87781062"], ["Porte Maillot (Paris)", "87731448"], ["Porte-de-Clichy (Paris)", "87111278"], ["Portet-St-Simon (Portet-Sur-Garonne)", "87611400"], ["Portets", "87582718"], ["Porté-Puymorens (Porta)", "87611509"], ["Pougny-Chancy (Pougny)", "87745380"], ["Pougues-les-Eaux", "87696211"], ["Pouilly-sur-Loire", "87696179"], ["Poussay", "87144204"], ["Pouxeux", "87144428"], ["Pouzauges (La Meilleraie-Tillay)", "87487314"], ["Prades-Molitg-les-Bains (Prades)", "87784637"], ["Praye-sous-Vaudémont (Praye)", "87141622"], ["Preignac", "87582767"], ["Presles-Courcelles (Presles)", "87276501"], ["Prin-Deyrançon (Prin-Deyrancon)", "87485268"], ["Pringy (Annecy)", "87746206"], ["Prissé-la-Charrière (Plaine-D'Argenson)", "87485359"], ["Prouvy-Thiant (Prouvy)", "87343418"], ["Provenchères-sur-Fave (Provencheres-Et-Colroy)", "87144345"], ["Provins", "87116160"], ["Prunay", "87171629"], ["Pruniers (Gievres)", "87576199"], ["Précy-sur-Oise (Precy-Sur-Oise)", "87276410"], ["Puget-Ville", "87755363"], ["Pulligny-Autrey (Autrey)", "87141564"], ["Puteaux", "87382382"], ["Puybrun", "87594754"], ["Puyoô (Puyoo)", "87672279"], ["Péreire-Levallois (Paris)", "87381012"], ["Pérenchies (Perenchies)", "87286278"], ["Périgueux (Perigueux)", "87595009"], ["Périgueux-St-Georges (Perigueux)", "87595504"], ["Pérols (Perols-Sur-Vezere)", "87592170"], ["Quesnoy-le-Montant", "87317487"], ["Quesnoy-sur-Deûle (Quesnoy-Sur-Deule)", "87286245"], ["Questembert", "87476671"], ["Quiberon", "87476457"], ["Quillan", "87615260"], ["Quimper", "87474098"], ["Quimperlé (Quimperle)", "87476317"], ["Quincieux", "87721290"], ["Quédillac (Quedillac)", "87473058"], ["Rabastens-Couffouleux (Coufouleux)", "87615328"], ["Raedersheim", "87182717"], ["Rai-Aube (Rai)", "87444620"], ["Rambouillet", "87393314"], ["Ranchot", "87718338"], ["Rang-du-Fliers-Verton (Rang-Du-Fliers)", "87317057"], ["Ranspach", "87182402"], ["Raon-l'Étape (Raon-L'Etape)", "87144626"], ["Rassuen (Istres)", "87753426"], ["Raves-Ban-de-Laveline (Raves)", "87144105"], ["Razac (Razac-Sur-L'Isle)", "87595223"], ["Recquignies", "87295022"], ["Redon", "87471300"], ["Reichshoffen-Ville (Reichshoffen)", "87213249"], ["Reignac (Reignac-Sur-Indre)", "87571455"], ["Reignier (Reignier-Esery)", "87746511"], ["Reims", "87171009"], ["Reims-Maison-Blanche (Reims)", "87171272"], ["Remiremont", "87144451"], ["Renescure", "87281451"], ["Rennes", "87471003"], ["Rethel", "87172270"], ["Retiers", "87471359"], ["Retournac", "87734749"], ["Reuilly", "87597039"], ["Revigny (Revigny-Sur-Ornain)", "87175018"], ["Revin", "87172080"], ["Rezé-Pont-Rousseau (Reze)", "87481036"], ["Ria (Ria-Sirach)", "87784660"], ["Ribécourt (Ribecourt-Dreslincourt)", "87276766"], ["Riedseltz", "87213462"], ["Rieux-Angicourt (Rieux)", "87276352"], ["Rilly-la-Montagne", "87171595"], ["Riom-Châtel-Guyon (Riom)", "87734053"], ["Ris-Orangis", "87681338"], ["Rivarennes", "87571653"], ["Rive-de-Gier", "87726331"], ["Rives", "87747246"], ["Rivesaltes", "87784173"], ["Rixheim", "87182071"], ["Roanne", "87726802"], ["Rocamadour-Padirac (Rocamadour)", "87613042"], ["Roche-lez-Beaupré (Roche-Lez-Beaupre)", "87718403"], ["Rochefort", "87485144"], ["Rochy-Condé (Rochy-Conde)", "87313601"], ["Rodez", "87613422"], ["Roeschwoog (Rœschwoog)", "87212407"], ["Roeux (Rœux)", "87342089"], ["Rognac", "87753251"], ["Roissy-Aéroport-Charles-de-Gaulle 1 (Tremblay-En-France)", "87271460"], ["Roissy-Aéroport-Charles-de-Gaulle 2-TGV (RER) (Le Mesnil-Amelot)", "87001479"], ["Roissy-CDGX 2 (Tremblay-En-France)", "87748822"], ["Roissy-en-Brie", "87116038"], ["Rolleville", "87413740"], ["Romans-Bourg-de-Péage (Romans-Sur-Isere)", "87761650"], ["Romanèche-Thorins (Lancie)", "87725739"], ["Rombas-Clouange (Rombas)", "87191734"], ["Romilly-la-Puthenaye (Collandres-Quincarnon)", "87387175"], ["Romilly-sur-Seine", "87118158"], ["Romorantin (Voie étroite) (Romorantin-Lanthenay)", "87576025"], ["Ronchamp", "87185314"], ["Ronchin", "87286534"], ["Roppenheim", "87212415"], ["Roppenheim (Beinheim)", "87212415"], ["Roquesérière (Buzet-Sur-Tarn)", "87615351"], ["Rosa Parks (Paris)", "87654798"], ["Roscoff", "87474635"], ["Rosheim", "87214320"], ["Rosières (Rosieres-En-Santerre)", "87313460"], ["Rosières-aux-Salines (Dombasle-Sur-Meurthe)", "87141127"], ["Rosny-Bois-Perrier (Rosny-Sous-Bois)", "87113696"], ["Rosny-sous-Bois", "87113704"], ["Rosny-sur-Seine", "87415885"], ["Rosporden", "87474155"], ["Rosult", "87286567"], ["Rothau", "87214726"], ["Roubaix", "87286732"], ["Rouen-Rive-Droite (Rouen)", "87411017"], ["Rouessé-Vassé (Rouesse-Vasse)", "87396259"], ["Rouffach", "87182337"], ["Rouillé (Rouille)", "87485532"], ["Roumazières-Loubert (Terres-De-Haute-Charente)", "87583468"], ["Rountzenheim (Rountzenheim-Auenheim)", "87212373"], ["Royan", "87491803"], ["Royat-Chamalières (Chamalieres)", "87734038"], ["Rozières-sur-Mouzon (Rozieres-Sur-Mouzon)", "87144311"], ["Rue", "87317404"], ["Ruelle (Ruelle-Sur-Touvre)", "87583203"], ["Ruffec", "87583849"], ["Ruffey (Ruffey-Les-Echirey)", "87713826"], ["Rully", "87712026"], ["Rumilly", "87746149"], ["Ruminghem", "87287300"], ["Rungis-la-Fraternelle (Rungis)", "87546291"], ["Russ-Hersbach (Wisches)", "87214684"], ["Réaumont-St-Cassien (Reaumont)", "87747279"], ["Réding (Reding)", "87215079"], ["Régny (Regny)", "87721050"], ["Rémelfing (Remelfing)", "87193623"], ["Rémilly (Remilly)", "87192237"], ["Rémy (Remy)", "87313403"], ["Saales", "87214783"], ["Sablé-sur-Sarthe (Sable-Sur-Sarthe)", "87396408"], ["Saillagouse", "87784835"], ["Saillans", "87761817"], ["Saillat-Chassenon (Saillat-Sur-Vienne)", "87592717"], ["Sain-Bel", "87721605"], ["Saincaize (Saincaize-Meauce)", "87696260"], ["Sains-du-Nord", "87295709"], ["Saint-Jean-de-Maurienne", "87742320"], ["Saintes", "87491001"], ["Salbris", "87543165"], ["Sallanches-Combloux-Megève (Sallanches)", "87746438"], ["Sallaumines", "87345215"], ["Salles-Courbatiès (Salles-Courbaties)", "87613877"], ["Salomé (Salome)", "87342451"], ["Salon (Salon-De-Provence)", "87753764"], ["Salses (Salses-Le-Chateau)", "87784157"], ["Saléchan-Siradan (Salechan)", "87618710"], ["Sannois", "87276188"], ["Sanry-sur-Nied", "87192229"], ["Santenay-les-Bains (Santenay)", "87713594"], ["Santes", "87286401"], ["Santeuil-Le Perchay (Santeuil)", "87381186"], ["Sarcelles-St-Brice (Saint-Brice-Sous-Foret)", "87276386"], ["Sarlat (Sarlat-La-Caneda)", "87595827"], ["Sarliève-Cournon (Cournon-D'Auvergne)", "87734152"], ["Sarralbe", "87193714"], ["Sarrance", "87672766"], ["Sarre-Union", "87215459"], ["Sarrebourg", "87215012"], ["Sarreguemines", "87193615"], ["Sarreinsming", "87193631"], ["Sartrouville", "87386417"], ["Sathonay-Rillieux (Rillieux-La-Pape)", "87723700"], ["Sathonay-Rillieux (Sathonay-Camp)", "87723700"], ["Saubusse-les-Bains (Saubusse)", "87673251"], ["Saujon", "87491811"], ["Saulon (Saulon-La-Chapelle)", "87713628"], ["Saulxures (Colroy-La-Roche)", "87214759"], ["Saumur", "87487603"], ["Sausset-les-Pins", "87753558"], ["Sauto", "87784777"], ["Sauveterre-la-Lémance (Sauveterre-La-Lemance)", "87586495"], ["Savenay", "87481838"], ["Savennières-Béhuard (Savennieres)", "87484329"], ["Saverdun", "87611368"], ["Saverne", "87212225"], ["Savigny-le-Temple-Nandy (Savigny-Le-Temple)", "87682187"], ["Savigny-sur-Orge", "87545236"], ["Savonnières (Savonnieres)", "87571844"], ["Savy-Berlette", "87342253"], ["Saône (Saone)", "87718502"], ["Sceaux-Boësse (Boesse-Le-Sec)", "87396317"], ["Scherwiller", "87214205"], ["Schirmeck-La Broque (Schirmeck)", "87214692"], ["Schopperten", "87215483"], ["Schweighouse-sur-Moder", "87213108"], ["Schwindratzheim", "87212159"], ["Seclin", "87286518"], ["Sedan", "87172254"], ["Selles-St-Denis (Selles-Saint-Denis)", "87576140"], ["Selles-sur-Cher", "87576868"], ["Seltz", "87212431"], ["Sennecey-le-Grand", "87725614"], ["Senozan", "87725671"], ["Sens", "87683003"], ["Sept-Saulx", "87171645"], ["Septèmes (Septemes-Les-Vallons)", "87751800"], ["Serdinya", "87784702"], ["Sermaise", "87545517"], ["Sermizelles-Vézelay (Givry)", "87683722"], ["Serqueux", "87411470"], ["Serquigny", "87444315"], ["Serres", "87763722"], ["Servas-Lent (Servas)", "87723791"], ["Servon (Servon-Sur-Vilaine)", "87471532"], ["Servoz (Les Houches)", "87746719"], ["Sessenheim", "87212365"], ["Seugy", "87272039"], ["Seurre", "87713677"], ["Sevran-Beaudottes (Sevran)", "87271445"], ["Sevran-Livry (Sevran)", "87271429"], ["Seyssel-Corbonod (Corbonod)", "87745828"], ["Sierentz", "87182105"], ["Sillé-le-Guillaume (Sille-Le-Guillaume)", "87396234"], ["Simandre-sur-Suran", "87743336"], ["Simiane (Simiane-Collongue)", "87751438"], ["Sin-le-Noble", "87345405"], ["Siorac-en-Périgord (Siorac-En-Perigord)", "87595769"], ["Sisteron", "87751206"], ["Soissons", "87271817"], ["Solignac-Le Vigen (Le Vigen)", "87592246"], ["Solliès-Pont (Sollies-Pont)", "87755330"], ["Somain", "87345314"], ["Sommery", "87411462"], ["Sorgues-Châteauneuf-du-Pape (Sorgues)", "87765206"], ["Sospel", "87756825"], ["Sotteville (Sotteville-Les-Rouen)", "87411223"], ["Souillac", "87594333"], ["Soulac-sur-Mer", "87581371"], ["Soultz-sous-Forêts (Soultz-Sous-Forets)", "87213421"], ["Souppes-Château-Landon (Souppes-Sur-Loing)", "87684217"], ["Sous-le-Bois (Maubeuge)", "87295543"], ["St-Agnan (Saint-Agnan)", "87694851"], ["St-Agne (Toulouse)", "87611301"], ["St-Aignan-Noyers (Noyers-Sur-Cher)", "87574897"], ["St-Aigulin-La Roche-Chalais (Saint-Aigulin)", "87584540"], ["St-Amand-Montrond-Orval (Orval)", "87576322"], ["St-Amand-de-Vendôme (Saint-Amand-Longpre)", "87574640"], ["St-Amand-les-Eaux (Saint-Amand-Les-Eaux)", "87343103"], ["St-Amarin (Saint-Amarin)", "87182600"], ["St-Amour (Saint-Amour)", "87718296"], ["St-André (Saint-Andre-Lez-Lille)", "87286195"], ["St-André-de-Corcy (Saint-Andre-De-Corcy)", "87723734"], ["St-André-de-Cubzac (Saint-Andre-De-Cubzac)", "87491241"], ["St-André-le-Gaz (Saint-Andre-Le-Gaz)", "87723494"], ["St-Antoine (MR) (Marseille)", "87751826"], ["St-Antoine-de-Breuilh (Saint-Antoine-De-Breuilh)", "87584201"], ["St-Antoine-du-Rocher (Saint-Antoine-Du-Rocher)", "87571539"], ["St-Armel (Saint-Armel)", "87471318"], ["St-Astier (Saint-Astier)", "87595249"], ["St-Aubin-St-Luperce (Saint-Aubin-Des-Bois)", "87394213"], ["St-Aubin-sur-Scie (Saint-Aubin-Sur-Scie)", "87415125"], ["St-Aulaire (Saint-Aulaire)", "87594622"], ["St-Aunès (Saint-Aunes)", "87773465"], ["St-Avold (Valmont)", "87193318"], ["St-Avre-la-Chambre (Saint-Avre)", "87741306"], ["St-Ay (Saint-Ay)", "87574129"], ["St-Blaise-la-Roche-Poutay (Saint-Blaise-La-Roche)", "87214742"], ["St-Bonnet-de-Rochefort (Saint-Bonnet-De-Rochefort)", "87641076"], ["St-Brice-sur-Vienne (Saint-Brice-Sur-Vienne)", "87592691"], ["St-Brieuc (Saint-Brieuc)", "87473009"], ["St-Béron-La Bridoire (Saint-Beron)", "87741454"], ["St-Chamas (Saint-Chamas)", "87753202"], ["St-Chamond (Saint-Chamond)", "87726307"], ["St-Christophe (Saint-Christophe-Vallon)", "87613257"], ["St-Chély-d'Apcher (Saint-Chely-D'Apcher)", "87783241"], ["St-Chéron (Saint-Cheron)", "87545509"], ["St-Clair-les-Roches (Saint-Clair-Du-Rhone)", "87722652"], ["St-Claude (Saint-Claude)", "87743633"], ["St-Cloud (Saint-Cloud)", "87382358"], ["St-Clément-Laronxe (Saint-Clement)", "87141374"], ["St-Cyprien-Arènes (Toulouse)", "87446179"], ["St-Cyprien-en-Dordogne (Saint-Cyprien)", "87595777"], ["St-Cyr (Saint-Cyr-L'Ecole)", "87393223"], ["St-Cyr-en-Val-La Source (Saint-Cyr-En-Val)", "87543116"], ["St-Cyr-les-Lècques-La Cadière (Saint-Cyr-Sur-Mer)", "87755215"], ["St-Césaire (Nimes)", "87775072"], ["St-Dalmas-de-Tende (Tende)", "87756866"], ["St-Denis (Saint-Denis)", "87271015"], ["St-Denis-de-Pile (Saint-Denis-De-Pile)", "87584508"], ["St-Denis-des-Murs (Saint-Denis-Des-Murs)", "87592097"], ["St-Denis-près-Martel (Saint-Denis-Les-Martel)", "87594572"], ["St-Dizier (Saint-Dizier)", "87175000"], ["St-Dié-des-Vosges (Saint-Die-Des-Vosges)", "87144014"], ["St-Erme (Saint-Erme-Outre-Et-Ramecourt)", "87171751"], ["St-Fargeau (Saint-Fargeau-Ponthierry)", "87682542"], ["St-Florent-sur-Cher (Saint-Florent-Sur-Cher)", "87576272"], ["St-Florentin-Vergigny (Vergigny)", "87683318"], ["St-Flour-Chaudes-Aigues (Saint-Georges)", "87783175"], ["St-Fons (Saint-Fons)", "87728501"], ["St-Féliu-d'Avall (Saint-Feliu-D'Avall)", "87784520"], ["St-Gaudens (Saint-Gaudens)", "87611137"], ["St-Geniès-de-Malgoirès (Saint-Genies-De-Malgoires)", "87775361"], ["St-Genouph (Saint-Genouph)", "87571851"], ["St-Georges-d'Aurac (Mazeyrat-D'Allier)", "87734301"], ["St-Georges-de-Commiers (Saint-Georges-De-Commiers)", "87747568"], ["St-Georges-de-Luzençon (Saint-Georges-De-Luzencon)", "87783423"], ["St-Georges-de-Reneins (Saint-Georges-De-Reneins)", "87721340"], ["St-Geours (Saint-Geours-De-Maremne)", "87673269"], ["St-Germain-St-Rémy (Saint-Germain-Sur-Avre)", "87393520"], ["St-Germain-au-Mont-d'Or (Saint-Germain-Au-Mont-D'Or)", "87721282"], ["St-Germain-des-Fossés (Saint-Germain-Des-Fosses)", "87732206"], ["St-Germain-du-Puy (Saint-Germain-Du-Puy)", "87576405"], ["St-Germain-les-Belles (Saint-Germain-Les-Belles)", "87592287"], ["St-Germain-sur-Ille (Saint-Germain-Sur-Ille)", "87478016"], ["St-Gervais-les-Bains-Le Fayet (Saint-Gervais-Les-Bains)", "87746479"], ["St-Gildas-des-Bois (Saint-Gildas-Des-Bois)", "87476762"], ["St-Gilles (Wintzenheim)", "87181552"], ["St-Gilles-Croix-de-Vie (Saint-Gilles-Croix-De-Vie)", "87486571"], ["St-Gratien (Saint-Gratien)", "87276170"], ["St-Hilaire (Saint-Hilaire-Sur-Helpe)", "87297531"], ["St-Hilaire-Brizambourg (Saint-Hilaire-De-Villefranche)", "87491324"], ["St-Hilaire-St-Nazaire (Saint-Hilaire-Du-Rosier)", "87761684"], ["St-Hilaire-de-Chaléons (Saint-Hilaire-De-Chaleons)", "87481234"], ["St-Hilaire-de-Riez (Saint-Hilaire-De-Riez)", "87486563"], ["St-Jacques-de-la-Lande (Saint-Jacques-De-La-Lande)", "87471052"], ["St-Jean-Pied-de-Port (Saint-Jean-Pied-De-Port)", "87673723"], ["St-Jean-d'Angély (Saint-Jean-D'Angely)", "87491357"], ["St-Jean-de-Losne (Saint-Usage)", "87713651"], ["St-Jean-de-Luz-Ciboure (Saint-Jean-De-Luz)", "87677120"], ["St-Jean-de-Verges (Crampagna)", "87611624"], ["St-Jodard (Saint-Jodard)", "87726851"], ["St-Jory (Saint-Jory)", "87611657"], ["St-Joseph-Le Castellas (Marseille)", "87759316"], ["St-Julien-Clénay (Saint-Julien)", "87713834"], ["St-Julien-du-Sault (Saint-Julien-Du-Sault)", "87683227"], ["St-Julien-en-Genevois (Saint-Julien-En-Genevois)", "87745430"], ["St-Junien (Saint-Junien)", "87592709"], ["St-Just-en-Chaussée (Saint-Just-En-Chaussee)", "87313270"], ["St-Laurent (Jura) (Saint-Laurent-En-Grandvaux)", "87715417"], ["St-Laurent-Gainneville (Saint-Laurent-De-Brevedent)", "87413310"], ["St-Laurent-d'Aigouze (Saint-Laurent-D'Aigouze)", "87775841"], ["St-Laurent-de-la-Prée (Saint-Laurent-De-La-Pree)", "87485136"], ["St-Laurent-du-Var (Saint-Laurent-Du-Var)", "87756346"], ["St-Leu-d'Esserent (Saint-Leu-D'Esserent)", "87276402"], ["St-Leu-la-Forêt (Saint-Leu-La-Foret)", "87276600"], ["St-Lothain (Saint-Lothain)", "87718197"], ["St-Loubès (Saint-Loubes)", "87584730"], ["St-Louis (Saint-Louis)", "87182139"], ["St-Louis-la-Chaussée (Saint-Louis)", "87181016"], ["St-Léger-sur-Dheune (Saint-Leger-Sur-Dheune)", "87694364"], ["St-Léon-sur-l'Isle (Saint-Leon-Sur-L'Isle)", "87595264"], ["St-Léonard-de-Noblat (Saint-Leonard-De-Noblat)", "87592071"], ["St-Lô (Saint-Lo)", "87447003"], ["St-Macaire (Saint-Macaire)", "87582825"], ["St-Maixent-l'Ecole (Saint-Maixent-L'Ecole)", "87485490"], ["St-Malo (Saint-Malo)", "87478107"], ["St-Mammès (Saint-Mammes)", "87682294"], ["St-Marcel (Marseille)", "87751701"], ["St-Marcel-en-Dombes (Saint-Marcel)", "87723742"], ["St-Marcellin (Saint-Marcellin)", "87761718"], ["St-Mariens-St-Yzan (Saint-Yzan-De-Soudiac)", "87491209"], ["St-Mars-la-Brière (Saint-Mars-La-Briere)", "87396283"], ["St-Martin-d'Oney (Saint-Martin-D'Oney)", "87671495"], ["St-Martin-d'Étampes (Etampes)", "87545350"], ["St-Martin-de-Crau (Saint-Martin-De-Crau)", "87753681"], ["St-Martin-du-Mont (Saint-Martin-Du-Mont)", "87743112"], ["St-Martin-du-Touch (Toulouse)", "87353599"], ["St-Martin-du-Vivier (Saint-Martin-Du-Vivier)", "87411413"], ["St-Martin-le-Beau (Saint-Martin-Le-Beau)", "87574459"], ["St-Martory (Saint-Martory)", "87611103"], ["St-Mathurin (Loire-Authion)", "87487892"], ["St-Maurice-de-Beynost (Saint-Maurice-De-Beynost)", "87723536"], ["St-Michel-Notre-Dame (Paris)", "87547315"], ["St-Michel-Valloire (Saint-Michel-De-Maurienne)", "87742361"], ["St-Michel-sur-Meurthe (Saint-Michel-Sur-Meurthe)", "87144683"], ["St-Michel-sur-Orge (Saint-Michel-Sur-Orge)", "87545202"], ["St-Médard-d'Eyrans (Saint-Medard-D'Eyrans)", "87582692"], ["St-Médard-de-Guizières (Saint-Medard-De-Guizieres)", "87584607"], ["St-Médard-sur-Ille (Saint-Medard-Sur-Ille)", "87478024"], ["St-Nabord (Saint-Nabord)", "87146217"], ["St-Nazaire (Saint-Nazaire)", "87481705"], ["St-Nom-la-Bretêche-Forêt-de-Marly (L'Etang-La-Ville)", "87382481"], ["St-Nom-la-Bretêche-Forêt-de-Marly TT (L'Etang-La-Ville)", "87733071"], ["St-Omer (Saint-Omer)", "87281444"], ["St-Omer-en-Chaussée (Saint-Omer-En-Chaussee)", "87313718"], ["St-Ouen (Saint-Ouen-Sur-Seine)", "87271247"], ["St-Ouen-l'Aumône (Saint-Ouen-L'Aumone)", "87276105"], ["St-Ouen-l'Aumône-Liesse (Saint-Ouen-L'Aumone)", "87337980"], ["St-Ouen-l'Aumône-Église (Saint-Ouen-L'Aumone)", "87381426"], ["St-Paterne (Saint-Paterne-Racan)", "87571554"], ["St-Patrice (Coteaux-Sur-Loire)", "87571810"], ["St-Paul-de-Varax (Saint-Paul-De-Varax)", "87723783"], ["St-Piat (Saint-Piat)", "87394148"], ["St-Pierre-Quiberon (Saint-Pierre-Quiberon)", "87476440"], ["St-Pierre-d'Albigny (Saint-Pierre-D'Albigny)", "87741223"], ["St-Pierre-d'Aurillac (Saint-Pierre-D'Aurillac)", "87582833"], ["St-Pierre-de-Chignac (Saint-Pierre-De-Chignac)", "87595520"], ["St-Pierre-des-Corps (Saint-Pierre-Des-Corps)", "87571240"], ["St-Pierre-en-Faucigny (Saint-Pierre-En-Faucigny)", "87746313"], ["St-Pierre-la-Cour (Saint-Pierre-La-Cour)", "87478768"], ["St-Pierre-le-Moûtier (Saint-Pierre-Le-Moutier)", "87696294"], ["St-Pierre-sur-Dives (Saint-Pierre-En-Auge)", "87444216"], ["St-Pol-de-Léon (Saint-Pol-De-Leon)", "87474569"], ["St-Pol-sur-Ternoise (Saint-Pol-Sur-Ternoise)", "87342337"], ["St-Priest (Saint-Priest)", "87723353"], ["St-Priest-Taurion (Saint-Priest-Taurion)", "87592055"], ["St-Pé-de-Bigorre (Saint-Pe-De-Bigorre)", "87671362"], ["St-Péray (Saint-Peray)", "87761494"], ["St-Quentin (Saint-Quentin)", "87296004"], ["St-Quentin-Fallavier (Saint-Quentin-Fallavier)", "87723387"], ["St-Quentin-en-Yvelines (Montigny-Le-Bretonneux)", "87393843"], ["St-Rambert-d'Albon (Saint-Rambert-D'Albon)", "87761106"], ["St-Rambert-en-Bugey (Saint-Rambert-En-Bugey)", "87743740"], ["St-Raphaël-Valescure (Saint-Raphael)", "87757526"], ["St-Remy-en-l'Eau (Saint-Remy-En-L'Eau)", "87313288"], ["St-Roch (Somme) (Amiens)", "87313080"], ["St-Romain-de-Popey (Saint-Romain-De-Popey)", "87721456"], ["St-Romain-le-Puy (Saint-Romain-Le-Puy)", "87726430"], ["St-Rome-de-Cernon (Saint-Rome-De-Cernon)", "87783431"], ["St-Saturnin-d'Avignon (Saint-Saturnin-Les-Avignon)", "87765438"], ["St-Savinien-sur-Charente (Saint-Savinien)", "87491035"], ["St-Saviol (Saint-Saviol)", "87575365"], ["St-Senoux-Pléchâtel (Saint-Senoux)", "87471169"], ["St-Seurin-sur-l'Isle (Saint-Seurin-Sur-L'Isle)", "87584615"], ["St-Sever (Noues De Sienne)", "87447714"], ["St-Sulpice (Saint-Sulpice-La-Pointe)", "87615344"], ["St-Sulpice-Auteuil (Saint-Sulpice)", "87313684"], ["St-Sulpice-Izon (Saint-Sulpice-Et-Cameyrac)", "87584722"], ["St-Sulpice-Laurière (Saint-Sulpice-Lauriere)", "87592345"], ["St-Symphorien-de-Marmagne (Saint-Symphorien-De-Marmagne)", "87694174"], ["St-Sébastien (Saint-Sebastien)", "87592493"], ["St-Sébastien-Frêne-Rond (Saint-Sebastien-Sur-Loire)", "87354597"], ["St-Sébastien-Pas-Enchantés (Saint-Sebastien-Sur-Loire)", "87354589"], ["St-Thégonnec (Saint-Thegonnec Loc-Eguiner)", "87474312"], ["St-Vallier-sur-Rhône (Saint-Vallier)", "87761130"], ["St-Victor (Saint-Maclou-De-Folleville)", "87415166"], ["St-Victor-Thizy (Saint-Victor-Sur-Rhins)", "87721043"], ["St-Victurnien (Saint-Victurnien)", "87592683"], ["St-Vincent-de-Tyrosse (Saint-Vincent-De-Tyrosse)", "87673277"], ["St-Vincent-le-Château (Saint-Vincent)", "87734715"], ["St-Vit (Saint-Vit)", "87718320"], ["St-Yrieix (Saint-Yrieix-La-Perche)", "87592824"], ["St-Égrève-St-Robert (Saint-Egreve)", "87747352"], ["St-Émilion (Saint-Emilion)", "87584102"], ["St-Étienne-Bellevue (Saint-Etienne)", "87726190"], ["St-Étienne-Carnot (Saint-Etienne)", "87726901"], ["St-Étienne-Châteaucreux (Saint-Etienne)", "87726000"], ["St-Étienne-La Terrasse (Saint-Etienne)", "87726158"], ["St-Étienne-Le Clapier (Saint-Etienne)", "87726174"], ["St-Étienne-de-Montluc (Saint-Etienne-De-Montluc)", "87481812"], ["St-Étienne-du-Rouvray (Saint-Etienne-Du-Rouvray)", "87411215"], ["Stade-de-France-St-Denis (Saint-Denis)", "87164780"], ["Staffelfelden", "87182691"], ["Stains-Cerisaie TT (Stains)", "87697334"], ["Ste-Anne (Pluneret)", "87476648"], ["Ste-Bazeille (Sainte-Bazeille)", "87586479"], ["Ste-Colombe (Sainte-Colombe)", "87715151"], ["Ste-Colombe-Septveilles (Sainte-Colombe)", "87116178"], ["Ste-Cécile-d'Andorge (Sainte-Cecile-D'Andorge)", "87775239"], ["Ste-Eulalie-Carbon-Blanc (Sainte-Eulalie)", "87491282"], ["Ste-Foy-la-Grande (Pineuilh)", "87584193"], ["Ste-Geneviève-des-Bois (Sainte-Genevieve-Des-Bois)", "87545210"], ["Ste-Lizaigne (Sainte-Lizaigne)", "87597054"], ["Ste-Léocadie (Sainte-Leocadie)", "87784850"], ["Ste-Marguerite (Comines)", "87287193"], ["Ste-Marthe-en-Provence (Marseille)", "87751842"], ["Ste-Maure-Noyant (Noyant-De-Touraine)", "87575050"], ["Ste-Musse (Toulon)", "87742262"], ["Ste-Pazanne (Sainte-Pazanne)", "87481226"], ["Steenbecque", "87342295"], ["Steenwerck (Bailleul)", "87286161"], ["Steinbourg", "87212209"], ["Stephansfeld (Brumath)", "87212126"], ["Strasbourg-Roethig (Lingolsheim)", "87212191"], ["Strasbourg-Ville (Strasbourg)", "87212027"], ["Strazeele", "87286203"], ["Sucé-sur-Erdre (Suce-Sur-Erdre)", "87590828"], ["Surdon (Le Chateau-D'Almeneches)", "87444562"], ["Suresnes-Mont-Valérien (Suresnes)", "87382374"], ["Surgères (Surgeres)", "87485227"], ["Survilliers-Fosses (Fosses)", "87276261"], ["Sury-le-Comtal", "87726422"], ["Suèvres (Suevres)", "87574236"], ["Sète (Sete)", "87773200"], ["Sèvres-Rive-Gauche (Sevres)", "87393124"], ["Sèvres-Ville-d'Avray (Sevres)", "87382341"], ["Sées (Sees)", "87444695"], ["Sélestat (Selestat)", "87214056"], ["Sénas (Senas)", "87753715"], ["Séon-St-Henry (Marseille)", "87751636"], ["Sérifontaine (Serifontaine)", "87381269"], ["Sérézin (Ternay)", "87722546"], ["Sévérac (Severac)", "87476754"], ["Sévérac-le-Château (Severac D'Aveyron)", "87783365"], ["TGV Haute-Picardie (Estrees-Deniecourt)", "87313882"], ["Tacoignières-Richebourg (Tacoignieres)", "87393454"], ["Taconnaz (Les Houches)", "87746750"], ["Tagolsheim", "87181057"], ["Taillebourg", "87491043"], ["Tain-l'Hermitage-Tournon (Tain-L'Hermitage)", "87761163"], ["Tantonville", "87141598"], ["Tanus", "87615674"], ["Tarare", "87721472"], ["Tarascon", "87765354"], ["Tarascon-sur-Ariège (Tarascon-Sur-Ariege)", "87611590"], ["Tarbes", "87671008"], ["Tassin (Tassin-La-Demi-Lune)", "87721514"], ["Taverny", "87276634"], ["Teillé (Teille)", "87396051"], ["Templeuve (Templeuve-En-Pevele)", "87286625"], ["Tenay-Hauteville (Tenay)", "87743757"], ["Tende", "87756882"], ["Tergnier", "87296442"], ["Terrasson (Terrasson-Lavilledieu)", "87594408"], ["Tessonnières (Gaillac)", "87615245"], ["Teting (Teting-Sur-Nied)", "87193342"], ["Thann", "87182568"], ["Thann-Centre (Thann)", "87472605"], ["Thann-St-Jacques (Thann)", "87182881"], ["Thaon (Thaon-Les-Vosges)", "87144097"], ["Theillay", "87543199"], ["Thenissey", "87713099"], ["Thenon", "87595579"], ["Thiaville (Thiaville-Sur-Meurthe)", "87141432"], ["Thiennes", "87342287"], ["Thiers", "87734475"], ["Thieux-Nantouillet (Nantouillet)", "87272054"], ["Thionville", "87191007"], ["Thiviers", "87595124"], ["Thomery (Fontainebleau)", "87682252"], ["Thonon-les-Bains", "87745646"], ["Thouars", "87487009"], ["Thouaré (Thouare-Sur-Loire)", "87481143"], ["Thourotte", "87276741"], ["Thun-le-Paradis (Meulan-En-Yvelines)", "87381822"], ["Thuès (Thues-Entre-Valls)", "87784751"], ["Thuès-les-Bains (Nyer)", "87784744"], ["Théoule-sur-Mer (Theoule-Sur-Mer)", "87757583"], ["Thésée (Thesee)", "87328195"], ["Thézy-Glimont (Thezy-Glimont)", "87316125"], ["Tieffenbach-Struth (Tieffenbach)", "87215699"], ["Tiercé (Tierce)", "87484147"], ["Tillières (Tillieres-Sur-Avre)", "87393587"], ["Tincques", "87342303"], ["Tonnay-Charente", "87485151"], ["Tonneins", "87586651"], ["Tonnerre", "87713198"], ["Torfou (Sevremoine)", "87486894"], ["Torpes-Boussières (Torpes)", "87718114"], ["Toul", "87141044"], ["Toulon", "87755009"], ["Toulouse-Matabiau (Toulouse)", "87611004"], ["Tourcoing", "87286542"], ["Tournan (Tournan-En-Brie)", "87116210"], ["Tournay", "87671172"], ["Tournemire-Roquefort (Tournemire)", "87783456"], ["Tournus", "87725622"], ["Tours", "87571000"], ["Tourville (Tourville-La-Riviere)", "87411181"], ["Toury", "87543074"], ["Touët-de-l'Escarène (Touet-De-L'Escarene)", "87756817"], ["Tracy-Sancerre (Tracy-Sur-Loire)", "87696161"], ["Traou-Nez (Plourivo)", "87322347"], ["Trappes", "87393835"], ["Trentels-Ladignac (Trentels)", "87586446"], ["Tressin", "87286740"], ["Tricot", "87313353"], ["Trie-Château (Trie-Chateau)", "87381236"], ["Triel-sur-Seine", "87381806"], ["Trilport", "87116491"], ["Trith-St-Léger (Trith-Saint-Leger)", "87343400"], ["Trois-Chênes (Belfort)", "87184242"], ["Tronsanges", "87696203"], ["Troyes", "87118000"], ["Trégonneau-Squiffiec (Squiffiec)", "87473819"], ["Trélazé (Trelaze)", "87484063"], ["Trémolat (Tremolat)", "87584474"], ["Tulle", "87594499"], ["Tullins-Fures (Tullins)", "87761759"], ["Turckheim", "87182352"], ["Turenne", "87594556"], ["USTARITZ-JATXOU (Ustaritz)", "87673624"], ["Uchaud", "87775106"], ["Uckange", "87191130"], ["Ur-les-Escaldes (Ur)", "87784884"], ["Urmatt", "87214635"], ["Urt", "87672386"], ["Urçay (La Perche)", "87576348"], ["Us", "87381178"], ["Ussel", "87594093"], ["Uzerche", "87594200"], ["Vaas", "87396598"], ["Vaires-Torcy (Vaires-Sur-Marne)", "87116293"], ["Val-d'Argenteuil (Argenteuil)", "87381798"], ["Val-de-Fontenay (Fontenay-Sous-Bois)", "87113712"], ["Val-de-Reuil", "87415877"], ["Val-de-Vesle", "87171611"], ["Valence", "87761007"], ["Valence-TGV (Alixan)", "87763029"], ["Valence-d'Agen (Valence)", "87611863"], ["Valenciennes", "87343004"], ["Valençay (Valencay)", "87576215"], ["Valergues-Lansargues (Valergues)", "87773432"], ["Valleiry", "87745414"], ["Valleroy-Moineville (Valleroy)", "87192732"], ["Vallon (Vallon-En-Sully)", "87641357"], ["Vallorcine", "87746875"], ["Valmondois (Butry-Sur-Oise)", "87276535"], ["Valognes", "87447284"], ["Vandières (Vandieres)", "87192476"], ["Vannes", "87476606"], ["Vanves-Malakoff (Vanves)", "87391532"], ["Varades-St-Florent-le-Vieil (Loireauxence)", "87484386"], ["Varangéville-St-Nicolas (Varangeville)", "87141101"], ["Varennes-sur-Allier", "87696351"], ["Varennes-sur-Fouzon (Val-Fouzon)", "87576231"], ["Varetz", "87594606"], ["Varilhes", "87611327"], ["Vauboyen (Bievres)", "87393538"], ["Vaucelles (Taverny)", "87276626"], ["Vaucresson", "87382267"], ["Vaudagne (Les Houches)", "87746727"], ["Vaulry", "87592451"], ["Vaumoise (Coyolles)", "87271601"], ["Vauvert", "87775817"], ["Vaux-sur-Seine", "87381814"], ["Vauxaillon", "87297283"], ["Vauzelles (Varennes-Vauzelles)", "87691469"], ["Vayrac", "87594739"], ["Vayres", "87584714"], ["Veauche-St-Galmier (Veauche)", "87726208"], ["Veigné (Veigne)", "87571414"], ["Velars (Velars-Sur-Ouche)", "87712331"], ["Vendenheim", "87212118"], ["Vendenheim (Eckwersheim)", "87212118"], ["Vendeuvre (Aube) (Vendeuvre-Sur-Barse)", "87118257"], ["Vendôme (Vendome)", "87574558"], ["Vendôme-Villiers-sur-Loir (Villiers-Sur-Loir)", "87571216"], ["Verdun", "87175778"], ["Vergèze-Codognan (Vergeze)", "87775114"], ["Vermenton", "87683664"], ["Vern (Vern-Sur-Seiche)", "87471029"], ["Vernaison", "87722264"], ["Vernet-d'Ariège (Le Vernet)", "87611350"], ["Verneuil-l'Étang (Verneuil-L'Etang)", "87116079"], ["Verneuil-sur-Avre (Verneuil D'Avre Et D'Iton)", "87393595"], ["Verneuil-sur-Serre", "87297119"], ["Verneuil-sur-Vienne", "87592675"], ["Vernon-Giverny (Vernon)", "87415604"], ["Vernou-sur-Seine (Vernou-La-Celle-Sur-Seine)", "87682468"], ["Vernouillet-Verneuil (Verneuil-Sur-Seine)", "87386656"], ["Verrey (Verrey-Sous-Salmaise)", "87713081"], ["Versailles-Chantiers (Versailles)", "87393009"], ["Versailles-Rive-Gauche (Versailles)", "87393157"], ["Versigny", "87296608"], ["Vert-Galant (Villepinte)", "87271437"], ["Vertaizon", "87734426"], ["Vertou", "87481408"], ["Vervins", "87296129"], ["Verzeille (Leuc)", "87615138"], ["Vesoul", "87185009"], ["Veuves-Monteaux (Veuzain-Sur-Loire)", "87574327"], ["Veynes-Dévoluy (Veynes)", "87763300"], ["Viaduc-Ste-Marie (Les Houches)", "87746735"], ["Viarmes", "87276568"], ["Vias", "87781260"], ["Vic-Mireval (Vic-La-Gardiole)", "87773531"], ["Vic-le-Comte", "87734186"], ["Vic-sur-Cère (Vic-Sur-Cere)", "87645440"], ["Vichy", "87732008"], ["Vidauban", "87755421"], ["Vieilleville (Mourioux-Vieilleville)", "87597633"], ["Vielmur-sur-Agout", "87615492"], ["Vienne", "87722587"], ["Vierzon-Forges (Vierzon)", "87576090"], ["Vierzon-Ville (Vierzon)", "87576009"], ["Vierzy", "87271783"], ["Vieux-Thann", "87182550"], ["Vieux-Thann ZI (Vieux-Thann)", "87181289"], ["Vif", "87747576"], ["Vigeois", "87594218"], ["Vigneux-sur-Seine", "87681304"], ["Vignols-St-Solve (Saint-Solve)", "87594655"], ["Vignory", "87142232"], ["Villabé (Villabe)", "87681619"], ["Villaines (Villaines-Sous-Bois)", "87272021"], ["Villars-les-Dombes", "87723759"], ["Villedieu-les-Poêles (Villedieu-Les-Poeles-Rouffigny)", "87447698"], ["Villefort", "87775197"], ["Villefranche-Vernet-les-Bains (Corneilla-De-Conflent)", "87784686"], ["Villefranche-Vernet-les-Bains (Fuilla)", "87784686"], ["Villefranche-de-Lauragais", "87615013"], ["Villefranche-de-Rouergue", "87613893"], ["Villefranche-du-Périgord (Loubejac)", "87595892"], ["Villefranche-sur-Cher", "87576884"], ["Villefranche-sur-Mer", "87756361"], ["Villefranche-sur-Saône (Villefranche-Sur-Saone)", "87721332"], ["Villefranque", "87673616"], ["Villeherviers", "87576165"], ["Villenave-d'Ornon", "87581835"], ["Villeneuve-Loubet-Plage (Villeneuve-Loubet)", "87756304"], ["Villeneuve-St-Georges (Villeneuve-Saint-Georges)", "87681825"], ["Villeneuve-Triage (Villeneuve-Saint-Georges)", "87681809"], ["Villeneuve-la-Comtesse", "87491258"], ["Villeneuve-la-Guyard", "87683102"], ["Villeneuve-le-Roi", "87545277"], ["Villeneuve-lès-Maguelone (Villeneuve-Les-Maguelone)", "87773515"], ["Villeneuve-sur-Allier", "87696310"], ["Villeneuve-sur-Yonne", "87683219"], ["Villennes-sur-Seine", "87386649"], ["Villenouvelle", "87618215"], ["Villeparisis (Mitry-Mory)", "87271510"], ["Villeperdue", "87575043"], ["Villepinte", "87271452"], ["Villepreux-les-Clayes (Les Clayes-Sous-Bois)", "87393413"], ["Villereversure", "87743328"], ["Villers-Bretonneux", "87313437"], ["Villers-Cotterêts (Villers-Cotterets)", "87271734"], ["Villers-St-Paul (Villers-Saint-Paul)", "87276378"], ["Villers-St-Sépulcre (Villers-Saint-Sepulcre)", "87313593"], ["Villers-les-Pots", "87713339"], ["Villers-sur-Mer", "87444398"], ["Villetaneuse-Université TT (Villetaneuse)", "87697318"], ["Villiers-Montbarbin (Crecy-La-Chapelle)", "87116749"], ["Villiers-Neauphle-Pontchartrain (Villiers-Saint-Frederic)", "87393884"], ["Villiers-le-Bel-Gonesse-Arnouville (Arnouville)", "87276220"], ["Villiers-sur-Marne-Le Plessis-Trévise (Villiers-Sur-Marne)", "87113795"], ["Vimy", "87342576"], ["Vinay", "87761726"], ["Vincelles", "87683631"], ["Vincey (Portieux)", "87144063"], ["Vinça (Vinca)", "87784611"], ["Vions-Chanaz (Vions)", "87741108"], ["Vire (Vire Normandie)", "87448159"], ["Vireux-Molhain", "87172114"], ["Virieu-le-Grand-Belley (Virieu-Le-Grand)", "87741504"], ["Virieu-sur-Bourbre (Val-De-Virieu)", "87747204"], ["Viroflay-Rive-Droite (Viroflay)", "87382887"], ["Viroflay-Rive-Gauche (Viroflay)", "87393215"], ["Viry-Châtillon (Viry-Chatillon)", "87681312"], ["Viry-Noureuil", "87297051"], ["Vis-à-Marles (Marles-Les-Mines)", "87342535"], ["Vitrolles-Aéroport-Marseille-Provence (Vitrolles)", "87439554"], ["Vitry-en-Artois", "87342113"], ["Vitry-le-François (Vitry-Le-Francois)", "87174276"], ["Vitry-sur-Seine", "87545293"], ["Vitré (Vitre)", "87471508"], ["Vittel", "87144279"], ["Viviers-du-Lac", "87741140"], ["Viviez-Decazeville (Viviez)", "87613661"], ["Vivoin-Beaumont (Vivoin)", "87396077"], ["Vivonne", "87575290"], ["Viévola (Tende)", "87756890"], ["Voiron", "87747287"], ["Voivres (Voivres-Les-Le-Mans)", "87396358"], ["Volvic", "87641423"], ["Vonnas", "87725820"], ["Voreppe", "87747337"], ["Vorey", "87734723"], ["Vosves (Dammarie-Les-Lys)", "87682500"], ["Vougeot-Gilly-lès-Cîteaux (Gilly-Les-Citeaux)", "87713511"], ["Voujeaucourt", "87184531"], ["Voutré (Voutre)", "87478560"], ["Voves (Les Villages Voveens)", "87545707"], ["Voyenne", "87297150"], ["Vraincourt-Viéville (Vraincourt)", "87143024"], ["Vrigne-Meuse", "87172221"], ["Vulaines-sur-Seine-Samoreau (Vulaines-Sur-Seine)", "87682443"], ["Vélines (Velines)", "87584177"], ["Vénerque-le-Vernet (Vernet)", "87611392"], ["Vénissieux (Venissieux)", "87723320"], ["Véretz-Montlouis (Montlouis-Sur-Loire)", "87574434"], ["Vézelise (Vezelise)", "87141606"], ["Wacquemoulin", "87316208"], ["Walbach (Wintzenheim)", "87182360"], ["Walbourg", "87213405"], ["Walheim", "87181065"], ["Walygator-Parc (Maizieres-Les-Metz)", "87191098"], ["Wambaix", "87345595"], ["Wambrechies", "87286229"], ["Watten-Éperlecques (Eperlecques)", "87281436"], ["Wattignies-Templemars (Templemars)", "87286526"], ["Wavrin", "87286419"], ["Wesserling (Fellering)", "87182618"], ["Weyersheim", "87213678"], ["Wihr-au-Val-Soultzbach-les-Bains (Wihr-Au-Val)", "87182378"], ["Willer-sur-Thur", "87182584"], ["Wilwisheim", "87212175"], ["Wimille-Wimereux (Wimille)", "87317123"], ["Wingen-sur-Moder", "87213744"], ["Wisches", "87214676"], ["Wissembourg", "87213470"], ["Wittring", "87193656"], ["Woincourt", "87317511"], ["Woippy", "87192088"], ["Xertigny", "87144121"], ["Xeuilley", "87141549"], ["Ychoux", "87582536"], ["Yerres", "87682112"], ["Yffiniac", "87473116"], ["Ygos (Ygos-Saint-Saturnin)", "87671487"], ["Ytrac", "87645101"], ["Yutz", "87191304"], ["Yvetot", "87413385"], ["Zetting", "87193649"], ["Zillisheim", "87182196"], ["Zu-Rhein (Mulhouse)", "87472639"], ["Èze (Eze)", "87756387"], ["Ébersviller (Ebersviller)", "87191379"], ["Échirolles (Echirolles)", "87725895"], ["École-Valentin (Ecole-Valentin)", "87710731"], ["Écommoy (Ecommoy)", "87396564"], ["Écouché (Ecouche-Les-Vallees)", "87444547"], ["Écouen-Ézanville (Ezanville)", "87276394"], ["Écouflant (Ecouflant)", "87484113"], ["Écully-la-Demi-Lune (Tassin-La-Demi-Lune)", "87721506"], ["Égletons (Egletons)", "87594168"], ["Égly (Egly)", "87545475"], ["Éguzon (Eguzon-Chantome)", "87597153"], ["Éloyes (Eloyes)", "87144436"], ["Émerainville-Pontault-Combault (Emerainville)", "87116046"], ["Épanvilliers (Blanzay)", "87575357"], ["Épernon (Epernon)", "87394114"], ["Épierre-St-Léger (Epierre)", "87741280"], ["Épinal (Epinal)", "87144006"], ["Épinay-Villetaneuse (Epinay-Sur-Seine)", "87271122"], ["Épinay-Villetaneuse TT (Montmagny)", "87697300"], ["Épinay-sur-Orge (Epinay-Sur-Orge)", "87545228"], ["Épinay-sur-Seine (Epinay-Sur-Seine)", "87271148"], ["Épinay-sur-Seine TT (Epinay-Sur-Seine)", "87697292"], ["Épluches (Saint-Ouen-L'Aumone)", "87276147"], ["Épouville (Epouville)", "87413732"], ["Épône-Mézières (Mezieres-Sur-Seine)", "87386763"], ["Éragny-Neuville (Eragny)", "87381418"], ["Étain (Etain)", "87175794"], ["Étainhus-St-Romain (Etainhus)", "87413328"], ["Étalans (Etalans)", "87718536"], ["Étampes (Etampes)", "87545137"], ["Étang (Etang-Sur-Arroux)", "87694141"], ["Étaples-Le Touquet (Etaples)", "87317065"], ["Étigny-Véron (Etigny)", "87683201"], ["Étival-Clairefontaine (Etival-Clairefontaine)", "87144642"], ["Étriché-Châteauneuf (Etriche)", "87484154"], ["Étréchy (Etrechy)", "87545145"], ["Évian-les-Bains (Evian-Les-Bains)", "87745679"], ["Évreux-Embranchement (Evreux)", "87387001"], ["Évron (Evron)", "87478552"], ["Évry-Courcouronnes (Evry-Courcouronnes)", "87681387"]];
 
+// ═══════════════════════════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════════════════════════
+const API_BASE       = 'https://api.sncf.com/v1/coverage/sncf';
+const FAV_VERSION    = '3';  // Incrémenter pour forcer reset des favoris par défaut
 const DEFAULT_FAVORITES = [
-  { name: 'Melun', id: 'stop_area:SNCF:87682005' },
-  { name: 'Paris Gare de Lyon', id: 'stop_area:SNCF:87686006' }
+  { name: 'Paris Gare de Lyon', id: 'stop_area:SNCF:87686006' },
+  { name: 'Melun', id: 'stop_area:SNCF:87682005' }
 ];
 
+// ═══════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════
+function loadFavorites() {
+  if (localStorage.getItem('sncf_version') === FAV_VERSION) {
+    const saved = localStorage.getItem('sncf_favorites');
+    if (saved) return JSON.parse(saved);
+  }
+  return DEFAULT_FAVORITES;
+}
+
 let state = {
-  apiKey: localStorage.getItem('sncf_api_key') || '',
-  favorites: JSON.parse(localStorage.getItem('sncf_favorites') || 'null') || DEFAULT_FAVORITES,
-  activeTab: 0,
-  date: todayStr(),
+  apiKey:      localStorage.getItem('sncf_api_key') || '',
+  favorites:   loadFavorites(),
+  activeTab:   0,
+  date:        todayStr(),
   lastRefresh: null,
 };
 
 function save() {
   localStorage.setItem('sncf_favorites', JSON.stringify(state.favorites));
+  localStorage.setItem('sncf_version', FAV_VERSION);
   if (state.apiKey) localStorage.setItem('sncf_api_key', state.apiKey);
 }
 
@@ -579,17 +224,17 @@ function todayStr() {
 // ═══════════════════════════════════════════════════════
 //  DOM REFS
 // ═══════════════════════════════════════════════════════
-const $tabs       = document.getElementById('tabs-container');
-const $card       = document.getElementById('station-card');
-const $dateInput  = document.getElementById('date-input');
-const $apiNotice  = document.getElementById('api-notice');
-const $apiKeyIn   = document.getElementById('api-key-input');
-const $apiSave    = document.getElementById('api-save-btn');
-const $modalAdd   = document.getElementById('modal-add');
-const $modalSrch  = document.getElementById('modal-search');
-const $modalAuto  = document.getElementById('modal-autocomplete');
-const $lastRef    = document.getElementById('last-refresh');
-const $toast      = document.getElementById('toast');
+const $tabs      = document.getElementById('tabs-container');
+const $card      = document.getElementById('station-card');
+const $dateInput = document.getElementById('date-input');
+const $apiNotice = document.getElementById('api-notice');
+const $apiKeyIn  = document.getElementById('api-key-input');
+const $apiSave   = document.getElementById('api-save-btn');
+const $modalAdd  = document.getElementById('modal-add');
+const $modalSrch = document.getElementById('modal-search');
+const $modalAuto = document.getElementById('modal-autocomplete');
+const $lastRef   = document.getElementById('last-refresh');
+const $toast     = document.getElementById('toast');
 
 // ═══════════════════════════════════════════════════════
 //  INIT
@@ -638,7 +283,6 @@ function renderTabs() {
     });
     $tabs.appendChild(tab);
   });
-  // Bouton +
   const addBtn = document.createElement('button');
   addBtn.className = 'tab-add';
   addBtn.textContent = '+';
@@ -656,6 +300,16 @@ function removeFavorite(idx) {
   else $card.innerHTML = emptyState('🚉', 'Aucune gare favorite.', 'Appuie sur + pour en ajouter une.');
 }
 
+function addFavorite(name, id) {
+  if (state.favorites.find(f => f.id === id)) { showToast('Gare déjà en favoris'); return; }
+  state.favorites.push({ name, id });
+  state.activeTab = state.favorites.length - 1;
+  save();
+  renderTabs();
+  loadDepartures(state.activeTab);
+  showToast(`✅ ${name} ajoutée`);
+}
+
 // ═══════════════════════════════════════════════════════
 //  DATE
 // ═══════════════════════════════════════════════════════
@@ -670,7 +324,7 @@ document.getElementById('btn-today').addEventListener('click', () => {
 });
 
 // ═══════════════════════════════════════════════════════
-//  MODAL AJOUT GARE
+//  RECHERCHE LOCALE (2962 gares embarquées)
 // ═══════════════════════════════════════════════════════
 function openAddModal() {
   $modalSrch.value = '';
@@ -691,57 +345,36 @@ $modalSrch.addEventListener('input', () => {
   clearTimeout(searchTimeout);
   const q = $modalSrch.value.trim();
   if (q.length < 2) { $modalAuto.style.display = 'none'; return; }
-  searchTimeout = setTimeout(() => searchStations(q), 300);
+  searchTimeout = setTimeout(() => searchStations(q), 150);
 });
 
-async function searchStations(q) {
-  try {
-    const url = `https://ressources.data.sncf.com/api/explore/v2.1/catalog/datasets/liste-des-gares/records?q=${encodeURIComponent(q)}&where=voyageurs%3D%22O%22&limit=8&select=libelle,code_uic`;
-    const res = await fetch(url);
-    const data = await res.json();
-    console.log(data);
-    console.log(data.results[0]);
-    const results = data.results || [];
+function searchStations(q) {
+  const query = q.toLowerCase();
+  const results = GARES.filter(([name]) => name.toLowerCase().includes(query)).slice(0, 10);
 
-    if (!results.length) {
-      $modalAuto.innerHTML = '<div class="autocomplete-item" style="color:var(--muted)">Aucun résultat</div>';
-      $modalAuto.style.display = 'block';
-      return;
-    }
-
-    $modalAuto.innerHTML = '';
-    results.forEach(r => {
-      const name = r.libelle;
-      const id   = `stop_area:SNCF:${r.code_uic}`;
-      const item = document.createElement('div');
-      item.className = 'autocomplete-item';
-      item.innerHTML = `${name} <span class="item-code">${r.code_uic}</span>`;
-      item.addEventListener('click', (e) => {
-        e.stopPropagation(); 
-        addFavorite(name, id);
-        $modalAdd.classList.remove('open');
-      });
-      $modalAuto.appendChild(item);
-    });
+  if (!results.length) {
+    $modalAuto.innerHTML = '<div class="autocomplete-item" style="color:var(--muted)">Aucun résultat</div>';
     $modalAuto.style.display = 'block';
-  } catch(e) {
-    $modalAuto.innerHTML = `<div class="autocomplete-item" style="color:var(--red)">Erreur: ${e.message}</div>`;
-    $modalAuto.style.display = 'block';
+    return;
   }
-}
-  
-function addFavorite(name, id) {
-  if (state.favorites.find(f => f.id === id)) { showToast('Gare déjà en favoris'); return; }
-  state.favorites.push({ name, id });
-  state.activeTab = state.favorites.length - 1;
-  save();
-  renderTabs();
-  loadDepartures(state.activeTab);
-  showToast(`✅ ${name} ajoutée`);
+
+  $modalAuto.innerHTML = '';
+  results.forEach(([name, uic]) => {
+    const id   = `stop_area:SNCF:${uic}`;
+    const item = document.createElement('div');
+    item.className = 'autocomplete-item';
+    item.innerHTML = `${name} <span class="item-code">${uic}</span>`;
+    item.addEventListener('click', () => {
+      addFavorite(name, id);
+      $modalAdd.classList.remove('open');
+    });
+    $modalAuto.appendChild(item);
+  });
+  $modalAuto.style.display = 'block';
 }
 
 // ═══════════════════════════════════════════════════════
-//  API SNCF
+//  API SNCF — HORAIRES
 // ═══════════════════════════════════════════════════════
 async function apiFetch(url) {
   const res = await fetch(url, {
@@ -757,20 +390,17 @@ async function apiFetch(url) {
 async function loadDepartures(idx) {
   if (!state.favorites[idx]) return;
   const fav = state.favorites[idx];
-
   $card.innerHTML = `
     <div class="station-header">
       <div class="station-dot"></div>
       <div class="station-name">${fav.name}</div>
     </div>
-    <div class="spinner"></div>
-  `;
+    <div class="spinner"></div>`;
 
   if (!state.apiKey) {
     $card.innerHTML = `
       <div class="station-header"><div class="station-dot"></div><div class="station-name">${fav.name}</div></div>
-      ${emptyState('🔑', 'Clé API manquante', 'Renseigne ta clé API SNCF ci-dessus pour voir les départs.')}
-    `;
+      ${emptyState('🔑', 'Clé API manquante', 'Renseigne ta clé API SNCF ci-dessus pour voir les départs.')}`;
     return;
   }
 
@@ -780,16 +410,13 @@ async function loadDepartures(idx) {
     const url = `${API_BASE}/stop_areas/${fav.id}/departures?from_datetime=${dateFrom}&to_datetime=${dateTo}&count=50&depth=1`;
     const data = await apiFetch(url);
     const departures = data.departures || [];
-
     state.lastRefresh = new Date();
     $lastRef.textContent = 'Mis à jour ' + state.lastRefresh.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
-
     renderDepartures(fav, departures);
   } catch(e) {
     $card.innerHTML = `
       <div class="station-header"><div class="station-dot"></div><div class="station-name">${fav.name}</div></div>
-      ${emptyState('⚠️', 'Erreur de chargement', e.message)}
-    `;
+      ${emptyState('⚠️', 'Erreur de chargement', e.message)}`;
   }
 }
 
@@ -797,55 +424,39 @@ function renderDepartures(fav, departures) {
   if (!departures.length) {
     $card.innerHTML = `
       <div class="station-header"><div class="station-dot"></div><div class="station-name">${fav.name}</div></div>
-      ${emptyState('🌙', 'Aucun départ trouvé', 'Essaie une autre date ou vérifie le nom de la gare.')}
-    `;
+      ${emptyState('🌙', 'Aucun départ trouvé', 'Essaie une autre date ou vérifie le nom de la gare.')}`;
     return;
   }
 
   let html = `
-    <div class="station-header">
-      <div class="station-dot"></div>
-      <div class="station-name">${fav.name}</div>
-    </div>
+    <div class="station-header"><div class="station-dot"></div><div class="station-name">${fav.name}</div></div>
     <div class="departures-header">
-      <div>Départ</div>
-      <div>Destination</div>
+      <div>Départ</div><div>Destination</div>
       <div style="text-align:center">Train</div>
       <div style="text-align:right">Voie</div>
     </div>
-    <div class="departures-list">
-  `;
+    <div class="departures-list">`;
 
   departures.forEach((dep, i) => {
     const display = dep.stop_date_time;
     const info    = dep.display_informations || {};
-    const links   = dep.links || [];
-
-    // Heure théorique
     const dtBase  = display?.departure_date_time || '';
     const timeStr = dtBase ? formatTime(dtBase) : '—';
-
-    // Temps réel
     const dtRT    = display?.base_departure_date_time || '';
     let rtBadge   = '';
     if (dtRT && dtBase && dtRT !== dtBase) {
       const diff = timeDiffMin(dtBase, dtRT);
-      if (diff > 0) rtBadge = `<span class="realtime-badge rt-late">+${diff} min</span>`;
-      else rtBadge = `<span class="realtime-badge rt-on-time">À l'heure</span>`;
+      rtBadge = diff > 0
+        ? `<span class="realtime-badge rt-late">+${diff} min</span>`
+        : `<span class="realtime-badge rt-on-time">À l'heure</span>`;
     } else if (dtBase) {
       rtBadge = `<span class="realtime-badge rt-unknown">—</span>`;
     }
-
-    // Destination
     const dest = info.direction || info.headsign || '—';
     const via  = info.description || '';
-
-    // Type de train
     const commercial = info.commercial_mode || info.network || '';
     const badgeClass = getBadgeClass(commercial);
     const num  = info.headsign || '';
-
-    // Voie
     const voie = display?.platform || '—';
 
     html += `
@@ -860,24 +471,21 @@ function renderDepartures(fav, departures) {
           ${num ? `<div style="margin-top:3px;font-size:0.65rem">${num}</div>` : ''}
         </div>
         <div class="dep-voie ${voie === '—' ? 'unknown' : ''}">${voie}</div>
-      </div>
-    `;
+      </div>`;
   });
-
   html += `</div>`;
   $card.innerHTML = html;
 }
 
 function formatTime(dt) {
-  // dt = "20240415T143000"
   if (!dt || dt.length < 13) return '—';
   return dt.slice(9,11) + ':' + dt.slice(11,13);
 }
 
 function timeDiffMin(dt1, dt2) {
   const parse = s => {
-    const [date, time] = s.split('T');
-    return new Date(`${date.slice(0,4)}-${date.slice(4,6)}-${date.slice(6,8)}T${time.slice(0,2)}:${time.slice(2,4)}:00`);
+    const d = s.split('T')[0], t = s.split('T')[1];
+    return new Date(`${d.slice(0,4)}-${d.slice(4,6)}-${d.slice(6,8)}T${t.slice(0,2)}:${t.slice(2,4)}:00`);
   };
   return Math.round((parse(dt2) - parse(dt1)) / 60000);
 }
@@ -898,7 +506,7 @@ function emptyState(icon, title, hint) {
 }
 
 // ═══════════════════════════════════════════════════════
-//  REFRESH
+//  REFRESH & SETTINGS
 // ═══════════════════════════════════════════════════════
 function refresh() { loadDepartures(state.activeTab); }
 document.getElementById('btn-refresh').addEventListener('click', refresh);
@@ -922,8 +530,6 @@ function showToast(msg) {
 //  GO
 // ═══════════════════════════════════════════════════════
 init();
-
-// Service Worker pour PWA
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
 }
