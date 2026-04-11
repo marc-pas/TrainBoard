@@ -716,7 +716,8 @@ async function searchStations(q) {
       const item = document.createElement('div');
       item.className = 'autocomplete-item';
       item.innerHTML = `${name} <span class="item-code">${r.code_uic}</span>`;
-      item.addEventListener('click', () => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation(); 
         addFavorite(name, id);
         $modalAdd.classList.remove('open');
       });
