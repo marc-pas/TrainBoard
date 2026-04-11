@@ -521,7 +521,6 @@ async function loadJourneys(from, to) {
     const arr = j.arrival_date_time || '';
     const dur = j.duration ? formatDuration(j.duration) : '—';
 
-    // Extraire les sections train
     const trainSections = (j.sections || []).filter(s => s.type === 'public_transport');
     const trains = trainSections.map(s => {
       const info = s.display_informations || {};
@@ -546,14 +545,14 @@ async function loadJourneys(from, to) {
           ${correspondances}
         </div>
         <div class="dep-voie" style="font-size:0.78rem">${dur}</div>
-        html += `
-        <div style="padding:10px 8px;font-size:0.7rem;color:var(--muted);border-top:1px solid var(--border);margin-top:4px">
-          ⚠️ Les RER et trains RATP peuvent ne pas apparaître sur les trajets Île-de-France.
-        </div>`;
       </div>`;
   });
 
-  html += `</div>`;
+  html += `</div>
+    <div style="padding:10px 8px;font-size:0.7rem;color:var(--muted);border-top:1px solid var(--border);margin-top:4px">
+      ⚠️ Les RER et trains RATP peuvent ne pas apparaître sur les trajets Île-de-France.
+    </div>`;
+
   $card.innerHTML = html;
 }
 
