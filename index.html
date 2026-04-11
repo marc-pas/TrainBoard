@@ -695,27 +695,25 @@ $modalSrch.addEventListener('input', () => {
 });
 
 async function searchStations(q) {
-  if (!state.apiKey) {
-    $modalAuto.innerHTML = '<div class="autocomplete-item" style="color:var(--red)">Clé API manquante</div>';
-    $modalAuto.style.display = 'block';
-    return;
-  }
   try {
-    const url = `${API_BASE}/places?q=${encodeURIComponent(q)}&type[]=stop_area&count=8`;
-    const res = await apiFetch(url);
-    const places = res.places || [];
-    if (!places.length) {
+    const url = `https://data.sncf.com/api/explore/v2.1/catalog/datasets/referentiel-gares-voyageurs/records?where=search(gare_alias_libelle_nonconverti,"${encodeURIComponent(q)}")&limit=8&select=gare_alias_libelle_nonconverti,uic_code`;
+    const res = await fetch(url);
+    const data = await res.json();
+    const results = data.results || [];
+
+    if (!results.length) {
       $modalAuto.innerHTML = '<div class="autocomplete-item" style="color:var(--muted)">Aucun résultat</div>';
       $modalAuto.style.display = 'block';
       return;
     }
+
     $modalAuto.innerHTML = '';
-    places.forEach(p => {
-      const name = p.stop_area?.name || p.name;
-      const id   = p.stop_area?.id   || p.id;
+    results.forEach(r => {
+      const name = r.gare_alias_libelle_nonconverti;
+      const id   = `stop_area:SNCF:${r.uic_code}`;
       const item = document.createElement('div');
       item.className = 'autocomplete-item';
-      item.innerHTML = `${name} <span class="item-code">${id.split(':').pop()}</span>`;
+      item.innerHTML = `${name} <span class="item-code">${r.uic_code}</span>`;
       item.addEventListener('click', () => {
         addFavorite(name, id);
         $modalAdd.classList.remove('open');
