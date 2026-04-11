@@ -479,7 +479,7 @@ async function loadJourneys(from, to) {
     const mm = String(now.getMinutes()).padStart(2, '0');
     const dateFrom = state.date.replace(/-/g, '') + (isToday ? `T${hh}${mm}00` : 'T000000');
 
-    const url = `${API_BASE}/journeys?from=${encodeURIComponent(from.id)}&to=${encodeURIComponent(to.id)}&datetime=${dateFrom}&count=10&min_nb_journeys=10&max_nb_journeys=20&depth=1`;
+    const url = `${API_BASE}/journeys?from=${encodeURIComponent(from.id)}&to=${encodeURIComponent(to.id)}&datetime=${dateFrom}&allowed_id[]=physical_mode:RapidTransit&count=10&min_nb_journeys=10&max_nb_journeys=20&depth=1`;
     const data = await apiFetch(url);
     const journeys = data.journeys || [];
 
