@@ -405,7 +405,11 @@ async function loadDepartures(idx) {
   }
 
   try {
-    const dateFrom = state.date.replace(/-/g, '') + 'T000000';
+    const isToday = state.date === todayStr();
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    const dateFrom = state.date.replace(/-/g, '') + (isToday ? `T${hh}${mm}00` : 'T000000');
     const dateTo   = state.date.replace(/-/g, '') + 'T235959';
     const url = `${API_BASE}/stop_areas/${fav.id}/departures?from_datetime=${dateFrom}&to_datetime=${dateTo}&count=50&depth=1`;
     const data = await apiFetch(url);
