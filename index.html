@@ -119,6 +119,15 @@
     .api-notice input:focus { border-color: var(--accent); }
     .api-save-btn { margin-top: 8px; background: var(--accent2); border: none; color: #fff; padding: 7px 14px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; font-family: var(--sans); }
     .section-gap { height: 16px; }
+    .swap-btn {
+        margin-left: 6px;
+        font-size: 0.85rem;
+        color: var(--accent2);
+        cursor: pointer;
+        transition: color .15s;
+      }
+    .swap-btn:hover { color: var(--accent); }
+    .tab.active .swap-btn { opacity: 1; }
   </style>
 </head>
 <body>
@@ -188,8 +197,8 @@ const GARES = [["Abancourt", "87313759"], ["Abbaretz", "87481614"], ["Abbeville"
 const API_BASE       = 'https://api.sncf.com/v1/coverage/sncf';
 const FAV_VERSION    = '3';  // Incrémenter pour forcer reset des favoris par défaut
 const DEFAULT_FAVORITES = [
-  { name: 'Paris Gare de Lyon', id: 'stop_area:SNCF:87686006' },
-  { name: 'Melun', id: 'stop_area:SNCF:87682005' }
+  { name: 'Paris Gare de Lyon', id: 'stop_area:SNCF:87686006', partner: 1 },
+  { name: 'Melun', id: 'stop_area:SNCF:87682005', partner: 0 }
 ];
 
 // ═══════════════════════════════════════════════════════
@@ -209,6 +218,7 @@ let state = {
   activeTab:   0,
   date:        todayStr(),
   lastRefresh: null,
+  itineraryMode: false,
 };
 
 function save() {
@@ -269,20 +279,37 @@ $apiSave.addEventListener('click', () => {
 function renderTabs() {
   $tabs.innerHTML = '';
   state.favorites.forEach((fav, i) => {
+    const isActive = i === state.activeTab;
     const tab = document.createElement('div');
-    tab.className = 'tab' + (i === state.activeTab ? ' active' : '');
-    tab.innerHTML = `${fav.name} <span class="remove-tab" data-idx="${i}" title="Supprimer">✕</span>`;
+    tab.className = 'tab' + (isActive ? ' active' : '');
+
+    const hasPartner = fav.partner !== undefined && state.favorites[fav.partner];
+    const swapBtn = isActive && hasPartner
+      ? `<span class="swap-btn" data-idx="${i}" title="Itinéraire ↔">↔</span>`
+      : '';
+
+    tab.innerHTML = `${fav.name} ${swapBtn}<span class="remove-tab" data-idx="${i}" title="Supprimer">✕</span>`;
+
     tab.addEventListener('click', (e) => {
+      if (e.target.classList.contains('swap-btn')) {
+        state.itineraryMode = !state.itineraryMode;
+        renderTabs();
+        loadDepartures(state.activeTab);
+        return;
+      }
       if (e.target.classList.contains('remove-tab')) {
         removeFavorite(parseInt(e.target.dataset.idx));
-      } else {
-        state.activeTab = i;
-        renderTabs();
-        loadDepartures(i);
+        return;
       }
+      state.itineraryMode = false;
+      state.activeTab = i;
+      renderTabs();
+      loadDepartures(i);
     });
+
     $tabs.appendChild(tab);
   });
+
   const addBtn = document.createElement('button');
   addBtn.className = 'tab-add';
   addBtn.textContent = '+';
@@ -390,6 +417,11 @@ async function apiFetch(url) {
 async function loadDepartures(idx) {
   if (!state.favorites[idx]) return;
   const fav = state.favorites[idx];
+  if (state.itineraryMode && fav.partner !== undefined && state.favorites[fav.partner]) {
+  await loadJourneys(fav, state.favorites[fav.partner]);
+  return;
+}
+
   $card.innerHTML = `
     <div class="station-header">
       <div class="station-dot"></div>
@@ -424,6 +456,108 @@ async function loadDepartures(idx) {
   }
 }
 
+async function loadJourneys(from, to) {
+  $card.innerHTML = `
+    <div class="station-header">
+      <div class="station-dot" style="background:var(--accent2)"></div>
+      <div class="station-name">${from.name} → ${to.name}</div>
+    </div>
+    <div class="spinner"></div>`;
+
+  if (!state.apiKey) {
+    $card.innerHTML = `
+      <div class="station-header"><div class="station-dot"></div>
+      <div class="station-name">${from.name} → ${to.name}</div></div>
+      ${emptyState('🔑', 'Clé API manquante', 'Renseigne ta clé API SNCF.')}`;
+    return;
+  }
+
+  try {
+    const isToday = state.date === todayStr();
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    const dateFrom = state.date.replace(/-/g, '') + (isToday ? `T${hh}${mm}00` : 'T000000');
+
+    const url = `${API_BASE}/journeys?from=${encodeURIComponent(from.id)}&to=${encodeURIComponent(to.id)}&datetime=${dateFrom}&count=8&depth=1`;
+    const data = await apiFetch(url);
+    const journeys = data.journeys || [];
+
+    state.lastRefresh = new Date();
+    $lastRef.textContent = 'Mis à jour ' + state.lastRefresh.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+
+    renderJourneys(from, to, journeys);
+  } catch(e) {
+    $card.innerHTML = `
+      <div class="station-header"><div class="station-dot"></div>
+      <div class="station-name">${from.name} → ${to.name}</div></div>
+      ${emptyState('⚠️', 'Erreur de chargement', e.message)}`;
+  }
+}
+
+  function renderJourneys(from, to, journeys) {
+  if (!journeys.length) {
+    $card.innerHTML = `
+      <div class="station-header"><div class="station-dot" style="background:var(--accent2)"></div>
+      <div class="station-name">${from.name} → ${to.name}</div></div>
+      ${emptyState('🌙', 'Aucun itinéraire trouvé', 'Essaie une autre date.')}`;
+    return;
+  }
+
+  let html = `
+    <div class="station-header">
+      <div class="station-dot" style="background:var(--accent2)"></div>
+      <div class="station-name">${from.name} → ${to.name}</div>
+    </div>
+    <div class="departures-header" style="grid-template-columns: 110px 1fr 70px">
+      <div>Départ → Arrivée</div>
+      <div>Train</div>
+      <div style="text-align:right">Durée</div>
+    </div>
+    <div class="departures-list">`;
+
+  journeys.forEach((j, i) => {
+    const dep = j.departure_date_time || '';
+    const arr = j.arrival_date_time || '';
+    const dur = j.duration ? formatDuration(j.duration) : '—';
+
+    // Extraire les sections train
+    const trainSections = (j.sections || []).filter(s => s.type === 'public_transport');
+    const trains = trainSections.map(s => {
+      const info = s.display_informations || {};
+      const mode = info.commercial_mode || info.network || '';
+      const num  = info.headsign || '';
+      const badgeClass = getBadgeClass(mode);
+      return `<span class="train-badge ${badgeClass}" style="margin-right:3px">${mode}</span>${num ? `<span style="font-size:0.65rem;color:var(--muted)"> ${num}</span>` : ''}`;
+    }).join('<span style="color:var(--muted);margin:0 3px">→</span>');
+
+    const correspondances = trainSections.length > 1
+      ? `<div style="font-size:0.68rem;color:var(--muted);margin-top:2px">${trainSections.length - 1} correspondance${trainSections.length > 2 ? 's' : ''}</div>`
+      : '';
+
+    html += `
+      <div class="departure-row" style="grid-template-columns:110px 1fr 70px;animation-delay:${i * 0.04}s">
+        <div class="dep-time" style="font-size:0.85rem">
+          ${formatTime(dep)}
+          <span style="color:var(--muted);font-size:0.7rem;display:block;margin-top:1px">→ ${formatTime(arr)}</span>
+        </div>
+        <div class="dep-train" style="text-align:left">
+          <div>${trains || '—'}</div>
+          ${correspondances}
+        </div>
+        <div class="dep-voie" style="font-size:0.78rem">${dur}</div>
+      </div>`;
+  });
+
+  html += `</div>`;
+  $card.innerHTML = html;
+}
+
+function formatDuration(seconds) {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  return h > 0 ? `${h}h${String(m).padStart(2,'0')}` : `${m} min`;
+}
 function renderDepartures(fav, departures) {
   if (!departures.length) {
     $card.innerHTML = `
