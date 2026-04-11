@@ -284,7 +284,7 @@ function renderTabs() {
     tab.className = 'tab' + (isActive ? ' active' : '');
 
     const hasPartner = fav.partner !== undefined && state.favorites[fav.partner];
-    const swapBtn = isActive && hasPartner
+    const swapBtn = isActive && state.favorites.length > 1
       ? `<span class="swap-btn" data-idx="${i}" title="Itinéraire ↔">↔</span>`
       : '';
 
@@ -292,9 +292,16 @@ function renderTabs() {
 
     tab.addEventListener('click', (e) => {
       if (e.target.classList.contains('swap-btn')) {
-        state.itineraryMode = !state.itineraryMode;
-        renderTabs();
-        loadDepartures(state.activeTab);
+        const fav = state.favorites[state.activeTab];
+        if (fav.partner !== undefined && state.favorites[fav.partner]) {
+          // Partenaire déjà défini : basculer mode itinéraire
+          state.itineraryMode = !state.itineraryMode;
+          renderTabs();
+          loadDepartures(state.activeTab);
+        } else {
+          // Pas de partenaire : afficher menu de sélection
+          showPartnerMenu(state.activeTab, e.target);
+        }
         return;
       }
       if (e.target.classList.contains('remove-tab')) {
@@ -318,6 +325,66 @@ function renderTabs() {
   $tabs.appendChild(addBtn);
 }
 
+  function showPartnerMenu(idx, anchor) {
+  // Supprimer menu existant si déjà ouvert
+  const existing = document.getElementById('partner-menu');
+  if (existing) { existing.remove(); return; }
+
+  const menu = document.createElement('div');
+  menu.id = 'partner-menu';
+  menu.style.cssText = `
+    position: fixed;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    z-index: 500;
+    min-width: 200px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  `;
+
+  // Positionner sous le bouton ↔
+  const rect = anchor.getBoundingClientRect();
+  menu.style.top  = (rect.bottom + 6) + 'px';
+  menu.style.left = rect.left + 'px';
+
+  const title = document.createElement('div');
+  title.style.cssText = 'padding:8px 14px;font-size:0.7rem;color:var(--muted);font-family:var(--mono);text-transform:uppercase;letter-spacing:0.1em;border-bottom:1px solid var(--border)';
+  title.textContent = 'Destination →';
+  menu.appendChild(title);
+
+  state.favorites.forEach((fav, i) => {
+    if (i === idx) return; // Exclure la gare courante
+    const item = document.createElement('div');
+    item.style.cssText = 'padding:10px 14px;cursor:pointer;font-size:0.85rem;border-bottom:1px solid var(--border);transition:background .1s';
+    item.textContent = fav.name;
+    item.addEventListener('mouseover', () => item.style.background = 'var(--card)');
+    item.addEventListener('mouseout',  () => item.style.background = '');
+    item.addEventListener('click', () => {
+      // Définir le partenaire dans les deux sens
+      state.favorites[idx].partner = i;
+      state.favorites[i].partner   = idx;
+      save();
+      menu.remove();
+      state.itineraryMode = true;
+      renderTabs();
+      loadDepartures(idx);
+    });
+    menu.appendChild(item);
+  });
+
+  document.body.appendChild(menu);
+
+  // Fermer au clic extérieur
+  setTimeout(() => {
+    document.addEventListener('click', function handler(e) {
+      if (!menu.contains(e.target)) {
+        menu.remove();
+        document.removeEventListener('click', handler);
+      }
+    });
+  }, 50);
+}
+  
 function removeFavorite(idx) {
   state.favorites.splice(idx, 1);
   if (state.activeTab >= state.favorites.length) state.activeTab = Math.max(0, state.favorites.length - 1);
