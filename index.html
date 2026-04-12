@@ -857,7 +857,7 @@ function renderDepartures(fav, departures) {
       const diff = timeDiffMin(dtBase, dtRT);
       rtHtml = diff > 0
         ? '<span class="rt-pill rt-late">+' + diff + ' min</span>'
-        : '<span class="rt-pill rt-ok">À l'heure</span>';
+        : `<span class="rt-pill rt-ok">À l'heure</span>`;
     }
 
     const badgeCls = getBadge(comm);
