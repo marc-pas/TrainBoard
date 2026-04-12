@@ -1,4 +1,4 @@
-const CACHE = 'trainboard-v4';
+const CACHE = 'trainboard-v5';
 const ASSETS = ['/TrainBoard/', '/TrainBoard/index.html', '/TrainBoard/manifest.json', '/TrainBoard/icon.svg'];
 
 self.addEventListener('install', e => {
