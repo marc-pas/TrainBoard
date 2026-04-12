@@ -1,5 +1,5 @@
 const CACHE = 'trainboard-v3';
-const ASSETS = ['/', '/index.html', '/manifest.json', '/icon.svg'];
+const ASSETS = ['/TrainBoard/', '/TrainBoard/index.html', '/TrainBoard/manifest.json', '/TrainBoard/icon.svg'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
