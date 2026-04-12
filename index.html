@@ -701,7 +701,7 @@ function openPartnerModal(idx) {
   if (fav.partner !== undefined) {
     const delItem = document.createElement('div');
     delItem.className = 'partner-item partner-item-delete';
-    delItem.innerHTML = '<span class="partner-item-icon">✕</span> Supprimer l\'association';
+    delItem.innerHTML = `<span class="partner-item-icon">✕</span> Supprimer l'association`;
     delItem.addEventListener('click', () => {
       if (fav.partner !== undefined) state.favorites[fav.partner].partner = undefined;
       state.favorites[idx].partner = undefined;
