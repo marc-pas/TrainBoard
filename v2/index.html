@@ -818,6 +818,13 @@ function renderDeparturesPRIM(fav, visits) {
     return tA.localeCompare(tB);
   });
 
+  // Exclure les trains dont la destination = la gare courante (terminus entrant)
+const filtered = list.filter(v => {
+  const destRef = v.MonitoredVehicleJourney?.DestinationRef?.value || '';
+  const monRef  = v.MonitoringRef?.value || '';
+  return destRef !== monRef;
+});
+
   // Filtrer uniquement les trains futurs (dans les 2 prochaines heures)
   const now = new Date();
   const future = visits.filter(v => {
@@ -830,7 +837,7 @@ function renderDeparturesPRIM(fav, visits) {
   const list = future.length ? future : visits.slice(0, 20);
 
   let html = sectionTitle(fav.name, true);
-  list.forEach((v, i) => {
+  filtered.forEach((v, i) => {
     const mvj  = v.MonitoredVehicleJourney || {};
     const call = mvj.MonitoredCall || {};
 
