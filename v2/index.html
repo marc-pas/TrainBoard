@@ -552,23 +552,23 @@ function getLineInfo(lineRef) {
 //  TABLE PRIM (gares IdF avec leur identifiant PRIM)
 // ═══════════════════════════════════════════════════════
 const PRIM_IDS = {
-  'stop_area:SNCF:87686006': '470195',  // Paris Gare de Lyon
-  'stop_area:SNCF:87682005': '47909',   // Melun
-  'stop_area:SNCF:87271007': '71370',   // Paris Gare du Nord
-  'stop_area:SNCF:87384008': '71517',   // Paris Saint-Lazare
-  'stop_area:SNCF:87113001': '71160',   // Paris Est
-  'stop_area:SNCF:87391003': '59400',   // Paris Montparnasse
-  'stop_area:SNCF:87547000': '71468',   // Paris Austerlitz
-  'stop_area:SNCF:87393009': '63932',   // Versailles Chantiers
-  'stop_area:SNCF:87393702': '68372',   // Massy TGV
-  'stop_area:SNCF:87545244': '68049',   // Juvisy
-  'stop_area:SNCF:87681007': '68060',   // Corbeil-Essonnes
-  'stop_area:SNCF:87276006': '73254',   // Creil
-  'stop_area:SNCF:87276113': '68677',   // Chantilly-Gouvieux
-  'stop_area:SNCF:87116103': '68424',   // Meaux
-  'stop_area:SNCF:87116111': '68430',   // Chelles-Gournay
-  'stop_area:SNCF:87545194': '63860',   // Brétigny
-  'stop_area:SNCF:87681387': '63805',   // Evry-Courcouronnes
+  'stop_area:SNCF:87686006': { id: '470195', idfmId: 'stop_area:IDFM:73626' }, // Paris Gare de Lyon
+  'stop_area:SNCF:87682005': { id: '47909',  idfmId: 'stop_area:IDFM:61926' }, // Melun
+  'stop_area:SNCF:87271007': { id: '71370',  idfmId: null },                    // Paris Gare du Nord
+  'stop_area:SNCF:87384008': { id: '71517',  idfmId: null },                    // Paris Saint-Lazare
+  'stop_area:SNCF:87113001': { id: '71160',  idfmId: null },                    // Paris Est
+  'stop_area:SNCF:87391003': { id: '59400',  idfmId: null },                    // Paris Montparnasse
+  'stop_area:SNCF:87547000': { id: '71468',  idfmId: null },                    // Paris Austerlitz
+  'stop_area:SNCF:87393009': { id: '63932',  idfmId: null },                    // Versailles Chantiers
+  'stop_area:SNCF:87393702': { id: '68372',  idfmId: null },                    // Massy TGV
+  'stop_area:SNCF:87545244': { id: '68049',  idfmId: null },                    // Juvisy
+  'stop_area:SNCF:87681007': { id: '68060',  idfmId: null },                    // Corbeil-Essonnes
+  'stop_area:SNCF:87276006': { id: '73254',  idfmId: null },                    // Creil
+  'stop_area:SNCF:87276113': { id: '68677',  idfmId: null },                    // Chantilly-Gouvieux
+  'stop_area:SNCF:87116103': { id: '68424',  idfmId: null },                    // Meaux
+  'stop_area:SNCF:87116111': { id: '68430',  idfmId: null },                    // Chelles-Gournay
+  'stop_area:SNCF:87545194': { id: '63860',  idfmId: null },                    // Brétigny
+  'stop_area:SNCF:87681387': { id: '63805',  idfmId: null },                    // Evry-Courcouronnes
 };
 
 // ═══════════════════════════════════════════════════════
@@ -775,11 +775,17 @@ function loadCurrent() {
   if (state.itineraryMode && fav.partner !== undefined && state.favorites[fav.partner]) {
     const from = state.itinReversed ? state.favorites[fav.partner] : fav;
     const to   = state.itinReversed ? fav : state.favorites[fav.partner];
-    loadJourneysSNCF(from, to);
+    const primFrom = PRIM_IDS[from.id];
+    const primTo   = PRIM_IDS[to.id];
+    if (primFrom?.idfmId && primTo?.idfmId && state.primKey) {
+      loadJourneysPRIM(from, to, primFrom.idfmId, primTo.idfmId);
+    } else {
+      loadJourneysSNCF(from, to);
+    }
   } else {
-    const primId = PRIM_IDS[fav.id];
-    if (primId && state.primKey) {
-      loadDeparturesPRIM(fav, primId);
+    const primData = PRIM_IDS[fav.id];
+    if (primData?.id && state.primKey) {
+      loadDeparturesPRIM(fav, primData.id);
     } else {
       loadDeparturesSNCF(fav);
     }
@@ -950,6 +956,68 @@ function renderDeparturesSNCF(fav, departures) {
   $main.innerHTML = html;
 }
 
+ const PRIM_NAVITIA = 'https://prim.iledefrance-mobilites.fr/marketplace/v2/navitia/journeys';
+
+async function loadJourneysPRIM(from, to, idfmFrom, idfmTo) {
+  $main.innerHTML = itinHeader(from, to) + '<div class="spinner"></div>';
+  if (!state.primKey) { $main.innerHTML = itinHeader(from, to) + noticeKey('PRIM'); return; }
+  try {
+    const df  = dateFrom();
+    const url = PRIM_NAVITIA + '?from=' + encodeURIComponent(idfmFrom) + '&to=' + encodeURIComponent(idfmTo) + '&datetime=' + df + '&count=15&min_nb_journeys=10';
+    const res = await fetch(url, { headers: { apiKey: state.primKey } });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    setRefresh();
+    renderJourneysPRIM(from, to, data.journeys || []);
+  } catch(e) {
+    $main.innerHTML = itinHeader(from, to) + emptyState('⚠️', 'Erreur PRIM journeys', e.message);
+  }
+}
+
+function renderJourneysPRIM(from, to, journeys) {
+  let html = itinHeader(from, to);
+  if (!journeys.length) {
+    html += emptyState('🌙', 'Aucun itinéraire', 'Essaie une autre date.');
+    $main.innerHTML = html; bindItinBtn(from, to); return;
+  }
+  journeys.forEach((j, i) => {
+    const dep = j.departure_date_time || '';
+    const arr = j.arrival_date_time   || '';
+    const dur = j.duration ? formatDuration(j.duration) : '—';
+    const status = j.status || '';
+    const sections = (j.sections || []).filter(s => s.type === 'public_transport');
+    const trainsHtml = sections.map(s => {
+      const info = s.display_informations || {};
+      const comm = info.commercial_mode || info.network || '';
+      const label = info.label || info.code || '';
+      const headsign = info.headsign || '';
+      // Chercher dans IDFM_LINES via le lien line
+      const lineLink = (s.links || []).find(l => l.type === 'line');
+      const lineCode = lineLink ? lineLink.id.replace('line:IDFM:', '') : '';
+      const lineInfo = IDFM_LINES[lineCode] || { name: label || comm, badge: getBadge(comm), color: null };
+      const badgeStyle = lineInfo.color ? 'background:' + lineInfo.color + ';color:#fff' : '';
+      return '<span class="badge ' + lineInfo.badge + '" style="' + badgeStyle + '">' + lineInfo.name + '</span>'
+        + (headsign ? ' <span style="font-size:0.7rem;color:var(--text2)">' + headsign + '</span>' : '');
+    }).join('<span style="color:var(--text3);margin:0 3px">→</span>');
+
+    const corrStr = sections.length > 1 ? (sections.length-1) + ' corresp.' : 'Direct';
+    const delayBadge = status === 'SIGNIFICANT_DELAYS'
+      ? '<span style="font-size:0.65rem;background:#fef2f2;color:#dc2626;padding:1px 6px;border-radius:4px;margin-left:6px">⚠️ Perturbé</span>'
+      : status === 'NO_SERVICE' ? '<span style="font-size:0.65rem;background:#fef2f2;color:#dc2626;padding:1px 6px;border-radius:4px;margin-left:6px">🚫 Supprimé</span>' : '';
+
+    html += '<div class="train-card" style="animation-delay:' + (i*0.04) + 's">'
+      + '<div class="card-time"><div class="t-main">' + formatTime(dep) + '</div><div class="t-arr">→ ' + formatTime(arr) + '</div></div>'
+      + '<div class="card-info">'
+      + '<div class="card-badges">' + (trainsHtml || '—') + delayBadge + '</div>'
+      + '<div class="card-via" style="margin-top:5px">' + corrStr + '</div>'
+      + '</div>'
+      + '<div class="card-right"><div class="card-dur">' + dur + '</div></div>'
+      + '</div>';
+  });
+  html += '<div class="idf-note" style="background:#f0fdf4;border-color:#bbf7d0;color:#15803d;margin-top:8px">🟢 Itinéraires temps réel PRIM — RER et Transilien inclus</div>';
+  $main.innerHTML = html;
+  bindItinBtn(from, to);
+}
 // ══════════════════════════════════════════════════════
 //  API SNCF — ITINÉRAIRES
 // ══════════════════════════════════════════════════════
