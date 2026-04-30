@@ -963,7 +963,14 @@ async function loadJourneysPRIM(from, to, idfmFrom, idfmTo) {
   if (!state.primKey) { $main.innerHTML = itinHeader(from, to) + noticeKey('PRIM'); return; }
   try {
     const df  = dateFrom();
-    const url = PRIM_NAVITIA + '?from=' + encodeURIComponent(idfmFrom) + '&to=' + encodeURIComponent(idfmTo) + '&datetime=' + df + '&count=15&min_nb_journeys=10';
+    const url = PRIM_NAVITIA 
+  + '?from=' + encodeURIComponent(idfmFrom) 
+  + '&to=' + encodeURIComponent(idfmTo) 
+  + '&datetime=' + df 
+  + '&count=20'
+  + '&min_nb_journeys=15'
+  + '&max_duration=86400'
+  + '&datetime_represents=departure';
     const res = await fetch(url, { headers: { apiKey: state.primKey } });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
