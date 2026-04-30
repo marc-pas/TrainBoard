@@ -795,19 +795,42 @@ function loadCurrent() {
 // ══════════════════════════════════════════════════════
 //  API PRIM — DÉPARTS TEMPS RÉEL
 // ══════════════════════════════════════════════════════
-async function loadDeparturesPRIM(fav, primId) {
-  $main.innerHTML = sectionTitle(fav.name, true) + '<div class="spinner"></div>';
-  if (!state.primKey) { $main.innerHTML = sectionTitle(fav.name, true) + noticeKey('PRIM'); return; }
+async function loadJourneysPRIM(from, to, idfmFrom, idfmTo) {
+  $main.innerHTML = itinHeader(from, to) + '<div class="spinner"></div>';
+  if (!state.primKey) { $main.innerHTML = itinHeader(from, to) + noticeKey('PRIM'); return; }
   try {
-    const url = PRIM_BASE + '?MonitoringRef=STIF:StopArea:SP:' + primId + ':';
-    const res = await fetch(url, { headers: { apiKey: state.primKey } });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
+    const df = dateFrom();
+    const baseUrl = PRIM_NAVITIA 
+      + '?from=' + encodeURIComponent(idfmFrom)
+      + '&to='   + encodeURIComponent(idfmTo)
+      + '&count=20&min_nb_journeys=15&max_duration=86400&datetime_represents=departure';
+
+    // Calculer un datetime décalé de 4h pour le 2ème appel
+    const dt1 = df;
+    const dt2 = shiftDatetime(df, 4 * 3600);
+    const dt3 = shiftDatetime(df, 8 * 3600);
+
+    const headers = { apiKey: state.primKey };
+    const [r1, r2, r3] = await Promise.all([
+      fetch(baseUrl + '&datetime=' + dt1, { headers }).then(r => r.json()),
+      fetch(baseUrl + '&datetime=' + dt2, { headers }).then(r => r.json()),
+      fetch(baseUrl + '&datetime=' + dt3, { headers }).then(r => r.json()),
+    ]);
+
+    // Fusionner et dédoublonner par heure de départ
+    const seen = new Set();
+    const all = [...(r1.journeys||[]), ...(r2.journeys||[]), ...(r3.journeys||[])]
+      .filter(j => {
+        const key = j.departure_date_time;
+        if (seen.has(key)) return false;
+        seen.add(key); return true;
+      })
+      .sort((a, b) => (a.departure_date_time || '').localeCompare(b.departure_date_time || ''));
+
     setRefresh();
-    const visits = data?.Siri?.ServiceDelivery?.StopMonitoringDelivery?.[0]?.MonitoredStopVisit || [];
-    renderDeparturesPRIM(fav, visits);
+    renderJourneysPRIM(from, to, all);
   } catch(e) {
-    $main.innerHTML = sectionTitle(fav.name, true) + emptyState('⚠️', 'Erreur PRIM', e.message);
+    $main.innerHTML = itinHeader(from, to) + emptyState('⚠️', 'Erreur PRIM journeys', e.message);
   }
 }
 
@@ -1144,6 +1167,21 @@ function emptyState(icon, title, hint) {
   return '<div class="state-box"><div class="s-icon">'+icon+'</div><div class="s-title">'+title+'</div><div class="s-hint">'+hint+'</div></div>';
 }
 
+  function shiftDatetime(dt, seconds) {
+  // dt format: "20260430T091600"
+  const year  = dt.slice(0,4), mo = dt.slice(4,6), day = dt.slice(6,8);
+  const hh    = dt.slice(9,11), mm = dt.slice(11,13), ss = dt.slice(13,15) || '00';
+  const d = new Date(year+'-'+mo+'-'+day+'T'+hh+':'+mm+':'+ss);
+  d.setSeconds(d.getSeconds() + seconds);
+  return d.getFullYear()
+    + String(d.getMonth()+1).padStart(2,'0')
+    + String(d.getDate()).padStart(2,'0')
+    + 'T'
+    + String(d.getHours()).padStart(2,'0')
+    + String(d.getMinutes()).padStart(2,'0')
+    + String(d.getSeconds()).padStart(2,'0');
+}
+  
 // ── DATE ──
 $dateInput.addEventListener('change', () => { state.date = $dateInput.value; loadCurrent(); });
 document.getElementById('btn-today').addEventListener('click', () => { state.date = todayStr(); $dateInput.value = state.date; loadCurrent(); });
